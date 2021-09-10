@@ -9,4 +9,4 @@ This is a quick step-by-step guide to getting necessary env vars to run this pro
 
 ## Running locally 
 1. Install dependencies by running `yarn`
-2. Start the app locally by runninf `yarn start`
+2. Start the app locally by running `yarn start`
