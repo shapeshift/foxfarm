@@ -42,14 +42,14 @@ export const AssetRow = ({
       {...rest}
     >
       <Box display='flex' justifyContent='space-between' px={4} py={2}>
-        <Text fontSize='sm' height='20px' color='secondary'>
+        <Text fontSize='sm' height='20px' color='gray.500'>
           Balance: {balance}
         </Text>
         <Button
-          variant='secondary'
+          variant='ghost'
           fontSize='sm'
           height='20px'
-          color='blue.500'
+          colorScheme='blue'
           p={0}
           borderRadius='4px'
           {...buttonProps}

@@ -21,7 +21,6 @@ export const Failed = ({ closeDrawer }: { closeDrawer: () => void }) => {
         </AlertDescription>
         <Button
           mt={4}
-          variant='primary'
           bg='whiteAlpha.300'
           _hover={{ bg: 'white', color: 'black' }}
           onClick={closeDrawer}

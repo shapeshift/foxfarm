@@ -58,7 +58,6 @@ export const Approve = ({ history }: RouterProps) => {
         {approval.txHash && <ViewOnChainLink txId={approval.txHash} />}
         <TxRejected rejected={approval.error} />
         <Button
-          variant='primary'
           w='full'
           onClick={() => approval.approve()}
           mb={4}

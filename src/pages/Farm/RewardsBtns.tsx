@@ -24,7 +24,8 @@ export const RewardsBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
       {stakeTxID && <ViewOnChainLink txId={stakeTxID} />}
       <TxRejected rejected={error} />
       <Button
-        variant='success'
+        colorScheme='green'
+        size='lg'
         mb={4}
         maxWidth='350px'
         width='100%'

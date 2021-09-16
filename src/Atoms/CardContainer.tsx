@@ -1,7 +1,7 @@
 import { Box, BoxProps } from '@chakra-ui/react'
 import { FC } from 'react'
 
-export const CardContainer: FC<BoxProps> = ({ children, ...rest }) => (
+export const Card: FC<BoxProps> = ({ children, ...rest }) => (
   <Box
     flexDir={{ base: 'column-reverse', md: 'row' }}
     display='flex'

@@ -62,7 +62,6 @@ export const RemoveButton = ({
 
   return (
     <Button
-      variant='primary'
       onClick={!isConnected ? connect : !approval.approved ? () => approval.approve() : sendTx}
       isLoading={
         approval.confirming ||

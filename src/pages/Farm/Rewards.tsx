@@ -1,7 +1,5 @@
 import { Text, Center, HStack } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
-import { CardContent } from '../../Atoms/CardContent'
-import { CardContainer } from '../../Atoms/CardContainer'
 import { FoxEthStakingIconGroup } from 'Molecules/LiquidityIconGroup'
 import { StakingHeader } from './StakingHeader'
 import { useStaking } from 'state/StakingProvider'
@@ -10,6 +8,7 @@ import { useMemo } from 'react'
 import { RouteProps } from 'react-router-dom'
 import { useFarming } from 'hooks/useFarming'
 import { RewardAmounts } from './RewardAmounts'
+import { Card } from 'components/Card/Card'
 
 type RewardsType = RouteProps & { location?: { state?: { staked?: boolean } } }
 
@@ -41,7 +40,12 @@ export const Rewards = ({ location }: RewardsType) => {
   }, [userLpBalance])
 
   return (
-    <CardContainer>
+    <Card
+      display='flex'
+      width='100vw'
+      maxWidth='900px'
+      flexDir={{ base: 'column-reverse', md: 'row' }}
+    >
       <StakingHeader
         totalUsdcValue={userHoldingsValue}
         userEthHoldings={userEthHoldingsStakedAndLp}
@@ -50,7 +54,14 @@ export const Rewards = ({ location }: RewardsType) => {
         unstakedBalance={unstakedLpBalance}
         showStaking
       />
-      <CardContent px={8}>
+      <Card.Body
+        px={8}
+        width='full'
+        display='flex'
+        flexDir='column'
+        justifyContent='center'
+        alignItems='center'
+      >
         {bnOrZero(stakedLpBalance?.toString()).gt(0) && location?.state?.staked && (
           <Center
             bgColor='green.800'
@@ -88,7 +99,7 @@ export const Rewards = ({ location }: RewardsType) => {
         <Center flexDir='column' width='100%'>
           <RewardAmounts foxAmount={foxAmount} />
         </Center>
-      </CardContent>
-    </CardContainer>
+      </Card.Body>
+    </Card>
   )
 }

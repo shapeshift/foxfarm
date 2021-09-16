@@ -9,11 +9,11 @@ export const Step1 = ({ history }: RouterProps) => {
         <Heading fontWeight='300' mb={6}>
           HODL Your FOX Tokens for Tons of Benefits
         </Heading>
-        <Text color='secondary' fontSize='lg'>
+        <Text color='gray.500' fontSize='lg'>
           Your FOX Tokens have superpowers!
         </Text>
       </Box>
-      <Button onClick={() => history.push('/step/2')} variant='primary' width='full' mb={8} py={4}>
+      <Button onClick={() => history.push('/step/2')} width='full' mb={8} py={4}>
         Next
       </Button>
     </Box>

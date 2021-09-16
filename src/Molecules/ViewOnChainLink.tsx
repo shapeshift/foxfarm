@@ -6,7 +6,7 @@ type ViewOnChainLinkProps = { txId: string } & ButtonProps
 export const ViewOnChainLink = ({ txId, ...rest }: ViewOnChainLinkProps) => (
   <Button
     variant='link'
-    color='primary'
+    color='blue.500'
     rightIcon={<ExternalLinkIcon />}
     onClick={() => {
       window.open(`https://etherscan.io/tx/${txId}`)

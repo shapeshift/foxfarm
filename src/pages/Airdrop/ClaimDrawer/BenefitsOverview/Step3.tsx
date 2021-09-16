@@ -11,17 +11,17 @@ export const Step3 = ({ history }: RouterProps) => {
         <Heading fontWeight='300' mb={6}>
           Big Returns
         </Heading>
-        <Text color='secondary' fontSize='lg'>
+        <Text color='gray.500' fontSize='lg'>
           Add your FOX to a liquidity pool, then stake your LP tokens on ShapeShift to{' '}
           <Text color='white' fontWeight='bold'>
             earn an APR up to {totalApr}%*
           </Text>
         </Text>
       </Box>
-      <Button onClick={() => history.push('/step/4')} variant='primary' mb={8} py={4} mx={8}>
+      <Button onClick={() => history.push('/step/4')} mb={8} py={4} mx={8}>
         Next
       </Button>
-      <Text fontSize='sm' color='secondary' mx={8}>
+      <Text fontSize='sm' color='gray.500' mx={8}>
         *ShapeShift is rewarding 15,768,000 FOX until October 13, 2021 to liquidity providers that
         stake their LP tokens. This is an estimated APR calculated based on the current amount of
         FOX-ETH-UNIV2 LP tokens staked in the ShapeShift rewards contract. This APR amount is

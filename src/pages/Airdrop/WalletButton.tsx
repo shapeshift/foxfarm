@@ -39,7 +39,6 @@ export const WalletButton: FC<WalletBtnProps> = ({ checkEligible, loading }) => 
             <WalletCard />
             <Box my='3' flex={1} textAlign='center' width='100%' px={{ base: 4, md: 0 }}>
               <Button
-                variant='primary'
                 width={{ base: '100%', md: 'auto' }}
                 size='sm'
                 paddingLeft={3}
@@ -60,10 +59,10 @@ export const WalletButton: FC<WalletBtnProps> = ({ checkEligible, loading }) => 
           </Flex>
         ) : (
           <>
-            <Text ml='6' mr='auto' my='5' color='primary'>
+            <Text ml='6' mr='auto' my='5'>
               Connect Wallet
             </Text>
-            <ChevronRightIcon mr='6' color='primary' h={8} w={8} />
+            <ChevronRightIcon mr='6' color='primary' h={4} w={4} />
           </>
         )}
       </Flex>

@@ -26,7 +26,6 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
     <>
       <Button
         w='full'
-        variant='primary'
         onClick={handleStakeClick}
         mt={6}
         mb={2}
@@ -39,13 +38,13 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
 
       <Button
         w='full'
-        variant='secondary'
+        variant='solid'
         onClick={() => push('/fox-farming/staking/unstake')}
         isDisabled={isDisabled}
       >
         Unstake
       </Button>
-      <Text color='secondary' fontSize='xs' textAlign='center' mt={2}>
+      <Text color='gray.500' fontSize='xs' textAlign='center' mt={2}>
         Note: When you unstake, your bonus rewards will be deposited into your connected wallet.
       </Text>
     </>

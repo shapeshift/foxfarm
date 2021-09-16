@@ -15,7 +15,7 @@ const StyleNavLink = styled(NavLink)`
 
   &.active {
     color: ${theme.colors.white};
-    border-bottom: 4px solid ${theme.colors.primary};
+    border-bottom: 4px solid ${theme.colors.blue[500]};
   }
 `
 

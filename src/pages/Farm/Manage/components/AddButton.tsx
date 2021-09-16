@@ -72,7 +72,6 @@ export const AddButton = ({
 
   return (
     <Button
-      variant='primary'
       onClick={!isConnected ? connect : !approval.approved ? () => approval.approve() : sendTx}
       isLoading={approval.confirming || txConfirming || !!(!approval.approved && approval.txHash)}
       loadingText={
@@ -84,6 +83,7 @@ export const AddButton = ({
       }
       isDisabled={disabled}
       mt={6}
+      size='lg'
       w='full'
     >
       {text}

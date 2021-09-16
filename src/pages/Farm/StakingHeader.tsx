@@ -27,7 +27,7 @@ const WalletCol = ({ label, onClick, text }: WalletColProps) => (
         {text}
       </Button>
     ) : (
-      <Text color='black' fontWeight='bold' fontSize='sm'>
+      <Text fontWeight='bold' fontSize='sm'>
         {text}
       </Text>
     )}

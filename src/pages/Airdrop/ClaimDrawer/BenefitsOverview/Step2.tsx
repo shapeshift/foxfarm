@@ -9,12 +9,12 @@ export const Step2 = ({ history }: RouterProps) => {
         <Heading fontWeight='300' mb={6}>
           FOX Governance
         </Heading>
-        <Text color='secondary' fontSize='lg'>
+        <Text color='gray.500' fontSize='lg'>
           Help shape the future of finance. FOX Tokens give you voting power over the ShapeShift
           DAO.
         </Text>
       </Box>
-      <Button onClick={() => history.push('/step/3')} variant='primary' width='full' py={4} mb={8}>
+      <Button onClick={() => history.push('/step/3')} width='full' py={4} mb={8}>
         Next
       </Button>
     </Box>

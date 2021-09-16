@@ -1,25 +1,15 @@
 import { FC } from 'react'
 import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons'
-import { Flex, Text, Image, HStack, FlexProps } from '@chakra-ui/react'
+import { Text, Image, HStack, ButtonProps, Button } from '@chakra-ui/react'
 import { useWallet } from 'state/WalletProvider'
 import { shortenAddress } from 'utils/helpers'
 
-export const WalletButton: FC<FlexProps> = props => {
+export const WalletButton: FC<ButtonProps> = props => {
   const { state, connect } = useWallet()
   const { isConnected, wallet, account } = state
 
   return (
-    <Flex
-      borderRadius='full'
-      bg='whiteAlpha.400'
-      justifyContent='space-between'
-      p={1}
-      color='white'
-      alignItems='center'
-      onClick={connect}
-      _hover={{ cursor: 'pointer', bg: 'whiteAlpha.500' }}
-      {...props}
-    >
+    <Button colorScheme='whiteAlpha' onClick={connect} {...props}>
       {isConnected ? (
         <HStack>
           <Image
@@ -37,12 +27,10 @@ export const WalletButton: FC<FlexProps> = props => {
         </HStack>
       ) : (
         <>
-          <Text fontSize='sm' ml={2}>
-            Connect Wallet
-          </Text>
-          <ChevronRightIcon h={8} w={8} />
+          <Text ml={2}>Connect Wallet</Text>
+          <ChevronRightIcon boxSize={6} />
         </>
       )}
-    </Flex>
+    </Button>
   )
 }

@@ -193,7 +193,6 @@ const AirDropContent = () => {
                 width='full'
                 mt='6'
                 size='lg'
-                variant='primary'
                 loadingText='Checking'
                 isLoading={loading.loading && loading.type === CheckType.INPUT}
                 isDisabled={loading.loading && loading.type !== CheckType.INPUT}
