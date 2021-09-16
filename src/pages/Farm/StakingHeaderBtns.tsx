@@ -5,10 +5,12 @@ import { bnOrZero, formatBaseAmount } from 'utils/math'
 import { useMemo } from 'react'
 import { useApprove } from 'hooks/useApprove'
 import { FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE } from 'lib/constants'
+import { useHasContractExpired } from 'hooks/useHasContractExpired'
 
 export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
   const { push } = useHistory()
   const { userLpBalance, uniswapLPContract, stake } = useStaking()
+  const expired = useHasContractExpired()
 
   const unstakedLpBalance = useMemo(() => {
     return formatBaseAmount(userLpBalance ? userLpBalance.toString() : '0', 18)
@@ -30,8 +32,12 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
         mt={6}
         mb={2}
         _hover={{ bg: 'blue.800' }}
-        _disabled={{ bg: 'blue.500', opacity: 0.5, _hover: { bg: 'blue.500' } }}
-        isDisabled={!bnOrZero(unstakedLpBalance).gt(0)}
+        _disabled={{
+          bg: 'blue.500',
+          opacity: 0.5,
+          _hover: { bg: 'blue.500', cursor: 'not-allowed' }
+        }}
+        isDisabled={!bnOrZero(unstakedLpBalance).gt(0) || expired}
       >
         Stake
       </Button>

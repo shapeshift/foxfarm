@@ -1,12 +1,15 @@
-import { StakingRewardsCountDown } from './CountDown'
 import { useStaking } from 'state/StakingProvider'
 import { bnOrZero, bn, toDisplayAmount } from 'utils/math'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useCoinCapPrice } from 'hooks/useCoinCapPrice'
 import { useInterval } from 'hooks/useInterval'
 import { useWallet } from 'state/WalletProvider'
 import { useEffect } from 'react'
 import { rewardRatePerAddress } from 'utils/rates'
+import { RewardsBtns } from './RewardsBtns'
+import { Text, Button } from '@chakra-ui/react'
+import { useHasContractExpired } from 'hooks/useHasContractExpired'
+import { useHistory } from 'react-router'
 
 type TRewardAmounts = { foxAmount: string | null }
 
@@ -20,6 +23,8 @@ export const RewardAmounts = ({ foxAmount }: TRewardAmounts) => {
   const price = useCoinCapPrice('fox-token')
   const [displayFarmRewardsValue, setDisplayFarmRewardsValue] = useState<string | undefined>()
   const [rewardRate, setRewardRate] = useState('0')
+  const expired = useHasContractExpired()
+  const { push } = useHistory()
 
   const { start, intervalId } = useInterval({
     callback: () => {
@@ -49,14 +54,49 @@ export const RewardAmounts = ({ foxAmount }: TRewardAmounts) => {
     if (isConnected && bnOrZero(foxAmount).gt(0) && !intervalId) start()
   }, [foxAmount, start, isConnected, intervalId])
 
+  const fiatAmount = useMemo(
+    () =>
+      price && displayFarmRewardsValue
+        ? toDisplayAmount(bn(price).times(displayFarmRewardsValue).toFixed(), 18)
+        : null,
+    [displayFarmRewardsValue, price]
+  )
+
+  const isDisabled = useMemo(
+    () => !bn(displayFarmRewardsValue ?? 0).gt(0),
+    [displayFarmRewardsValue]
+  )
+
   return (
-    <StakingRewardsCountDown
-      fiatAmount={
-        price && displayFarmRewardsValue
-          ? toDisplayAmount(bn(price).times(displayFarmRewardsValue).toFixed(), 18)
-          : null
-      }
-      foxAmount={displayFarmRewardsValue}
-    />
+    <>
+      {displayFarmRewardsValue && (
+        <>
+          <Text color='gray.500'>Available Rewards</Text>
+          <Text fontSize='5xl' fontWeight='bold' mt='-10px' mb='-5px'>
+            ${fiatAmount}
+          </Text>
+        </>
+      )}
+      {displayFarmRewardsValue && (
+        <Text fontWeight='bold' mb={8} color='blue.500'>
+          {displayFarmRewardsValue} FOX TOKENS
+        </Text>
+      )}
+      {expired ? (
+        <Button
+          colorScheme='green'
+          size='lg'
+          mb={4}
+          maxWidth='350px'
+          width='100%'
+          onClick={() => push('/fox-farming/staking/unstake')}
+          isDisabled={isDisabled}
+        >
+          Unstake & Claim Rewards
+        </Button>
+      ) : (
+        <RewardsBtns isDisabled={isDisabled} />
+      )}
+    </>
   )
 }
