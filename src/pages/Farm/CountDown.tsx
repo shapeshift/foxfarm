@@ -55,7 +55,7 @@ const CountDownHeader = ({
   return (
     <>
       {headerText && (
-        <Text fontSize='lg' textAlign='center' mt={4} color='secondary'>
+        <Text fontSize='lg' textAlign='center' mt={4} color='gray.500'>
           {headerText}
         </Text>
       )}
@@ -75,7 +75,7 @@ const CountDownHeader = ({
         </Text>
       )}
       {subText && (
-        <Text mb={0} fontSize='lg' textAlign='center' color='secondary'>
+        <Text mb={0} fontSize='lg' textAlign='center' color='gray.500'>
           {subText}
         </Text>
       )}
@@ -136,9 +136,9 @@ export const StakingRewardsCountDown = ({
     if (completed) {
       return (
         <>
-          <Text color='gray.600'>Available Rewards</Text>
+          <Text color='gray.500'>Available Rewards</Text>
           {fiatAmount && (
-            <Text color='black' fontSize='5xl' fontWeight='bold' mt='-10px' mb='-5px'>
+            <Text fontSize='5xl' fontWeight='bold' mt='-10px' mb='-5px'>
               ${fiatAmount}
             </Text>
           )}
@@ -152,7 +152,7 @@ export const StakingRewardsCountDown = ({
       return (
         <>
           <Text color='gray.600'>FOX Bonus Rewards Start In</Text>
-          <Text color='black' fontSize='5xl' mb={16}>
+          <Text fontSize='5xl' mb={16}>
             {numFormatter(days)}:{numFormatter(hours)}:{numFormatter(minutes)}:
             {numFormatter(seconds)}
           </Text>

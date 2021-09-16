@@ -1,5 +1,15 @@
 import { ReactElement } from 'react'
-import { Box, Container, Link, Grid, Stack, Text, VisuallyHidden, HStack } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Link,
+  Grid,
+  Stack,
+  Text,
+  VisuallyHidden,
+  HStack,
+  useColorModeValue
+} from '@chakra-ui/react'
 import { NAV_PADDING } from '../Header/Header'
 import { ShapeShiftWordAndLogoMark } from './ShapeShiftWordAndLogoMark'
 import { FacebookIcon } from 'Atoms/Icons/FacebookIcon'
@@ -45,8 +55,7 @@ export const Footer = () => {
   }
   return (
     <Box
-      bg='white'
-      color='black'
+      bg={useColorModeValue('white', 'gray.800')}
       pt='100px'
       px={NAV_PADDING}
       boxShadow='0px 0px 15px 4px rgb(0 0 0 / 10%)'

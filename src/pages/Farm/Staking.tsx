@@ -1,6 +1,4 @@
 import { Text, Button } from '@chakra-ui/react'
-import { CardContent } from '../../Atoms/CardContent'
-import { CardContainer } from '../../Atoms/CardContainer'
 import { GetStartedCountDown } from './CountDown'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
 import { StakingHeader } from './StakingHeader'
@@ -13,6 +11,7 @@ import { useHistory } from 'react-router-dom'
 import { bn } from 'utils/math'
 import { useWallet } from 'state/WalletProvider'
 import { useEffect } from 'react'
+import { Card } from 'components/Card/Card'
 
 export const Staking = () => {
   const {
@@ -51,13 +50,13 @@ export const Staking = () => {
   }, [confirming, push, stakeTxID])
 
   return (
-    <CardContainer>
+    <Card display='flex' minWidth='500px'>
       <StakingHeader
         totalUsdcValue={totalUsdcValue}
         userEthHoldings={userEthHoldings}
         userFoxHoldings={userFoxHoldings}
       />
-      <CardContent>
+      <Card.Body>
         <FoxEthLiquidityIconGroup mb={6} w='175px' mt={6} />
         <GetStartedCountDown
           headerText='Stake your LP Tokens to earn up to'
@@ -68,7 +67,6 @@ export const Staking = () => {
         <Button
           isLoading={confirming}
           loadingText={confirming ? `Confirm on ${wallet?.name}` : ''}
-          variant='primary'
           w='full'
           mb={4}
           mt={8}
@@ -79,7 +77,7 @@ export const Staking = () => {
         <Text color='gray.500' fontSize='xs' textAlign='center'>
           No lockup period. Unstake whenever you want.
         </Text>
-      </CardContent>
-    </CardContainer>
+      </Card.Body>
+    </Card>
   )
 }

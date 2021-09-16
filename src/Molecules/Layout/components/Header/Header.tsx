@@ -33,7 +33,7 @@ export const Header = () => {
   return (
     <>
       <Flex
-        bg={showBg ? 'bg.light' : 'none'}
+        bg={showBg ? 'gray.800' : 'none'}
         color='white'
         minH={NAV_HEIGHT}
         py={2}

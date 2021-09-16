@@ -9,7 +9,8 @@ const TabButton = ({ ...props }: ButtonProps) => {
       borderRadius='30'
       px='6'
       color='gray.500'
-      _active={{ bg: 'primary', color: 'white' }}
+      colorScheme='gray'
+      _active={{ bg: 'blue.500', color: 'white' }}
       {...props}
     />
   )

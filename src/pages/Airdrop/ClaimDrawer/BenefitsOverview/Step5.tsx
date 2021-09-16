@@ -13,7 +13,7 @@ export const Step5 = ({
         <Heading fontWeight='300' mb={6}>
           Win Crypto!
         </Heading>
-        <Text color='secondary' fontSize='lg' mb={4}>
+        <Text color='gray.500' fontSize='lg' mb={4}>
           Whenever a user trades on ShapeShift, another FOX Token holder wins crypto.
         </Text>
         <Link
@@ -24,13 +24,7 @@ export const Step5 = ({
           Learn More
         </Link>
       </Box>
-      <Button
-        onClick={() => setStep(DrawerSteps.STATUS)}
-        variant='primary'
-        width='full'
-        py={4}
-        mb={8}
-      >
+      <Button onClick={() => setStep(DrawerSteps.STATUS)} width='full' py={4} mb={8}>
         Next
       </Button>
     </Box>

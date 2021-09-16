@@ -9,7 +9,7 @@ export const Step4 = ({ history }: RouterProps) => {
         <Heading fontWeight='300' mb={6}>
           Cover Gas Fees on Trades
         </Heading>
-        <Text color='secondary' fontSize='lg' mb={4}>
+        <Text color='gray.500' fontSize='lg' mb={4}>
           FOX Fuel reimburses your gas costs on trades!
         </Text>
         <Link
@@ -22,7 +22,7 @@ export const Step4 = ({ history }: RouterProps) => {
           Learn More
         </Link>
       </Box>
-      <Button onClick={() => history.push('/step/5')} variant='primary' py={4} mx={8} mb={8}>
+      <Button onClick={() => history.push('/step/5')} py={4} mx={8} mb={8}>
         Next
       </Button>
     </Box>

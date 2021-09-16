@@ -33,7 +33,7 @@ export const WalletCard = ({
         <Text>{account && shortenAddress(account, addressLength)}</Text>
       </Box>
       {allowChange && (
-        <Button size='sm' variant='secondary' ml='auto' bg='transparent' onClick={() => connect()}>
+        <Button size='sm' variant='solid' ml='auto' bg='transparent' onClick={() => connect()}>
           Change
         </Button>
       )}

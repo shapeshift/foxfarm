@@ -72,7 +72,7 @@ export const Confirm = ({ setStep, closeDrawer, foxPrice, usdValue }: ConfirmPro
       />
       <ClaimPanel>
         <ClaimPanel.Row align='flex-start' borderTopWidth={0}>
-          <Flex align='center' color='secondary'>
+          <Flex align='center' color='gray.500'>
             <ClaimPanel.Label>GAS Fee</ClaimPanel.Label>
             &nbsp;
             <Tooltip
@@ -110,7 +110,6 @@ export const Confirm = ({ setStep, closeDrawer, foxPrice, usdValue }: ConfirmPro
           <Button
             mb={2}
             onClick={() => claim(walletState?.provider, walletState.account)}
-            variant='primary'
             w='full'
             loadingText={state.confirming ? `Confirming on ${walletState.wallet?.name}` : ''}
             isLoading={state.loading || state.confirming}
@@ -124,7 +123,6 @@ export const Confirm = ({ setStep, closeDrawer, foxPrice, usdValue }: ConfirmPro
             onClick={() => {
               connect()
             }}
-            variant='primary'
             w='full'
             isLoading={state.loading}
           >

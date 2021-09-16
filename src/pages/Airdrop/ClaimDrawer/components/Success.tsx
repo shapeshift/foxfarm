@@ -51,13 +51,7 @@ export const Success = ({ foxPrice, usdValue, apr, state, closeDrawer }: Success
         usdValue={usdValue}
         txHash={state.claimTxHash}
       />
-      <Button
-        textTransform='none'
-        variant='primary'
-        w='full'
-        mb={4}
-        onClick={() => history.push('/fox-farming')}
-      >
+      <Button textTransform='none' w='full' mb={4} onClick={() => history.push('/fox-farming')}>
         Earn up to {apr}% APR on your FOX
       </Button>
       <Link

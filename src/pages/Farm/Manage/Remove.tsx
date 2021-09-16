@@ -14,10 +14,9 @@ import {
   AlertIcon,
   AlertTitle
 } from '@chakra-ui/react'
-import { CardContainer } from 'Atoms/CardContainer'
-import { CardContent } from 'Atoms/CardContent'
 import { useState } from 'react'
 import { Slider } from './components/Slider'
+import { Card } from 'components/Card/Card'
 import { RemoveRow } from './components/RemoveRow'
 import { useStaking } from 'state/StakingProvider'
 import { bn, formatBaseAmount, fromBaseUnit, toBaseUnit, toDisplayAmount } from 'utils/math'
@@ -151,11 +150,11 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
   }
 
   return (
-    <CardContainer flexDir='column' maxW='500px' position='relative'>
-      <CardContent>
+    <Card flexDir='column' maxW='500px' position='relative'>
+      <Card.Body textAlign='center'>
         <AddRemoveTabs match={match} history={history} back={location?.state?.back ?? false} />
 
-        <Box display='flex' color='secondary' fontSize='sm' mb={2}>
+        <Box display='flex' color='gray.500' fontSize='sm' mb={2} justifyContent='center'>
           <Text mr={1}>Available To Remove:</Text>
           <Text>
             {formatBaseAmount(userFoxHoldings as string, 18)} FOX /{' '}
@@ -164,13 +163,7 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
         </Box>
         <Text fontSize='5xl'>{percentage}%</Text>
         <Slider min={0} max={100} defaultValue={25} value={percentage} onChange={onValueChange} />
-        <ButtonGroup
-          spacing={6}
-          mt={6}
-          variant='toggle'
-          justifyContent='space-between'
-          width='full'
-        >
+        <ButtonGroup spacing={6} mt={6} variant='ghost' justifyContent='space-between' width='full'>
           {renderButtons(percentage)}
         </ButtonGroup>
         <Box
@@ -188,13 +181,13 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
             <RemoveRow>
               <RemoveRow.Content>
                 <Image boxSize='35px' src='https://static.coincap.io/assets/icons/256/fox.png' />
-                <Text color='secondary' ml={2}>
+                <Text color='gray.500' ml={2}>
                   FOX to Remove
                 </Text>
               </RemoveRow.Content>
               <RemoveRow.Content flexDir='column' alignItems='flex-end'>
                 {foxPrice && foxUsd && <Text fontWeight='bold'>${foxUsd}</Text>}
-                <Text color='secondary'>
+                <Text color='gray.500'>
                   {bn(lpState.A.amount as string).gt(0)
                     ? toDisplayAmount(lpState.A.amount as string, 18)
                     : '0'}{' '}
@@ -205,13 +198,13 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
             <RemoveRow>
               <RemoveRow.Content>
                 <Image boxSize='35px' src='https://static.coincap.io/assets/icons/256/eth.png' />
-                <Text color='secondary' ml={2}>
+                <Text color='gray.500' ml={2}>
                   ETH to Remove
                 </Text>
               </RemoveRow.Content>
               <RemoveRow.Content flexDir='column' alignItems='flex-end'>
                 {ethPrice && ethUsd && <Text fontWeight='bold'>${ethUsd}</Text>}
-                <Text color='secondary'>
+                <Text color='gray.500'>
                   {bn(lpState.B.amount as string).gt(0)
                     ? toDisplayAmount(lpState.B.amount as string, 18)
                     : '0'}{' '}
@@ -243,7 +236,7 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
                   </Avatar>
                   <Avatar src='https://static.coincap.io/assets/icons/256/eth.png' />
                 </AvatarGroup>
-                <Text color='secondary' ml={2}>
+                <Text color='gray.500' ml={2}>
                   FOX-ETH
                 </Text>
               </RemoveRow.Content>
@@ -291,7 +284,7 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
         {location?.state?.back && (
           <Button
             w='full'
-            variant='secondary'
+            variant='ghost'
             leftIcon={<ArrowBackIcon />}
             onClick={() => history?.push('/fox-farming')}
             mt={4}
@@ -299,7 +292,7 @@ export const Remove = ({ match, history, location }: RemoveProps) => {
             Back
           </Button>
         )}
-      </CardContent>
-    </CardContainer>
+      </Card.Body>
+    </Card>
   )
 }

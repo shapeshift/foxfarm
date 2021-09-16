@@ -3,7 +3,6 @@ import { Button, HStack, StackProps } from '@chakra-ui/react'
 export const HeaderCtas = (props: StackProps) => (
   <HStack spacing={6} {...props}>
     <Button
-      variant='primary'
       onClick={() => {
         window.open('https://beta.shapeshift.com')
       }}

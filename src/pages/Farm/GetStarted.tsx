@@ -3,13 +3,12 @@ import { Text, Center, Button, Box, Spinner } from '@chakra-ui/react'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
 import { useWallet } from 'state/WalletProvider'
 import { GetStartedCountDown } from './CountDown'
-import { CardContent } from '../../Atoms/CardContent'
-import { CardContainer } from '../../Atoms/CardContainer'
 import { useStaking } from 'state/StakingProvider'
 import { bnOrZero } from 'utils/math'
 import { Redirect } from 'react-router-dom'
 import { useEffect, useState, useCallback } from 'react'
 import { useFarming } from 'hooks/useFarming'
+import { Card } from 'components/Card/Card'
 
 export const GetStarted = ({ history }: RouterProps) => {
   const [initialized, setInitialized] = useState(false)
@@ -40,16 +39,20 @@ export const GetStarted = ({ history }: RouterProps) => {
 
   if (!state.initialized || !initialized) {
     return (
-      <CardContent minHeight='500px' width='500px'>
-        <Spinner
-          thickness='8px'
-          speed='3s'
-          emptyColor='gray.300'
-          color='primary'
-          w='4rem'
-          h='4rem'
-        />
-      </CardContent>
+      <Card>
+        <Card.Body width='500px'>
+          <Center minHeight='500px'>
+            <Spinner
+              thickness='8px'
+              speed='3s'
+              emptyColor='gray.300'
+              color='blue.500'
+              w='4rem'
+              h='4rem'
+            />
+          </Center>
+        </Card.Body>
+      </Card>
     )
   } else if (bnOrZero(userStakedBalance?.toString()).gt(0)) {
     // if a user has a staked balance send them to rewards
@@ -60,9 +63,18 @@ export const GetStarted = ({ history }: RouterProps) => {
   }
 
   return (
-    <CardContainer flexDir='column' maxW='500px' position='relative'>
-      <CardContent bg='gray.50' m={6} borderRadius='lg' width='auto'>
-        <FoxEthLiquidityIconGroup mb={6} w='175px' />
+    <Card flexDir='column' maxW='500px' position='relative'>
+      <Card.Header
+        bg='gray.50'
+        m={6}
+        borderRadius='lg'
+        width='auto'
+        display='flex'
+        flexDir='column'
+        alignItems='center'
+        justifyContent='center'
+      >
+        <FoxEthLiquidityIconGroup mb={2} w='175px' />
         <GetStartedCountDown
           apr={totalApr}
           headerText='Start Earning Up To'
@@ -70,9 +82,9 @@ export const GetStarted = ({ history }: RouterProps) => {
           subText='Once Bonus Rewards Begin!'
           completedSubText='With Your Liquidity Tokens!'
         />
-      </CardContent>
+      </Card.Header>
 
-      <CardContent pt={0}>
+      <Card.Body pt={0} px={12} pb={12}>
         <Center>
           <Text color='black' fontWeight='bold' mb={6}>
             How To Start Earning FOX Token Rewards
@@ -87,14 +99,14 @@ export const GetStarted = ({ history }: RouterProps) => {
                 </Text>
               </Center>
             </Box>
-            <Text color='secondary'>{step}</Text>
+            <Text color='gray.500'>{step}</Text>
           </Center>
         ))}
         {state.isConnected ? (
           <Button
-            variant='primary'
             w='full'
             mt={6}
+            size='lg'
             onClick={() => {
               history.push('/fox-farming/liquidity/add')
             }}
@@ -106,12 +118,12 @@ export const GetStarted = ({ history }: RouterProps) => {
             <Text color='gray.500' fontWeight='bold' my={4}>
               Connect a wallet to get started
             </Text>
-            <Button variant='primary' w='full' onClick={connect}>
+            <Button colorScheme='blue' w='full' size='lg' onClick={connect}>
               Connect Wallet
             </Button>
           </>
         )}
-      </CardContent>
-    </CardContainer>
+      </Card.Body>
+    </Card>
   )
 }

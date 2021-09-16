@@ -13,8 +13,7 @@ import {
   Link,
   Button
 } from '@chakra-ui/react'
-import { CardContainer } from 'Atoms/CardContainer'
-import { CardContent } from 'Atoms/CardContent'
+import { Card } from 'components/Card/Card'
 import { useCallback, useEffect } from 'react'
 import { AssetRow } from './components/AssetRow'
 import { useWallet } from 'state/WalletProvider'
@@ -92,8 +91,8 @@ export const Add = ({ history, match, location }: AddProps) => {
   }, [])
 
   return (
-    <CardContainer flexDir='column' maxW='500px' position='relative'>
-      <CardContent>
+    <Card flexDir='column' maxW='500px' position='relative'>
+      <Card.Body>
         <AddRemoveTabs match={match} history={history} back={location?.state?.back ?? false} />
         <Alert
           variant='left-accent'
@@ -242,7 +241,7 @@ export const Add = ({ history, match, location }: AddProps) => {
         {location?.state?.back && (
           <Button
             w='full'
-            variant='secondary'
+            variant='ghost'
             leftIcon={<ArrowBackIcon />}
             onClick={() => history?.push('/fox-farming')}
             mt={4}
@@ -250,7 +249,7 @@ export const Add = ({ history, match, location }: AddProps) => {
             Back
           </Button>
         )}
-      </CardContent>
-    </CardContainer>
+      </Card.Body>
+    </Card>
   )
 }
