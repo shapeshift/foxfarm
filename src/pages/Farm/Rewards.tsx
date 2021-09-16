@@ -42,7 +42,6 @@ export const Rewards = ({ location }: RewardsType) => {
 
   const expired = useHasContractExpired()
 
-  console.log(expired, 'Expired')
   return (
     <Card
       display='flex'
