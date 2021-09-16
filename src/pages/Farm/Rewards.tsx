@@ -9,6 +9,7 @@ import { RouteProps } from 'react-router-dom'
 import { useFarming } from 'hooks/useFarming'
 import { RewardAmounts } from './RewardAmounts'
 import { Card } from 'components/Card/Card'
+import { useHasContractExpired } from 'hooks/useHasContractExpired'
 
 type RewardsType = RouteProps & { location?: { state?: { staked?: boolean } } }
 
@@ -39,6 +40,9 @@ export const Rewards = ({ location }: RewardsType) => {
     return formatBaseAmount(userLpBalance ? userLpBalance.toString() : '0', 18)
   }, [userLpBalance])
 
+  const expired = useHasContractExpired()
+
+  console.log(expired, 'Expired')
   return (
     <Card
       display='flex'
@@ -86,13 +90,13 @@ export const Rewards = ({ location }: RewardsType) => {
           fontSize='2xl'
           textAlign='center'
           fontWeight='bold'
-          bg='blue.100'
+          bg={expired ? 'red.100' : 'blue.100'}
           my={2}
-          color='blue.500'
+          color={expired ? 'red.500' : 'blue.500'}
           borderRadius='lg'
           px={4}
         >
-          {totalApr}% APR*
+          {expired ? 'Ended' : `${totalApr}% APR*`}
         </Text>
         <FoxEthStakingIconGroup w='170px' my={8} />
 

@@ -1,9 +1,7 @@
 import Countdown from 'react-countdown'
 import { Center, Text, Tooltip, Box } from '@chakra-ui/react'
 import { InfoIcon } from '@chakra-ui/icons'
-import { RewardsBtns } from './RewardsBtns'
 import { COUNT_DOWN_TIME } from 'lib/constants'
-import BigNumber from 'bignumber.js'
 
 type RendererProps = {
   days: number
@@ -123,44 +121,4 @@ export const GetStartedCountDown = ({
     }
   }
   return <Countdown date={COUNT_DOWN_TIME} renderer={stakingRenderer} />
-}
-
-export const StakingRewardsCountDown = ({
-  fiatAmount,
-  foxAmount
-}: {
-  fiatAmount?: string | null
-  foxAmount?: string | null
-}) => {
-  const stakingRewardsRenderer = ({ days, hours, minutes, seconds, completed }: RendererProps) => {
-    if (completed) {
-      return (
-        <>
-          <Text color='gray.500'>Available Rewards</Text>
-          {fiatAmount && (
-            <Text fontSize='5xl' fontWeight='bold' mt='-10px' mb='-5px'>
-              ${fiatAmount}
-            </Text>
-          )}
-          <Text fontWeight='bold' mb={8} color='blue.500'>
-            {foxAmount} FOX TOKENS
-          </Text>
-          <RewardsBtns isDisabled={!new BigNumber(foxAmount ?? 0).gt(0)} />
-        </>
-      )
-    } else {
-      return (
-        <>
-          <Text color='gray.600'>FOX Bonus Rewards Start In</Text>
-          <Text fontSize='5xl' mb={16}>
-            {numFormatter(days)}:{numFormatter(hours)}:{numFormatter(minutes)}:
-            {numFormatter(seconds)}
-          </Text>
-          <RewardsBtns isDisabled />
-        </>
-      )
-    }
-  }
-
-  return <Countdown date={COUNT_DOWN_TIME} renderer={stakingRewardsRenderer} />
 }
