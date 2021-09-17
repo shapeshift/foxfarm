@@ -20,30 +20,47 @@ import {
 } from '@chakra-ui/react'
 import { AprLabel } from './AprLabel'
 import { useHasContractExpired } from 'hooks/useHasContractExpired'
-import { useMemo } from 'react'
-import { bnOrZero, formatBaseAmount } from 'utils/math'
+import { bnOrZero } from 'utils/math'
 import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
+import { useHistory } from 'react-router'
+import { useWallet } from 'state/WalletProvider'
+import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
 
 type StakingRowProps = {
   contract: StakingContractProps
 }
 
 export const StakingRow = ({ contract }: StakingRowProps) => {
+  const { push } = useHistory()
+  const { state, connect } = useWallet()
+  const bg = useColorModeValue('gray.100', 'gray.750')
   const isEnded = useHasContractExpired(contract.contractAddress)
   const { userHoldings } = useCalculateHoldings({
     lpAddress: contract.pool.contractAddress,
     rewardsAddress: contract.contractAddress
   })
 
-  const userHoldingsValue = useMemo(() => {
-    return formatBaseAmount(bnOrZero(userHoldings?.totalUsdcValueStakedAndLp), 18)
-  }, [userHoldings?.totalUsdcValueStakedAndLp])
+  const userHoldingsValue = useUserFriendlyAmount(userHoldings?.totalUsdcValueStakedAndLp)
+  const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance)
+  const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance)
 
-  const handleGetStarted = () => {}
-  const handleView = () => {}
+  const handleGetStarted = () => {
+    const stakedBalance = bnOrZero(userStakedBalance).toNumber()
+    const lpBalance = bnOrZero(userLpBalance).toNumber()
+    if (!state.isConnected) return connect()
+    if (isEnded && stakedBalance > 0) return push('/fox-farming/staking/rewards')
+    if (!isEnded && lpBalance <= 0) return push('/fox-farming/liquidity')
+    if (!isEnded && lpBalance > 0 && stakedBalance <= 0) return push('/fox-farming/staking')
+  }
+
+  const handleView = () => {
+    push('/fox-farming/staking/rewards')
+  }
+
+  if (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0) return null
 
   return (
-    <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
+    <Tr _hover={{ bg }}>
       <Td>
         <Flex minWidth={{ base: '100px', lg: '250px' }} alignItems='center' flexWrap='nowrap'>
           <Flex mr={2}>
