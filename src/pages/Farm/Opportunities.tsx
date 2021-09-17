@@ -21,13 +21,13 @@ export const Opportunities = () => {
               <Th display={{ base: 'none', lg: 'table-cell' }}>Liqudity</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
-              <Th>Balance</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
               <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
             {poolContracts.map(pool => {
-              return <PoolRow pool={pool} />
+              return <PoolRow contract={pool} />
             })}
           </Tbody>
         </Table>
@@ -46,7 +46,7 @@ export const Opportunities = () => {
               <Th display={{ base: 'none', lg: 'table-cell' }}>Deposits</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
-              <Th>Balance</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
               <Th></Th>
             </Tr>
           </Thead>

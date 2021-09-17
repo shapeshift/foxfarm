@@ -25,6 +25,7 @@ export type PoolProps = {
   token0: TokenProps
   token1: TokenProps
   contractAddress: string
+  balance: number
   rewards?: TokenProps[]
 }
 
@@ -33,6 +34,7 @@ const poolsContractData = {
     name: 'ETH-FOX',
     owner: 'UNI-V2',
     network: 'ethereum',
+    balance: 10,
     token0: {
       symbol: 'ETH',
       icon: 'https://assets.coincap.io/assets/icons/256/eth.png'

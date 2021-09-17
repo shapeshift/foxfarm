@@ -9,33 +9,40 @@ import {
   Button,
   Flex,
   Box,
-  useColorModeValue
+  useColorModeValue,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Stack
 } from '@chakra-ui/react'
 
 type PoolRowProps = {
-  pool: PoolProps
+  contract: PoolProps
 }
 
-export const PoolRow = ({ pool }: PoolRowProps) => {
+export const PoolRow = ({ contract }: PoolRowProps) => {
   return (
     <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
       <Td>
         <Flex minWidth={{ base: '100px', lg: '250px' }} alignItems='center' flexWrap='nowrap'>
           <Flex mr={2}>
             <Image
-              src={pool.token0.icon}
+              src={contract.token0.icon}
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
               zIndex={2}
               mr={-3}
               borderRadius='full'
             />
-            <Image src={pool.token1.icon} boxSize={{ base: '30px', lg: '40px' }} />
+            <Image src={contract.token1.icon} boxSize={{ base: '30px', lg: '40px' }} />
           </Flex>
           <Box>
-            <Text fontWeight='bold'>{pool.name}</Text>
+            <Text fontWeight='bold'>{contract.name}</Text>
             <Text color='gray.500' fontSize='sm' display={{ base: 'none', lg: 'table-cell' }}>
-              {pool.owner}
+              {contract.owner}
             </Text>
             <Tag colorScheme='green' size='sm' display={{ base: 'inline-flex', lg: 'none' }}>
               1.00%
@@ -54,12 +61,38 @@ export const PoolRow = ({ pool }: PoolRowProps) => {
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
-          {pool.rewards?.map(reward => (
+          {contract.rewards?.map(reward => (
             <Image boxSize='24px' src={reward.icon} />
           ))}
         </HStack>
       </Td>
-      <Td>-</Td>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
+        {contract.balance > 0 ? (
+          <Popover placement='top-start' trigger='hover'>
+            <PopoverTrigger>
+              <Text>${contract.balance}</Text>
+            </PopoverTrigger>
+            <PopoverContent maxWidth='250px'>
+              <PopoverArrow />
+              <PopoverHeader fontWeight='bold'>Balance</PopoverHeader>
+              <PopoverBody>
+                <Stack>
+                  <Flex width='full' justifyContent='space-between'>
+                    <Text color='gray.500'>Pool Value</Text>
+                    <Text>$4,125.40</Text>
+                  </Flex>
+                  <Flex width='full' justifyContent='space-between'>
+                    <Text color='gray.500'>Rewards</Text>
+                    <Text>$1,000.00</Text>
+                  </Flex>
+                </Stack>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          '-'
+        )}
+      </Td>
       <Td>
         <Button isFullWidth>View</Button>
       </Td>

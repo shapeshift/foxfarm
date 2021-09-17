@@ -73,7 +73,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
           ))}
         </HStack>
       </Td>
-      <Td>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         {contract.balance > 0 ? (
           <Popover placement='top-start' trigger='hover'>
             <PopoverTrigger>
