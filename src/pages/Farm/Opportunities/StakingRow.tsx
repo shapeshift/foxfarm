@@ -26,7 +26,7 @@ type StakingRowProps = {
 }
 
 export const StakingRow = ({ contract }: StakingRowProps) => {
-  const isEnded = useHasContractExpired({ contract })
+  const isEnded = useHasContractExpired(contract.contractAddress)
   return (
     <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
       <Td>
