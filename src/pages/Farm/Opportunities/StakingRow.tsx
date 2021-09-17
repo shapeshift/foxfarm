@@ -20,6 +20,9 @@ import {
 } from '@chakra-ui/react'
 import { AprLabel } from './AprLabel'
 import { useHasContractExpired } from 'hooks/useHasContractExpired'
+import { useMemo } from 'react'
+import { bnOrZero, formatBaseAmount } from 'utils/math'
+import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
 
 type StakingRowProps = {
   contract: StakingContractProps
@@ -27,6 +30,18 @@ type StakingRowProps = {
 
 export const StakingRow = ({ contract }: StakingRowProps) => {
   const isEnded = useHasContractExpired(contract.contractAddress)
+  const { userHoldings } = useCalculateHoldings({
+    lpAddress: contract.pool.contractAddress,
+    rewardsAddress: contract.contractAddress
+  })
+
+  const userHoldingsValue = useMemo(() => {
+    return formatBaseAmount(bnOrZero(userHoldings?.totalUsdcValueStakedAndLp), 18)
+  }, [userHoldings?.totalUsdcValueStakedAndLp])
+
+  const handleGetStarted = () => {}
+  const handleView = () => {}
+
   return (
     <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
       <Td>
@@ -74,10 +89,10 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>
-        {contract.balance > 0 ? (
+        {Number(userHoldingsValue) > 0 ? (
           <Popover placement='top-start' trigger='hover'>
             <PopoverTrigger>
-              <Text>${contract.balance}</Text>
+              <Text>${userHoldingsValue}</Text>
             </PopoverTrigger>
             <PopoverContent maxWidth='250px'>
               <PopoverArrow />
@@ -101,10 +116,12 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
         )}
       </Td>
       <Td display={{ base: 'block', md: 'table-cell' }}>
-        {contract.balance > 0 ? (
-          <Button isFullWidth>View</Button>
+        {Number(userHoldingsValue) > 0 ? (
+          <Button isFullWidth onClick={handleView}>
+            View
+          </Button>
         ) : (
-          <Button isFullWidth colorScheme='green'>
+          <Button isFullWidth colorScheme='green' onClick={handleGetStarted}>
             Get Started
           </Button>
         )}
