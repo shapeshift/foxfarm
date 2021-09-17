@@ -18,15 +18,15 @@ import {
   Stack,
   useColorModeValue
 } from '@chakra-ui/react'
-import dayjs from 'dayjs'
 import { AprLabel } from './AprLabel'
+import { useHasContractExpired } from 'hooks/useHasContractExpired'
 
 type StakingRowProps = {
   contract: StakingContractProps
 }
 
 export const StakingRow = ({ contract }: StakingRowProps) => {
-  const isEnded = dayjs().isAfter(dayjs.unix(contract.periodFinish))
+  const isEnded = useHasContractExpired({ contract })
   return (
     <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
       <Td>
