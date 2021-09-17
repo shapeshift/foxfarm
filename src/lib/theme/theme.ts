@@ -15,6 +15,7 @@ import { SpinnerStyle as Spinner } from 'components/Spinner/Spinner.theme'
 import { StatStyle as Stat } from 'components/Stat/Stat.theme'
 import { TabsStyle as Tabs } from 'components/Tabs/Tabs.theme'
 import { TextareaStyle as Textarea } from 'components/Textarea/Textarea.theme'
+import { TableStyle as Table } from 'components/Table/Table.theme'
 
 import { colors } from './colors'
 
@@ -108,7 +109,8 @@ export const theme = extendTheme({
     Progress,
     Row,
     Drawer,
-    Textarea
+    Textarea,
+    Table
   },
   shadows: {
     xl: '0 2px 4px 2px rgba(0,0,0,.15),0 2px 10px 2px rgba(0,0,0,.2)',

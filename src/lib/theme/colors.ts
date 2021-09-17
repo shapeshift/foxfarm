@@ -42,7 +42,7 @@ const commonColors = {
   },
   red: {
     50: '#FFFDFD',
-    100: '#FFF8F8',
+    100: '#FED7D7',
     200: '#FDE3E3',
     300: '#FAC1C0',
     400: '#F5918F',

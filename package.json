@@ -18,6 +18,7 @@
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "axios": "^0.21.1",
     "bnc-onboard": "^1.30.0",
+    "dayjs": "^1.10.7",
     "ethers": "^5.3.0",
     "framer-motion": "^4",
     "react": "^17.0.2",
