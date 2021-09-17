@@ -13,6 +13,7 @@ import { StakingProvider } from 'state/StakingProvider'
 import { LayoutContent } from 'Atoms/LayoutContent'
 import { LayoutCard } from 'Atoms/LayoutCard'
 import { Manage } from './Manage/Manage'
+import { Opportunities } from './Opportunities'
 
 const APRFluctuates = () => (
   <Text color='gray.500' fontSize='xs' maxW='460px' textAlign='center'>
@@ -47,7 +48,8 @@ export const Farm = () => {
         <LayoutCard>
           <StakingProvider>
             <Switch>
-              <Route exact path='/fox-farming' component={GetStarted} />
+              <Route exact path='/fox-farming' component={Opportunities} />
+              <Route exact path='/fox-farming/get-started' component={GetStarted} />
               <Route path='/fox-farming/liquidity' component={Manage} />
               <Route exact path='/fox-farming/staking' component={Staking} />
               <Route exact path='/fox-farming/staking/approve' component={Approve} />

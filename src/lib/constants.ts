@@ -1,3 +1,5 @@
+import { values } from 'lodash'
+
 export const UNISWAP_V2_WETH_FOX_POOL_ADDRESS = '0x470e8de2ebaef52014a47cb5e6af86884947f08c'
 export const UNISWAP_V2_USDC_ETH_POOL_ADDRESS = '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc'
 export const UNISWAP_V2_ROUTER = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
@@ -10,3 +12,93 @@ export const ETH_BASE = 0o67405553164731000000
 export const MAX_ALLOWANCE = '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
 
 export const COUNT_DOWN_TIME = 1626447600 * 1000 // July 16 2021 9am MST
+
+type TokenProps = {
+  symbol: string
+  icon: string
+}
+
+export type PoolProps = {
+  name: string
+  owner: string
+  network: string
+  token0: TokenProps
+  token1: TokenProps
+  contractAddress: string
+  balance: number
+  rewards?: TokenProps[]
+}
+
+const poolsContractData = {
+  '0x470e8de2ebaef52014a47cb5e6af86884947f08c': {
+    name: 'ETH-FOX',
+    owner: 'UNI-V2',
+    network: 'ethereum',
+    balance: 10,
+    token0: {
+      symbol: 'ETH',
+      icon: 'https://assets.coincap.io/assets/icons/256/eth.png'
+    },
+    token1: {
+      symbol: 'FOX',
+      icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
+    },
+    contractAddress: '0x470e8de2ebaef52014a47cb5e6af86884947f08c',
+    rewards: [
+      {
+        symbol: 'ETH',
+        icon: 'https://assets.coincap.io/assets/icons/256/eth.png'
+      },
+      {
+        symbol: 'FOX',
+        icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
+      }
+    ]
+  }
+}
+
+export const poolContracts = values(poolsContractData) as unknown as PoolProps[]
+
+export type StakingContractProps = {
+  name: string
+  owner: string
+  contractAddress: string
+  pool: PoolProps
+  network: string
+  periodFinish: number
+  balance: number
+  rewards: TokenProps[]
+}
+
+export const stakingContracts = [
+  {
+    name: 'ETH-FOX V1',
+    owner: 'ShapeShift',
+    contractAddress: '0xdd80e21669a664bce83e3ad9a0d74f8dad5d9e72',
+    pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
+    periodFinish: 1631329219,
+    balance: 2000,
+    network: 'ethereum',
+    rewards: [
+      {
+        symbol: 'FOX',
+        icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
+      }
+    ]
+  },
+  {
+    name: 'ETH-FOX V2',
+    owner: 'ShapeShift',
+    contractAddress: '0x7479831e095481cE46d378Ec6C5291e59BF25A76',
+    pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
+    periodFinish: 1759632858,
+    network: 'ethereum',
+    balance: 0,
+    rewards: [
+      {
+        symbol: 'FOX',
+        icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
+      }
+    ]
+  }
+] as StakingContractProps[]
