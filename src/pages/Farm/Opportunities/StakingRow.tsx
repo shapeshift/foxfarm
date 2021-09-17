@@ -69,7 +69,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
           {contract.rewards?.map(reward => (
-            <Image boxSize='24px' src={reward.icon} />
+            <Image key={reward.symbol} boxSize='24px' src={reward.icon} />
           ))}
         </HStack>
       </Td>
