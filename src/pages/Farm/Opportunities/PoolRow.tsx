@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
   Stack
 } from '@chakra-ui/react'
+import { AprLabel } from './AprLabel'
 
 type PoolRowProps = {
   contract: PoolProps
@@ -44,14 +45,12 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
             <Text color='gray.500' fontSize='sm' display={{ base: 'none', lg: 'table-cell' }}>
               {contract.owner}
             </Text>
-            <Tag colorScheme='green' size='sm' display={{ base: 'inline-flex', lg: 'none' }}>
-              1.00%
-            </Tag>
+            <AprLabel apr={1.235} size='sm' display={{ base: 'inline-flex', lg: 'none' }} />
           </Box>
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Tag colorScheme='green'>1.00%</Tag>
+        <AprLabel colorScheme='green' apr={1.25} />
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Text>$21.85m</Text>
