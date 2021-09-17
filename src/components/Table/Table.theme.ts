@@ -23,17 +23,31 @@ export const TableStyle = {
   },
   // Styles for the visual style variations
   variants: {
-    unstyled: (props: Record<string, any>) => ({
+    simple: (props: Record<string, any>) => ({
       tr: {
-        role: 'group'
+        ':hover': {
+          td: {
+            bg: mode('white.100', 'gray.750')(props)
+          }
+        }
       },
       td: {
         paddingLeft: 4,
-        paddingRight: 4
+        paddingRight: 4,
+        border: 0,
+        ':first-child': {
+          borderTopLeftRadius: 'lg',
+          borderBottomLeftRadius: 'lg'
+        },
+        ':last-child': {
+          borderTopRightRadius: 'lg',
+          borderBottomRightRadius: 'lg'
+        }
       },
       th: {
         paddingLeft: 4,
-        paddingRight: 4
+        paddingRight: 4,
+        border: 0
       }
     }),
     'no-gutter': {

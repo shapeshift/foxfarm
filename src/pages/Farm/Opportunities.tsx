@@ -13,7 +13,7 @@ export const Opportunities = () => {
         <Text color='gray.500'>Add liquidity to earn fees, incentives, voting rights, etc.</Text>
       </Card.Header>
       <Card.Body px={2}>
-        <Table variant='unstyled'>
+        <Table>
           <Thead>
             <Tr>
               <Th>Liqudity Pool</Th>
@@ -38,7 +38,7 @@ export const Opportunities = () => {
         <Text color='gray.500'>Safely lend your assets to earn passive income.</Text>
       </Card.Header>
       <Card.Body px={2}>
-        <Table variant='unstyled'>
+        <Table>
           <Thead>
             <Tr>
               <Th>Asset</Th>

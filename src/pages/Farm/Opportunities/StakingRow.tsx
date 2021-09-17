@@ -9,20 +9,17 @@ import {
   Button,
   Flex,
   Box,
-  TagLeftIcon,
-  TagLabel,
   Popover,
   PopoverBody,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
   PopoverArrow,
-  PopoverCloseButton,
   Stack,
   useColorModeValue
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { WarningIcon } from '@chakra-ui/icons'
+import { AprLabel } from './AprLabel'
 
 type StakingRowProps = {
   contract: StakingContractProps
@@ -50,33 +47,18 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
             <Text color='gray.500' fontSize='sm' display={{ base: 'none', lg: 'table-cell' }}>
               {contract.owner}
             </Text>
-            <Tag colorScheme='green' size='sm' display={{ base: 'inline-flex', lg: 'none' }}>
-              1.00%
-            </Tag>
+            <AprLabel
+              apr={1.25}
+              isEnded={isEnded}
+              periodFinish={contract.periodFinish}
+              size='sm'
+              display={{ base: 'inline-flex', lg: 'none' }}
+            />
           </Box>
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        {isEnded ? (
-          <Popover trigger='hover'>
-            <PopoverTrigger>
-              <Tag colorScheme='red'>
-                <TagLeftIcon as={WarningIcon} />
-                <TagLabel>Ended</TagLabel>
-              </Tag>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverHeader fontWeight='bold'>Reward Program Ended</PopoverHeader>
-              <PopoverBody>
-                This program ended on{' '}
-                {dayjs.unix(contract.periodFinish).format('MM/DD/YYYY @ hh:mm')}
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        ) : (
-          <Tag colorScheme='green'>1.00%</Tag>
-        )}
+        <AprLabel apr={1.25} isEnded={isEnded} periodFinish={contract.periodFinish} />
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Text>$21.85m</Text>
@@ -97,9 +79,8 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
             <PopoverTrigger>
               <Text>${contract.balance}</Text>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent maxWidth='250px'>
               <PopoverArrow />
-              <PopoverCloseButton />
               <PopoverHeader fontWeight='bold'>Balance</PopoverHeader>
               <PopoverBody>
                 <Stack>
