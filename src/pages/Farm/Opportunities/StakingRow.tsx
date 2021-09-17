@@ -18,17 +18,49 @@ import {
   Stack,
   useColorModeValue
 } from '@chakra-ui/react'
-import dayjs from 'dayjs'
 import { AprLabel } from './AprLabel'
+import { useHasContractExpired } from 'hooks/useHasContractExpired'
+import { bnOrZero } from 'utils/math'
+import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
+import { useHistory } from 'react-router'
+import { useWallet } from 'state/WalletProvider'
+import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
 
 type StakingRowProps = {
   contract: StakingContractProps
 }
 
 export const StakingRow = ({ contract }: StakingRowProps) => {
-  const isEnded = dayjs().isAfter(dayjs.unix(contract.periodFinish))
+  const { push } = useHistory()
+  const { state, connect } = useWallet()
+  const bg = useColorModeValue('gray.100', 'gray.750')
+  const isEnded = useHasContractExpired(contract.contractAddress)
+  const { userHoldings } = useCalculateHoldings({
+    lpAddress: contract.pool.contractAddress,
+    rewardsAddress: contract.contractAddress
+  })
+
+  const userHoldingsValue = useUserFriendlyAmount(userHoldings?.totalUsdcValueStakedAndLp)
+  const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance)
+  const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance)
+
+  const handleGetStarted = () => {
+    const stakedBalance = bnOrZero(userStakedBalance).toNumber()
+    const lpBalance = bnOrZero(userLpBalance).toNumber()
+    if (!state.isConnected) return connect()
+    if (isEnded && stakedBalance > 0) return push('/fox-farming/staking/rewards')
+    if (!isEnded && lpBalance <= 0) return push('/fox-farming/liquidity')
+    if (!isEnded && lpBalance > 0 && stakedBalance <= 0) return push('/fox-farming/staking')
+  }
+
+  const handleView = () => {
+    push('/fox-farming/staking/rewards')
+  }
+
+  if (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0) return null
+
   return (
-    <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
+    <Tr _hover={{ bg }}>
       <Td>
         <Flex minWidth={{ base: '100px', lg: '250px' }} alignItems='center' flexWrap='nowrap'>
           <Flex mr={2}>
@@ -69,15 +101,15 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
           {contract.rewards?.map(reward => (
-            <Image boxSize='24px' src={reward.icon} />
+            <Image key={reward.symbol} boxSize='24px' src={reward.icon} />
           ))}
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>
-        {contract.balance > 0 ? (
+        {Number(userHoldingsValue) > 0 ? (
           <Popover placement='top-start' trigger='hover'>
             <PopoverTrigger>
-              <Text>${contract.balance}</Text>
+              <Text>${userHoldingsValue}</Text>
             </PopoverTrigger>
             <PopoverContent maxWidth='250px'>
               <PopoverArrow />
@@ -101,10 +133,12 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
         )}
       </Td>
       <Td display={{ base: 'block', md: 'table-cell' }}>
-        {contract.balance > 0 ? (
-          <Button isFullWidth>View</Button>
+        {Number(userHoldingsValue) > 0 ? (
+          <Button isFullWidth onClick={handleView}>
+            View
+          </Button>
         ) : (
-          <Button isFullWidth colorScheme='green'>
+          <Button isFullWidth colorScheme='green' onClick={handleGetStarted}>
             Get Started
           </Button>
         )}

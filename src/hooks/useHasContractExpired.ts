@@ -1,21 +1,18 @@
-import { useActiveProvider } from './useActiveProvider'
-import { useContract } from './useContract'
-import { FOX_ETH_FARMING_ADDRESS } from 'lib/constants'
-import farmAbi from 'abis/farmingAbi.json'
 import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import { useContractMethods } from './useContractMethods'
 
-export const useHasContractExpired = () => {
+export const useHasContractExpired = (contractAddress?: string) => {
   const [expired, setExpired] = useState(false)
-  const provider = useActiveProvider()
-  const farmingRewardsContract = useContract(provider, null, FOX_ETH_FARMING_ADDRESS, farmAbi)
+  const contract = useContractMethods(contractAddress)
 
   useEffect(() => {
     ;(async () => {
-      const timeStamp = await farmingRewardsContract?.periodFinish()
-      const isExpired = new Date() > new Date(timeStamp.toNumber() * 1000)
+      const timeStamp = await contract?.periodFinish()
+      const isExpired = dayjs().isAfter(dayjs.unix(timeStamp))
       setExpired(isExpired)
     })()
-  }, [farmingRewardsContract])
+  }, [contract])
 
   return expired
 }

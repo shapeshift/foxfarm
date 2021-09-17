@@ -27,7 +27,7 @@ export const Opportunities = () => {
           </Thead>
           <Tbody>
             {poolContracts.map(pool => {
-              return <PoolRow contract={pool} />
+              return <PoolRow key={pool.contractAddress} contract={pool} />
             })}
           </Tbody>
         </Table>
@@ -52,7 +52,7 @@ export const Opportunities = () => {
           </Thead>
           <Tbody>
             {stakingContracts.map(contract => {
-              return <StakingRow contract={contract} />
+              return <StakingRow key={contract.contractAddress} contract={contract} />
             })}
           </Tbody>
         </Table>
