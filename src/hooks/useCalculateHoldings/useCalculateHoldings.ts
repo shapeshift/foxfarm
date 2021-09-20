@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useWallet } from 'state/WalletProvider'
 import { useContract } from 'hooks/useContract'
-import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { bn, bnOrZero, fromBaseUnit } from 'utils/math'
 import farmAbi from 'abis/farmingAbi.json'
-import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
-import { useCalculateLPHoldings } from './useCalculateLPHoldings/useCalculateLPHoldings'
+import { useCalculateLPHoldings } from '../useCalculateLPHoldings/useCalculateLPHoldings'
 
 type UserHoldings = {
   ethPriceUsdc?: string
@@ -26,11 +24,7 @@ type useCalculateHoldingsType = {
   usdcEthAddress?: string
 }
 
-export const useCalculateHoldings = ({
-  lpAddress,
-  rewardsAddress,
-  usdcEthAddress = UNISWAP_V2_USDC_ETH_POOL_ADDRESS
-}: useCalculateHoldingsType) => {
+export const useCalculateHoldings = ({ lpAddress, rewardsAddress }: useCalculateHoldingsType) => {
   const [userHoldings, setUserHoldings] = useState<UserHoldings>({
     ethPriceUsdc: '0',
     totalUsdcValue: '0',
@@ -51,28 +45,18 @@ export const useCalculateHoldings = ({
     userLpBalance,
     uniswapLPContract,
     totalSupply,
-    reserves
+    reserves,
+    ethPriceUsdc
   } = useCalculateLPHoldings({ lpAddress: lpAddress })
-
-  const usdcEthContract = useContract(
-    state.provider,
-    state.account,
-    usdcEthAddress,
-    IUniswapV2PairABI
-  )
 
   const farmingRewardsContract = useContract(state.provider, state.account, rewardsAddress, farmAbi)
 
   const calculateHoldings = useCallback(async () => {
-    if (uniswapLPContract && usdcEthContract && farmingRewardsContract && state.isConnected) {
+    if (uniswapLPContract && farmingRewardsContract && state.isConnected) {
       const stakedBalance = await farmingRewardsContract.balanceOf(state?.account)
       const userUnclaimedRewards = await farmingRewardsContract.earned(state?.account)
-      const ethUsdcReserves = await usdcEthContract?.getReserves()
-      const ethPriceUsdc = bn(fromBaseUnit(ethUsdcReserves[0].toString(), 6)).div(
-        bn(fromBaseUnit(ethUsdcReserves[1].toString(), 18))
-      )
 
-      const totalUsdcValue = bnOrZero(userEthHoldings).times(2).times(ethPriceUsdc)
+      const totalUsdcValue = bnOrZero(userEthHoldings).times(2).times(bnOrZero(ethPriceUsdc))
 
       const totalBalanceOwned = bnOrZero(userLpBalance).plus(bnOrZero(stakedBalance?.toString()))
       const userEthHoldingsStakedAndLp = totalBalanceOwned
@@ -87,11 +71,10 @@ export const useCalculateHoldings = ({
         .toString()
       const totalUsdcValueStakedAndLp = bn(userEthHoldingsStakedAndLp)
         .times(2)
-        .times(ethPriceUsdc)
+        .times(bnOrZero(ethPriceUsdc))
         .toString()
 
       setUserHoldings({
-        ethPriceUsdc: ethPriceUsdc.toString(),
         totalUsdcValue: fromBaseUnit(totalUsdcValue.toString(), 18),
         userStakedBalance: stakedBalance,
         userUnclaimedRewards,
@@ -102,11 +85,11 @@ export const useCalculateHoldings = ({
     }
   }, [
     uniswapLPContract,
-    usdcEthContract,
     farmingRewardsContract,
     state.isConnected,
     state?.account,
     userEthHoldings,
+    ethPriceUsdc,
     userLpBalance,
     totalSupply,
     reserves
@@ -115,7 +98,6 @@ export const useCalculateHoldings = ({
   useEffect(() => {
     if (
       uniswapLPContract &&
-      usdcEthContract &&
       farmingRewardsContract &&
       state.blockNumber &&
       state.isConnected &&
@@ -129,12 +111,17 @@ export const useCalculateHoldings = ({
     state.account,
     state.isConnected,
     state.blockNumber,
-    uniswapLPContract,
-    usdcEthContract
+    uniswapLPContract
   ])
 
   return {
-    userHoldings: { ...userHoldings, userEthHoldings, userFoxHoldings, userLpBalance },
+    userHoldings: {
+      ...userHoldings,
+      userEthHoldings,
+      userFoxHoldings,
+      userLpBalance,
+      ethPriceUsdc
+    },
     calculateHoldings
   }
 }

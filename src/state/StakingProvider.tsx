@@ -11,7 +11,7 @@ import {
   FOX_ETH_FARMING_ADDRESS
 } from 'lib/constants'
 import { getBufferedGas, toHexString } from 'utils/helpers'
-import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
+import { useCalculateHoldings } from 'hooks/useCalculateHoldings/useCalculateHoldings'
 import { useRouteMatch } from 'react-router'
 import { LiquidityParams } from './LpProvider'
 
