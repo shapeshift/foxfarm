@@ -48,13 +48,25 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
     const stakedBalance = bnOrZero(userStakedBalance).toNumber()
     const lpBalance = bnOrZero(userLpBalance).toNumber()
     if (!state.isConnected) return connect()
-    if (isEnded && stakedBalance > 0) return push('/fox-farming/staking/rewards')
-    if (!isEnded && lpBalance <= 0) return push('/fox-farming/liquidity')
-    if (!isEnded && lpBalance > 0 && stakedBalance <= 0) return push('/fox-farming/staking')
+    if (isEnded && stakedBalance > 0) {
+      return push(
+        `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}/rewards`
+      )
+    }
+    if (!isEnded && lpBalance <= 0) {
+      return push(`/fox-farming/liquidity/${contract.pool.contractAddress}`)
+    }
+    if (!isEnded && lpBalance > 0 && stakedBalance <= 0) {
+      return push(
+        `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}`
+      )
+    }
   }
 
   const handleView = () => {
-    push('/fox-farming/staking/rewards')
+    push(
+      `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}/rewards`
+    )
   }
 
   if (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0) return null

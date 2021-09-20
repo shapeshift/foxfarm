@@ -1,14 +1,16 @@
 import { useHistory } from 'react-router'
 import { Button, Text } from '@chakra-ui/react'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { bnOrZero, formatBaseAmount } from 'utils/math'
 import { useMemo } from 'react'
 import { useApprove } from 'hooks/useApprove'
 import { FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE } from 'lib/constants'
 import { useHasContractExpired } from 'hooks/useHasContractExpired'
+import { useRouteMatch } from 'react-router-dom'
 
 export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
   const { push } = useHistory()
+  const { params } = useRouteMatch<ContractParams>()
   const { userLpBalance, uniswapLPContract, stake } = useStaking()
   const expired = useHasContractExpired()
 
@@ -19,9 +21,12 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
   const { approved } = useApprove(uniswapLPContract, FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE)
 
   const handleStakeClick = () => {
-    if (!approved) return push('/fox-farming/staking/approve')
+    if (!approved)
+      return push(
+        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/approve`
+      )
     if (bnOrZero(unstakedLpBalance).gt(0) && approved) return stake()
-    push('/fox-farming/liquidity/add')
+    push(`/fox-farming/liquidity/${params.liquidityContractAddress}/add`)
   }
 
   return (
@@ -45,7 +50,11 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
       <Button
         w='full'
         variant='solid'
-        onClick={() => push('/fox-farming/staking/unstake')}
+        onClick={() =>
+          push(
+            `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/unstake`
+          )
+        }
         isDisabled={isDisabled}
       >
         Unstake

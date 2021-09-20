@@ -12,6 +12,7 @@ import {
 } from 'lib/constants'
 import { getBufferedGas, toHexString } from 'utils/helpers'
 import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
+import { useRouteMatch } from 'react-router'
 
 const initialContext: StakingContextInterface = {
   uniswapLPContract: null,
@@ -51,6 +52,8 @@ interface StakingContextInterface {
   calculateHoldings: () => Promise<void>
 }
 
+export type ContractParams = { liquidityContractAddress?: string; stakingContractAddress?: string }
+
 const StakingContext = createContext<StakingContextInterface>(initialContext)
 
 export const StakingProvider = ({ children }: { children: React.ReactNode }) => {
@@ -58,11 +61,12 @@ export const StakingProvider = ({ children }: { children: React.ReactNode }) => 
   const [confirming, setConfirming] = useState<boolean>(false)
   const [stakeTxID, setStakeTxID] = useState<string | null>(null)
   const { state } = useWallet()
+  const { params } = useRouteMatch<ContractParams>()
 
   const uniswapLPContract = useContract(
     state.provider,
     state.account,
-    UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    params.liquidityContractAddress ?? UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
     IUniswapV2PairABI
   )
 
@@ -76,7 +80,7 @@ export const StakingProvider = ({ children }: { children: React.ReactNode }) => 
   const farmingRewardsContract = useContract(
     state.provider,
     state.account,
-    FOX_ETH_FARMING_ADDRESS,
+    params?.stakingContractAddress ?? FOX_ETH_FARMING_ADDRESS,
     farmAbi
   )
   const { userHoldings, calculateHoldings } = useCalculateHoldings({

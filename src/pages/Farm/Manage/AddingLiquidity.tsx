@@ -6,25 +6,37 @@ import { PendingIconGroup } from 'Organisims/PendingIconGroup'
 import { LpActions, useLp } from 'state/LpProvider'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
+import { ContractParams } from 'state/StakingProvider'
+import { useRouteMatch } from 'react-router-dom'
 
 export const AddingLiquidity = ({ history }: RouterProps) => {
   const { state: lpState, dispatch } = useLp()
   const hasError = !!lpState?.error
   const pendingState = usePendingTx(lpState.lpTxHash)
+  const { params } = useRouteMatch<ContractParams>()
 
   useEffect(() => {
     let ignore = false
     if (pendingState === TxStatus.SUCCESS && !ignore) {
       dispatch({ type: LpActions.SET_TX_HASH, payload: null })
-      history.push('/fox-farming/staking')
+      history.push(
+        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}`
+      )
     }
     if (pendingState === TxStatus.UNKNOWN && !ignore && !lpState.lpTxHash) {
-      history.push('/fox-farming/liquidity/add')
+      history.push(`/fox-farming/liquidity/${params.liquidityContractAddress}/add`)
     }
     return () => {
       ignore = true
     }
-  }, [dispatch, history, lpState.lpTxHash, pendingState])
+  }, [
+    dispatch,
+    history,
+    lpState.lpTxHash,
+    params.liquidityContractAddress,
+    params.stakingContractAddress,
+    pendingState
+  ])
 
   return (
     <CardContent maxW='500px'>

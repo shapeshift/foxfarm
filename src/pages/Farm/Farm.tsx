@@ -4,26 +4,11 @@ import { Hero } from 'Molecules/Hero'
 import { AirdropFoxIcon } from 'Atoms/Icons/AirdropFoxIcon'
 import { Layout } from 'Molecules/Layout/Layout'
 import { GetStarted } from './GetStarted'
-import { Staking } from './Staking'
-import { Pending } from './Pending'
-import { Approve } from './Approve'
-import { Rewards } from './Rewards'
-import { Unstake } from './Unstake'
-import { StakingProvider } from 'state/StakingProvider'
 import { LayoutContent } from 'Atoms/LayoutContent'
 import { LayoutCard } from 'Atoms/LayoutCard'
-import { Manage } from './Manage/Manage'
 import { Opportunities } from './Opportunities'
-
-const APRFluctuates = () => (
-  <Text color='gray.500' fontSize='xs' maxW='460px' textAlign='center'>
-    *ShapeShift is rewarding 15,768,000 FOX until October 13, 2021 to liquidity providers that stake
-    their LP tokens. This is an estimated APR calculated based on the current amount of
-    FOX-ETH-UNIV2 LP tokens staked in the ShapeShift rewards contract. This APR amount is subject to
-    extreme volatility and this amount could drop significantly, especially in the first few weeks
-    after we roll-out FOX yield farming
-  </Text>
-)
+import { LiquidityRoutes } from './LiquidityRoutes'
+import { APRFluctuates } from './APRFluctuates'
 
 export const Farm = () => {
   return (
@@ -46,18 +31,14 @@ export const Farm = () => {
       </Hero>
       <LayoutContent>
         <LayoutCard>
-          <StakingProvider>
-            <Switch>
-              <Route exact path='/fox-farming' component={Opportunities} />
-              <Route exact path='/fox-farming/get-started' component={GetStarted} />
-              <Route path='/fox-farming/liquidity' component={Manage} />
-              <Route exact path='/fox-farming/staking' component={Staking} />
-              <Route exact path='/fox-farming/staking/approve' component={Approve} />
-              <Route exact path='/fox-farming/staking/pending' component={Pending} />
-              <Route exact path='/fox-farming/staking/rewards' component={Rewards} />
-              <Route exact path='/fox-farming/staking/unstake' component={Unstake} />
-            </Switch>
-          </StakingProvider>
+          <Switch>
+            <Route exact path='/fox-farming' component={Opportunities} />
+            <Route exact path='/fox-farming/get-started' component={GetStarted} />
+            <Route
+              path='/fox-farming/liquidity/:liquidityContractAddress'
+              component={LiquidityRoutes}
+            />
+          </Switch>
         </LayoutCard>
         <Route exact path='/fox-farming'>
           <Link
@@ -70,7 +51,10 @@ export const Farm = () => {
           </Link>
           <APRFluctuates />
         </Route>
-        <Route path='/fox-farming/staking' component={APRFluctuates} />
+        <Route
+          path='/fox-farming/liquidity/:liquidityContractAddress/staking/:stakingContractAddress'
+          component={APRFluctuates}
+        />
       </LayoutContent>
     </Layout>
   )

@@ -3,7 +3,7 @@ import { Text, Button, Link } from '@chakra-ui/react'
 import { CardContent } from '../../Atoms/CardContent'
 import { NavLink } from 'Atoms/NavLink'
 import { PendingIconGroup } from 'Organisims/PendingIconGroup'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { useEffect } from 'react'
 import { formatBaseAmount } from 'utils/math'
 import { TxRejected } from './TxRejected'
@@ -11,8 +11,10 @@ import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE } from 'lib/constants'
 import { useApprove } from 'hooks/useApprove'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
+import { useRouteMatch } from 'react-router-dom'
 
 export const Approve = ({ history }: RouterProps) => {
+  const { params } = useRouteMatch<ContractParams>()
   const { uniswapLPContract, userLpBalance } = useStaking()
   const approval = useApprove(
     uniswapLPContract,
@@ -27,13 +29,22 @@ export const Approve = ({ history }: RouterProps) => {
     let ignore = false
     if (!ignore) {
       if (pendingTx === TxStatus.SUCCESS) {
-        history.push('/fox-farming/staking')
+        history.push(
+          `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}`
+        )
       }
     }
     return () => {
       ignore = true
     }
-  }, [approval.confirming, approval.error, history, pendingTx])
+  }, [
+    approval.confirming,
+    approval.error,
+    history,
+    params.liquidityContractAddress,
+    params.stakingContractAddress,
+    pendingTx
+  ])
 
   return (
     <CardContent maxW='500px'>
@@ -67,7 +78,10 @@ export const Approve = ({ history }: RouterProps) => {
           Approve
         </Button>
       </>
-      <NavLink to='/fox-farming/staking' color='gray.500'>
+      <NavLink
+        to={`/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}`}
+        color='gray.500'
+      >
         Cancel
       </NavLink>
     </CardContent>

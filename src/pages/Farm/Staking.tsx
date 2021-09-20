@@ -2,12 +2,12 @@ import { Text, Button } from '@chakra-ui/react'
 import { GetStartedCountDown } from './CountDown'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
 import { StakingHeader } from './StakingHeader'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { useApprove } from 'hooks/useApprove'
 import { TxRejected } from './TxRejected'
 import { useFarming } from 'hooks/useFarming'
 import { FOX_ETH_FARMING_ADDRESS } from 'lib/constants'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 import { bn } from 'utils/math'
 import { useWallet } from 'state/WalletProvider'
 import { useEffect } from 'react'
@@ -25,6 +25,7 @@ export const Staking = () => {
     stakeTxID,
     confirming
   } = useStaking()
+  const { params } = useRouteMatch<ContractParams>()
   const { farmApr } = useFarming()
   const { push } = useHistory()
   const { approved } = useApprove(
@@ -37,7 +38,10 @@ export const Staking = () => {
   } = useWallet()
 
   const onStake = () => {
-    if (!approved) return push('/fox-farming/staking/approve')
+    if (!approved)
+      return push(
+        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/approve`
+      )
     if (bn(userLpBalance?.toString() as string).gt(0) && approved) {
       stake()
     }
@@ -45,9 +49,11 @@ export const Staking = () => {
 
   useEffect(() => {
     if (stakeTxID && !confirming) {
-      push('/fox-farming/staking/pending')
+      push(
+        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/pending`
+      )
     }
-  }, [confirming, push, stakeTxID])
+  }, [confirming, params.liquidityContractAddress, params.stakingContractAddress, push, stakeTxID])
 
   return (
     <Card display='flex' minWidth='500px'>
