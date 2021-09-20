@@ -19,12 +19,17 @@ import {
   Stack
 } from '@chakra-ui/react'
 import { AprLabel } from './AprLabel'
+import { useHistory } from 'react-router'
 
 type PoolRowProps = {
   contract: PoolProps
 }
 
 export const PoolRow = ({ contract }: PoolRowProps) => {
+  const { push } = useHistory()
+  const handleView = () => {
+    push(`/fox-farming/liquidity/${contract.contractAddress}`)
+  }
   return (
     <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
       <Td>
@@ -93,7 +98,9 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
         )}
       </Td>
       <Td>
-        <Button isFullWidth>View</Button>
+        <Button isFullWidth onClick={handleView}>
+          View
+        </Button>
       </Td>
     </Tr>
   )

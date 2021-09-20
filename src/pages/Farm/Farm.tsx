@@ -3,7 +3,6 @@ import { Text, Link } from '@chakra-ui/react'
 import { Hero } from 'Molecules/Hero'
 import { AirdropFoxIcon } from 'Atoms/Icons/AirdropFoxIcon'
 import { Layout } from 'Molecules/Layout/Layout'
-import { GetStarted } from './GetStarted'
 import { LayoutContent } from 'Atoms/LayoutContent'
 import { LayoutCard } from 'Atoms/LayoutCard'
 import { Opportunities } from './Opportunities'
@@ -33,7 +32,6 @@ export const Farm = () => {
         <LayoutCard>
           <Switch>
             <Route exact path='/fox-farming' component={Opportunities} />
-            <Route exact path='/fox-farming/get-started' component={GetStarted} />
             <Route
               path='/fox-farming/liquidity/:liquidityContractAddress'
               component={LiquidityRoutes}

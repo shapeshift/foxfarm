@@ -13,6 +13,7 @@ import {
 import { getBufferedGas, toHexString } from 'utils/helpers'
 import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
 import { useRouteMatch } from 'react-router'
+import { LiquidityParams } from './LpProvider'
 
 const initialContext: StakingContextInterface = {
   uniswapLPContract: null,
@@ -52,7 +53,7 @@ interface StakingContextInterface {
   calculateHoldings: () => Promise<void>
 }
 
-export type ContractParams = { liquidityContractAddress?: string; stakingContractAddress?: string }
+export type ContractParams = LiquidityParams & { stakingContractAddress?: string }
 
 const StakingContext = createContext<StakingContextInterface>(initialContext)
 

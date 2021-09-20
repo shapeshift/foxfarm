@@ -21,6 +21,7 @@ import {
   UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
   WETH_TOKEN_CONTRACT_ADDRESS
 } from 'lib/constants'
+import { useRouteMatch } from 'react-router'
 
 export class LpError extends Error {
   code?: number
@@ -201,6 +202,8 @@ interface ILpContext {
   onUserInput: (field: TokenField, amount: any) => void
 }
 
+export type LiquidityParams = { liquidityContractAddress?: string }
+
 const LpContext = createContext<ILpContext | null>(null)
 
 function calculateSlippageMargin(percentage: number, amount: string | null) {
@@ -212,7 +215,7 @@ function calculateSlippageMargin(percentage: number, amount: string | null) {
 export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { state: wallet } = useWallet()
-
+  const { params } = useRouteMatch<LiquidityParams>()
   const uniswapRouter = useContract(
     wallet.provider,
     wallet.account,
@@ -222,7 +225,7 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const lpContract = useContract(
     wallet.provider,
     wallet.account,
-    UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    params.liquidityContractAddress ?? UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
     IUniswapV2PairABI
   )
   const foxContract = useContract(
