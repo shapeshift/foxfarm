@@ -1,17 +1,17 @@
-import { RouterProps } from 'react-router'
 import { Text, Center, Button, Box, Spinner } from '@chakra-ui/react'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
 import { useWallet } from 'state/WalletProvider'
 import { GetStartedCountDown } from '../CountDown'
 import { useFarming } from 'hooks/useFarming'
 import { Card } from 'components/Card/Card'
+import { LiquidityRouteProps } from './Remove'
 
 const EARNING_STEPS = [
   'Deposit FOX and ETH into the FOX-ETH liquidity pool on Uniswap v2.',
   `Approve and stake your liquidity tokens to earn bonus FOX rewards.`
 ]
 
-export const GetStarted = ({ history }: RouterProps) => {
+export const GetStarted = ({ history, match }: LiquidityRouteProps) => {
   const { state, connect } = useWallet()
   const { totalApr, loading } = useFarming()
 
@@ -80,7 +80,7 @@ export const GetStarted = ({ history }: RouterProps) => {
             mt={6}
             size='lg'
             onClick={() => {
-              history.push('/fox-farming/liquidity/add')
+              history.push(`/fox-farming/liquidity/${match.params.liquidityContractAddress}/add`)
             }}
           >
             Provide Liquidity

@@ -5,6 +5,7 @@ import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.
 import { bn, bnOrZero, fromBaseUnit } from 'utils/math'
 import farmAbi from 'abis/farmingAbi.json'
 import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
+import { useCalculateLPHoldings } from './useCalculateLPHoldings'
 
 type UserHoldings = {
   ethPriceUsdc?: string
@@ -44,7 +45,14 @@ export const useCalculateHoldings = ({
 
   const { state } = useWallet()
 
-  const uniswapLPContract = useContract(state.provider, state.account, lpAddress, IUniswapV2PairABI)
+  const {
+    userEthHoldings,
+    userFoxHoldings,
+    userLpBalance,
+    uniswapLPContract,
+    totalSupply,
+    reserves
+  } = useCalculateLPHoldings({ lpAddress: lpAddress })
 
   const usdcEthContract = useContract(
     state.provider,
@@ -57,34 +65,24 @@ export const useCalculateHoldings = ({
 
   const calculateHoldings = useCallback(async () => {
     if (uniswapLPContract && usdcEthContract && farmingRewardsContract && state.isConnected) {
-      const totalSupply = await uniswapLPContract?.totalSupply()
-      const balance = await uniswapLPContract?.balanceOf(state?.account)
-      const reserves = await uniswapLPContract?.getReserves()
       const stakedBalance = await farmingRewardsContract.balanceOf(state?.account)
       const userUnclaimedRewards = await farmingRewardsContract.earned(state?.account)
-
-      const userOwnershipOfPool = bn(balance.toString()).div(bn(totalSupply.toString()))
-      const userEthHoldings = userOwnershipOfPool.times(bn(reserves[0].toString())).decimalPlaces(0)
-      const userFoxHoldings = userOwnershipOfPool.times(bn(reserves[1].toString())).decimalPlaces(0)
-
       const ethUsdcReserves = await usdcEthContract?.getReserves()
       const ethPriceUsdc = bn(fromBaseUnit(ethUsdcReserves[0].toString(), 6)).div(
         bn(fromBaseUnit(ethUsdcReserves[1].toString(), 18))
       )
 
-      const totalUsdcValue = userEthHoldings.times(2).times(ethPriceUsdc)
+      const totalUsdcValue = bnOrZero(userEthHoldings).times(2).times(ethPriceUsdc)
 
-      const totalBalanceOwned = bnOrZero(balance?.toString()).plus(
-        bnOrZero(stakedBalance?.toString())
-      )
+      const totalBalanceOwned = bnOrZero(userLpBalance).plus(bnOrZero(stakedBalance?.toString()))
       const userEthHoldingsStakedAndLp = totalBalanceOwned
-        .div(totalSupply.toString())
-        .times(reserves[0].toString())
+        .div(bnOrZero(totalSupply))
+        .times(bnOrZero(reserves?.[0]?.toString()))
         .decimalPlaces(0)
         .toString()
       const userFoxHoldingsStakedAndLp = totalBalanceOwned
-        .div(totalSupply.toString())
-        .times(reserves[1].toString())
+        .div(bnOrZero(totalSupply))
+        .times(bnOrZero(reserves?.[1]?.toString()))
         .decimalPlaces(0)
         .toString()
       const totalUsdcValueStakedAndLp = bn(userEthHoldingsStakedAndLp)
@@ -95,10 +93,7 @@ export const useCalculateHoldings = ({
       setUserHoldings({
         ethPriceUsdc: ethPriceUsdc.toString(),
         totalUsdcValue: fromBaseUnit(totalUsdcValue.toString(), 18),
-        userEthHoldings: userEthHoldings.toFixed(),
-        userFoxHoldings: userFoxHoldings.toFixed(),
         userStakedBalance: stakedBalance,
-        userLpBalance: balance,
         userUnclaimedRewards,
         userFoxHoldingsStakedAndLp,
         userEthHoldingsStakedAndLp,
@@ -109,8 +104,12 @@ export const useCalculateHoldings = ({
     uniswapLPContract,
     usdcEthContract,
     farmingRewardsContract,
+    state.isConnected,
     state?.account,
-    state?.isConnected
+    userEthHoldings,
+    userLpBalance,
+    totalSupply,
+    reserves
   ])
 
   useEffect(() => {
@@ -134,5 +133,8 @@ export const useCalculateHoldings = ({
     usdcEthContract
   ])
 
-  return { userHoldings, calculateHoldings }
+  return {
+    userHoldings: { ...userHoldings, userEthHoldings, userFoxHoldings, userLpBalance },
+    calculateHoldings
+  }
 }

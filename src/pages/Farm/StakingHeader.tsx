@@ -2,9 +2,10 @@ import { Text, Button, ButtonProps, Box, Heading } from '@chakra-ui/react'
 import { ExternalLinkIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { CardContent } from '../../Atoms/CardContent'
 import { StakingHeaderBtns } from './StakingHeaderBtns'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 import { formatBaseAmount } from 'utils/math'
 import { bnOrZero } from 'utils/math'
+import { ContractParams } from 'state/StakingProvider'
 
 type WalletColProps = ButtonProps & {
   label: string
@@ -50,6 +51,7 @@ export const StakingHeader = ({
   showStaking?: boolean
 }) => {
   const history = useHistory()
+  const { params } = useRouteMatch<ContractParams>()
   return (
     <CardContent
       borderRightWidth={{ base: 0, md: 1 }}
@@ -93,7 +95,11 @@ export const StakingHeader = ({
           width='full'
           color='primary'
           fontSize='sm'
-          onClick={() => history.push('/fox-farming/liquidity/add', { back: true })}
+          onClick={() =>
+            history.push(`/fox-farming/liquidity/${params.liquidityContractAddress}/add`, {
+              back: true
+            })
+          }
           mt={6}
         >
           Manage Liquidity

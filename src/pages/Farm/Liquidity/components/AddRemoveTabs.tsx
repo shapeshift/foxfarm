@@ -1,5 +1,6 @@
 import { Button, ButtonProps, Flex } from '@chakra-ui/react'
 import { RouteChildrenProps } from 'react-router-dom'
+import { LiquidityRouteProps } from '../Remove'
 
 const TabButton = ({ ...props }: ButtonProps) => {
   return (
@@ -16,28 +17,35 @@ const TabButton = ({ ...props }: ButtonProps) => {
   )
 }
 
-type TabProps = Partial<RouteChildrenProps> & { back: boolean }
+type TabProps = Partial<RouteChildrenProps> & { back: boolean } & Pick<LiquidityRouteProps, 'match'>
 
 export const AddRemoveTabs = ({ match, history, back }: TabProps) => {
   return (
     <Flex mx='auto' maxW='400px' borderRadius='30' bg='gray.100' mb='6'>
       <TabButton
         onClick={() =>
-          history?.replace('/fox-farming/liquidity/add', {
+          history?.replace(`/fox-farming/liquidity/${match.params.liquidityContractAddress}/add`, {
             back
           })
         }
-        isActive={match?.path === '/fox-farming/liquidity/add'}
+        isActive={
+          match?.path === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/add`
+        }
       >
         Add Liquidity
       </TabButton>
       <TabButton
         onClick={() =>
-          history?.replace('/fox-farming/liquidity/remove', {
-            back
-          })
+          history?.replace(
+            `/fox-farming/liquidity/${match.params.liquidityContractAddress}/remove`,
+            {
+              back
+            }
+          )
         }
-        isActive={match?.path === '/fox-farming/liquidity/remove'}
+        isActive={
+          match?.path === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/remove`
+        }
       >
         Remove Liquidity
       </TabButton>
