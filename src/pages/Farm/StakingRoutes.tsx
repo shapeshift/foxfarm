@@ -6,8 +6,7 @@ import { Rewards } from './Rewards'
 import { Staking } from './Staking'
 import { Unstake } from './Unstake'
 
-export const StakingRoutes = (props: any) => {
-  console.info(props, 'STAKING ROUTES')
+export const StakingRoutes = () => {
   return (
     <StakingProvider>
       <Switch>

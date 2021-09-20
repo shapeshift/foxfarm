@@ -7,7 +7,7 @@ import { GetStarted } from './GetStarted'
 import { LayoutContent } from 'Atoms/LayoutContent'
 import { LayoutCard } from 'Atoms/LayoutCard'
 import { Opportunities } from './Opportunities'
-import { LiquidityRoutes } from './LiquidityRoutes'
+import { LiquidityRoutes } from './Liquidity/LiquidityRoutes'
 import { APRFluctuates } from './APRFluctuates'
 
 export const Farm = () => {
