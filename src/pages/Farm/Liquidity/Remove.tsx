@@ -30,7 +30,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import { useCalculateLPHoldings } from 'hooks/useCalculateLPHoldings'
+import { useCalculateLPHoldings } from 'hooks/useCalculateLPHoldings/useCalculateLPHoldings'
 
 export type LiquidityRouteProps = RouteComponentProps & {
   location?: { state?: { back?: boolean } }

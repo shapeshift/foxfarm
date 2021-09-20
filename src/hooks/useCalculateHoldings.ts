@@ -5,7 +5,7 @@ import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.
 import { bn, bnOrZero, fromBaseUnit } from 'utils/math'
 import farmAbi from 'abis/farmingAbi.json'
 import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
-import { useCalculateLPHoldings } from './useCalculateLPHoldings'
+import { useCalculateLPHoldings } from './useCalculateLPHoldings/useCalculateLPHoldings'
 
 type UserHoldings = {
   ethPriceUsdc?: string
