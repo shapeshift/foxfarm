@@ -1,4 +1,4 @@
-import { Pending } from 'pages/Airdrop/ClaimDrawer/components/Pending'
+import { Pending } from './Pending'
 import { Route, Switch } from 'react-router'
 import { StakingProvider } from 'state/StakingProvider'
 import { Approve } from './Approve'
