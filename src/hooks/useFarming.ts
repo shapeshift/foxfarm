@@ -4,18 +4,13 @@ import { bn } from 'utils/math'
 import { Token, Fetcher } from '@uniswap/sdk'
 import farmAbi from 'abis/farmingAbi.json'
 import { useEffect, useState } from 'react'
-import {
-  FOX_ETH_FARMING_ADDRESS,
-  FOX_TOKEN_CONTRACT_ADDRESS,
-  WETH_TOKEN_CONTRACT_ADDRESS
-} from 'lib/constants'
+import { FOX_TOKEN_CONTRACT_ADDRESS, WETH_TOKEN_CONTRACT_ADDRESS } from 'lib/constants'
 import { useContract } from './useContract'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { useActiveProvider } from './useActiveProvider'
 import { useBlockListeners } from 'hooks/useBlockListeners'
 import BigNumber from 'bignumber.js'
 import { useRouteMatch } from 'react-router'
-import { LiquidityParams } from 'state/LpProvider'
 import { ContractParams } from 'state/StakingProvider'
 
 type Farming = {

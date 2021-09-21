@@ -11,6 +11,7 @@ import { bn } from 'utils/math'
 import { useWallet } from 'state/WalletProvider'
 import { useEffect } from 'react'
 import { Card } from 'components/Card/Card'
+import { lpUrlFormatter } from 'utils/helpers'
 
 export const Staking = () => {
   const {
@@ -39,7 +40,7 @@ export const Staking = () => {
   const onStake = () => {
     if (!approved)
       return push(
-        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/approve`
+        lpUrlFormatter('approve', params.liquidityContractAddress, params.stakingContractAddress)
       )
     if (bn(userLpBalance?.toString() as string).gt(0) && approved) {
       stake()
@@ -49,7 +50,7 @@ export const Staking = () => {
   useEffect(() => {
     if (stakeTxID && !confirming) {
       push(
-        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/pending`
+        lpUrlFormatter('pending', params.liquidityContractAddress, params.stakingContractAddress)
       )
     }
   }, [confirming, params.liquidityContractAddress, params.stakingContractAddress, push, stakeTxID])

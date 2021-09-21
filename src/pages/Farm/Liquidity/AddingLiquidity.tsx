@@ -21,7 +21,7 @@ export const AddingLiquidity = ({ history }: RouterProps) => {
     if (pendingState === TxStatus.SUCCESS && !ignore) {
       dispatch({ type: LpActions.SET_TX_HASH, payload: null })
       history.push(
-        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}`
+        lpUrlFormatter('', params.liquidityContractAddress, params.stakingContractAddress)
       )
     }
     if (pendingState === TxStatus.UNKNOWN && !ignore && !lpState.lpTxHash) {
