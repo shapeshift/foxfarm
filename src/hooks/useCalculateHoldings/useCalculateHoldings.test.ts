@@ -35,7 +35,7 @@ describe('useCalculateHoldings', () => {
         ethPriceUsdc: '3028.58577941402245763707',
         userEthHoldings: '45558255891442583',
         userFoxHoldings: '391974984068728436394',
-        userLpBalance: '3846733958239020657',
+        userLpBalance: bn('3846733958239020657'),
         totalSupply: '3846733958239020657',
         reserves,
         uniswapLPContract: {}
@@ -49,7 +49,7 @@ describe('useCalculateHoldings', () => {
       expect(result.current.userHoldings.userEthHoldings).toBe('45558255891442583')
       expect(result.current.userHoldings.userFoxHoldings).toBe('391974984068728436394')
       expect(result.current.userHoldings.userStakedBalance).toBe('3846733958239020657')
-      expect(result.current.userHoldings.userLpBalance).toBe('3846733958239020657')
+      expect(result.current.userHoldings.userLpBalance?.toString()).toBe('3846733958239020657')
       expect(result.current.userHoldings.userEthHoldingsStakedAndLp).toBe(
         '5.632977846763633822502e+21'
       )
@@ -69,7 +69,7 @@ describe('useCalculateHoldings', () => {
         ethPriceUsdc: '0',
         userEthHoldings: '0',
         userFoxHoldings: '0',
-        userLpBalance: '0',
+        userLpBalance: bn('0'),
         totalSupply: '0'
       }))
       const { result } = setup({ isConnected: false })
@@ -79,7 +79,7 @@ describe('useCalculateHoldings', () => {
       expect(result.current.userHoldings.userEthHoldings).toBe('0')
       expect(result.current.userHoldings.userFoxHoldings).toBe('0')
       expect(result.current.userHoldings.userStakedBalance).toBe('0')
-      expect(result.current.userHoldings.userLpBalance).toBe('0')
+      expect(result.current.userHoldings.userLpBalance?.toString()).toBe('0')
       expect(result.current.userHoldings.userEthHoldingsStakedAndLp).toBe('0')
       expect(result.current.userHoldings.userFoxHoldingsStakedAndLp).toBe('0')
       expect(result.current.userHoldings.totalUsdcValueStakedAndLp).toBe('0')
