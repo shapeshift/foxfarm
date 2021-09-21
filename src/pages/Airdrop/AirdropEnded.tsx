@@ -42,21 +42,17 @@ export const AirDropEnded = () => {
               our farming rewards!
             </Text>
           </CardContent>
-          <CardContent px={6} pb={4}>
+          <CardContent px={6}>
             <Button onClick={() => history.push('/fox-farming')} width='full' size='lg'>
               Start Earning
             </Button>
-          </CardContent>
-          <CardContent pt={0} px={6}>
-            <Text color='gray.500' mb={4}>
-              Interested in contributing?
-            </Text>
             <Button
               size='lg'
               isFullWidth
               variant='solid'
               colorScheme='gray'
               as={Link}
+              mt={4}
               isExternal
               href='https://discord.gg/shapeshift'
               leftIcon={<DiscordIcon />}
