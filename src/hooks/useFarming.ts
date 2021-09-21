@@ -185,6 +185,7 @@ export function useFarming(): Farming {
     params.liquidityContractAddress,
     IUniswapV2PairABI
   )
+
   // We dont have the fox eth farming address to help calculate farming apr at this point and time.
   const farmingRewardsContract = useContract(provider, null, FOX_ETH_FARMING_ADDRESS, farmAbi)
 

@@ -28,6 +28,7 @@ import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { AddRemoveTabs } from './components/AddRemoveTabs'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { LiquidityRouteProps } from './Remove'
+import { lpUrlFormatter } from 'utils/helpers'
 
 function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

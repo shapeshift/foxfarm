@@ -9,7 +9,7 @@ type UserHoldings = {
   ethPriceUsdc?: string
   userEthHoldings?: string
   userFoxHoldings?: string
-  userLpBalance?: string
+  userLpBalance?: BN
   totalSupply?: string
   reserves?: BN[]
 }
@@ -27,7 +27,7 @@ export const useCalculateLPHoldings = ({
     ethPriceUsdc: '0',
     userEthHoldings: '0',
     userFoxHoldings: '0',
-    userLpBalance: '0',
+    userLpBalance: bn('0'),
     totalSupply: '0'
   })
 
