@@ -21,7 +21,7 @@ import {
 import { AprLabel } from './AprLabel'
 import { useHasContractExpired } from 'hooks/useHasContractExpired'
 import { bnOrZero } from 'utils/math'
-import { useCalculateHoldings } from 'hooks/useCalculateHoldings'
+import { useCalculateHoldings } from 'hooks/useCalculateHoldings/useCalculateHoldings'
 import { useHistory } from 'react-router'
 import { useWallet } from 'state/WalletProvider'
 import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
@@ -42,19 +42,37 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
 
   const userHoldingsValue = useUserFriendlyAmount(userHoldings?.totalUsdcValueStakedAndLp)
   const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance)
-  const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance)
+  const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance?.toString())
 
   const handleGetStarted = () => {
     const stakedBalance = bnOrZero(userStakedBalance).toNumber()
     const lpBalance = bnOrZero(userLpBalance).toNumber()
+    // dont have wallet connected
     if (!state.isConnected) return connect()
-    if (isEnded && stakedBalance > 0) return push('/fox-farming/staking/rewards')
-    if (!isEnded && lpBalance <= 0) return push('/fox-farming/liquidity')
-    if (!isEnded && lpBalance > 0 && stakedBalance <= 0) return push('/fox-farming/staking')
+    // contract has expired but you have a staked balance
+    if (isEnded && stakedBalance > 0) {
+      return push(
+        `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}/rewards`
+      )
+    }
+    // contract is active but you dont have any lp
+    if (!isEnded && lpBalance <= 0) {
+      return push(
+        `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}/get-started`
+      )
+    }
+    // contract has expired you have lp tokens but have not staked
+    if (!isEnded && lpBalance > 0 && stakedBalance <= 0) {
+      return push(
+        `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}`
+      )
+    }
   }
 
   const handleView = () => {
-    push('/fox-farming/staking/rewards')
+    push(
+      `/fox-farming/liquidity/${contract.pool.contractAddress}/staking/${contract.contractAddress}/rewards`
+    )
   }
 
   if (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0) return null

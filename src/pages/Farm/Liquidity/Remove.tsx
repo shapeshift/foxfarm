@@ -18,7 +18,6 @@ import { useState } from 'react'
 import { Slider } from './components/Slider'
 import { Card } from 'components/Card/Card'
 import { RemoveRow } from './components/RemoveRow'
-import { useStaking } from 'state/StakingProvider'
 import { bn, formatBaseAmount, fromBaseUnit, toBaseUnit, toDisplayAmount } from 'utils/math'
 import { LpActions, TokenField, useLp } from 'state/LpProvider'
 import { useApprove } from 'hooks/useApprove'
@@ -31,12 +30,17 @@ import { RouteComponentProps } from 'react-router-dom'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import { useCalculateLPHoldings } from 'hooks/useCalculateLPHoldings/useCalculateLPHoldings'
 
-type RemoveProps = RouteComponentProps & { location?: { state?: { back?: boolean } } }
+export type LiquidityRouteProps = RouteComponentProps & {
+  location?: { state?: { back?: boolean } }
+  match?: { params?: { liquidityContractAddress: string; stakingContractAddress?: string } }
+}
 
-export const Remove = ({ match, history, location }: RemoveProps) => {
+export const Remove = ({ match, history, location }: LiquidityRouteProps) => {
   const [percentage, setPercentage] = useState(25)
-  const { userEthHoldings, userFoxHoldings, userLpBalance, uniswapLPContract } = useStaking()
+  const { userEthHoldings, userFoxHoldings, userLpBalance, uniswapLPContract } =
+    useCalculateLPHoldings({ lpAddress: match.params.liquidityContractAddress })
   const { state: lpState, dispatch, removeLiquidity } = useLp()
   const { state: wallet, connect } = useWallet()
   const pendingTx = usePendingTx(lpState.lpTxHash)

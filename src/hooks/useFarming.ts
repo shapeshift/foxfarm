@@ -4,17 +4,14 @@ import { bn } from 'utils/math'
 import { Token, Fetcher } from '@uniswap/sdk'
 import farmAbi from 'abis/farmingAbi.json'
 import { useEffect, useState } from 'react'
-import {
-  FOX_ETH_FARMING_ADDRESS,
-  FOX_TOKEN_CONTRACT_ADDRESS,
-  UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
-  WETH_TOKEN_CONTRACT_ADDRESS
-} from 'lib/constants'
+import { FOX_TOKEN_CONTRACT_ADDRESS, WETH_TOKEN_CONTRACT_ADDRESS } from 'lib/constants'
 import { useContract } from './useContract'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { useActiveProvider } from './useActiveProvider'
 import { useBlockListeners } from 'hooks/useBlockListeners'
 import BigNumber from 'bignumber.js'
+import { useRouteMatch } from 'react-router'
+import { ContractParams } from 'state/StakingProvider'
 
 type Farming = {
   farmApr: string
@@ -171,30 +168,47 @@ export const farmingAPR = async (
   }
 }
 
-export function useFarming(): Farming {
+type UseFarming = {
+  lpContract?: string
+  stakingContract?: string
+}
+
+export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Farming {
   const [farmApr, setFarmApr] = useState('0')
   const [lpApr, setLpApr] = useState('0')
   const [totalApr, setTotalApr] = useState('0')
   const provider = useActiveProvider()
   const blockNumber = useBlockListeners()
+  const { params } = useRouteMatch<ContractParams>()
   const uniswapLPContract = useContract(
     provider,
     null,
-    UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    lpContract ?? params.liquidityContractAddress,
     IUniswapV2PairABI
   )
-  const farmingRewardsContract = useContract(provider, null, FOX_ETH_FARMING_ADDRESS, farmAbi)
+
+  // We dont have the fox eth farming address to help calculate farming apr at this point and time.
+  const farmingRewardsContract = useContract(
+    provider,
+    null,
+    stakingContract ?? params.stakingContractAddress,
+    farmAbi
+  )
 
   useEffect(() => {
     void (async () => {
-      if (!farmingRewardsContract || !uniswapLPContract || !provider || !blockNumber) {
-        return null
+      try {
+        if (!farmingRewardsContract || !uniswapLPContract || !provider || !blockNumber) {
+          return null
+        }
+        const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
+        setFarmApr(apr)
+        const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
+        setLpApr(lpApr)
+        setTotalApr(new BigNumber(apr).plus(lpApr).toString())
+      } catch (error) {
+        console.error(error)
       }
-      const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
-      setFarmApr(apr)
-      const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
-      setLpApr(lpApr)
-      setTotalApr(new BigNumber(apr).plus(lpApr).toString())
     })()
   }, [farmingRewardsContract, uniswapLPContract, provider, blockNumber])
 

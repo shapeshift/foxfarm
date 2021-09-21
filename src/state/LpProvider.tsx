@@ -18,9 +18,9 @@ import { useWallet } from './WalletProvider'
 import {
   FOX_TOKEN_CONTRACT_ADDRESS,
   UNISWAP_V2_ROUTER,
-  UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
   WETH_TOKEN_CONTRACT_ADDRESS
 } from 'lib/constants'
+import { useRouteMatch } from 'react-router'
 
 export class LpError extends Error {
   code?: number
@@ -201,6 +201,8 @@ interface ILpContext {
   onUserInput: (field: TokenField, amount: any) => void
 }
 
+export type LiquidityParams = { liquidityContractAddress: string }
+
 const LpContext = createContext<ILpContext | null>(null)
 
 function calculateSlippageMargin(percentage: number, amount: string | null) {
@@ -212,6 +214,7 @@ function calculateSlippageMargin(percentage: number, amount: string | null) {
 export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { state: wallet } = useWallet()
+  const { params } = useRouteMatch<LiquidityParams>()
 
   const uniswapRouter = useContract(
     wallet.provider,
@@ -222,7 +225,7 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const lpContract = useContract(
     wallet.provider,
     wallet.account,
-    UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    params.liquidityContractAddress,
     IUniswapV2PairABI
   )
   const foxContract = useContract(
@@ -260,10 +263,10 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const setRates = useCallback(async () => {
     try {
       const balanceWethPool: BigNumber = await wethContract?.balanceOf(
-        UNISWAP_V2_WETH_FOX_POOL_ADDRESS
+        params.liquidityContractAddress
       )
       const balanceFoxPool: BigNumber = await foxContract?.balanceOf(
-        UNISWAP_V2_WETH_FOX_POOL_ADDRESS
+        params.liquidityContractAddress
       )
       const totalLpSupply: BigNumber = await lpContract?.totalSupply()
       const tokensMinted = bn(toBaseUnit(state.A.amount as string, 18))
@@ -290,7 +293,7 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Error fetching rates: ', error)
     }
-  }, [foxContract, lpContract, state.A.amount, wethContract])
+  }, [foxContract, lpContract, params.liquidityContractAddress, state.A.amount, wethContract])
 
   const onUserInput = useCallback(
     (field: TokenField, amount: string) => {

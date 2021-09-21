@@ -3,27 +3,39 @@ import { Text } from '@chakra-ui/react'
 import { CardContent } from '../../Atoms/CardContent'
 import { NavLink } from 'Atoms/NavLink'
 import { PendingIconGroup } from 'Organisims/PendingIconGroup'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
 import { useEffect } from 'react'
+import { useRouteMatch } from 'react-router-dom'
 
 export const Pending = ({ history }: RouterProps) => {
   const { stakeTxID, setStakeTxID } = useStaking()
   const pendingTx = usePendingTx(stakeTxID)
+  const { params } = useRouteMatch<ContractParams>()
 
   useEffect(() => {
     let ignore = false
     if (!ignore) {
       if (stakeTxID && pendingTx === TxStatus.SUCCESS) {
         setStakeTxID(null)
-        history.push('/fox-farming/staking/rewards', { staked: true })
+        history.push(
+          `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/rewards`,
+          { staked: true }
+        )
       }
     }
     return () => {
       ignore = true
     }
-  }, [history, pendingTx, setStakeTxID, stakeTxID])
+  }, [
+    history,
+    params.liquidityContractAddress,
+    params.stakingContractAddress,
+    pendingTx,
+    setStakeTxID,
+    stakeTxID
+  ])
 
   return (
     <CardContent>
@@ -34,7 +46,10 @@ export const Pending = ({ history }: RouterProps) => {
         </Text>
         {stakeTxID && <ViewOnChainLink txId={stakeTxID} />}
       </>
-      <NavLink to='/fox-farming/staking' color='gray.500'>
+      <NavLink
+        to={`/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}`}
+        color='gray.500'
+      >
         Cancel
       </NavLink>
     </CardContent>

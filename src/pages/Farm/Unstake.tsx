@@ -3,13 +3,14 @@ import { RouterProps } from 'react-router'
 import { Text, Button } from '@chakra-ui/react'
 import { NavLink } from 'Atoms/NavLink'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { formatBaseAmount } from 'utils/math'
 import { TxRejected } from './TxRejected'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
 import { useWallet } from 'state/WalletProvider'
 import { Card } from 'components/Card/Card'
+import { useRouteMatch } from 'react-router-dom'
 
 export const Unstake = ({ history }: RouterProps) => {
   const {
@@ -25,6 +26,7 @@ export const Unstake = ({ history }: RouterProps) => {
   const {
     state: { wallet }
   } = useWallet()
+  const { params } = useRouteMatch<ContractParams>()
 
   useEffect(() => {
     let ignore = false
@@ -77,7 +79,10 @@ export const Unstake = ({ history }: RouterProps) => {
         >
           Confirm & Unstake
         </Button>
-        <NavLink to='/fox-farming/staking/rewards' color='gray.500'>
+        <NavLink
+          to={`/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/rewards`}
+          color='gray.500'
+        >
           Cancel
         </NavLink>
       </Card.Body>

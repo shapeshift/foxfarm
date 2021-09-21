@@ -24,10 +24,11 @@ import { useApprove } from 'hooks/useApprove'
 import { useContract } from 'hooks/useContract'
 import { FOX_TOKEN_CONTRACT_ADDRESS, MAX_ALLOWANCE, UNISWAP_V2_ROUTER } from 'lib/constants'
 import { AddButton } from './components/AddButton'
-import { RouteComponentProps } from 'react-router-dom'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { AddRemoveTabs } from './components/AddRemoveTabs'
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import { LiquidityRouteProps } from './Remove'
+import { lpUrlFormatter } from 'utils/helpers'
 
 function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -35,9 +36,7 @@ function escapeRegExp(string: string) {
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`)
 
-type AddProps = RouteComponentProps & { location?: { state?: { back?: boolean } } }
-
-export const Add = ({ history, match, location }: AddProps) => {
+export const Add = ({ history, match, location }: LiquidityRouteProps) => {
   const { state: wallet, connect } = useWallet()
   const { state: lpState, onUserInput, addLiquidity } = useLp()
   const foxContract = useContract(
@@ -81,8 +80,21 @@ export const Add = ({ history, match, location }: AddProps) => {
   )
 
   useEffect(() => {
-    if (!lpState.confirming && lpState.lpTxHash) history.push('/fox-farming/liquidity/pending')
-  }, [history, lpState.confirming, lpState.lpTxHash])
+    if (!lpState.confirming && lpState.lpTxHash)
+      history.push(
+        lpUrlFormatter(
+          'lp-pending',
+          match.params.liquidityContractAddress,
+          match.params.stakingContractAddress
+        )
+      )
+  }, [
+    history,
+    lpState.confirming,
+    lpState.lpTxHash,
+    match.params.liquidityContractAddress,
+    match.params.stakingContractAddress
+  ])
 
   useEffect(() => {
     onUserInput(TokenField.A, '')

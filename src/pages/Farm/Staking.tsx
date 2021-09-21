@@ -2,16 +2,16 @@ import { Text, Button } from '@chakra-ui/react'
 import { GetStartedCountDown } from './CountDown'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
 import { StakingHeader } from './StakingHeader'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { useApprove } from 'hooks/useApprove'
 import { TxRejected } from './TxRejected'
 import { useFarming } from 'hooks/useFarming'
-import { FOX_ETH_FARMING_ADDRESS } from 'lib/constants'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 import { bn } from 'utils/math'
 import { useWallet } from 'state/WalletProvider'
 import { useEffect } from 'react'
 import { Card } from 'components/Card/Card'
+import { lpUrlFormatter } from 'utils/helpers'
 
 export const Staking = () => {
   const {
@@ -25,11 +25,12 @@ export const Staking = () => {
     stakeTxID,
     confirming
   } = useStaking()
+  const { params } = useRouteMatch<ContractParams>()
   const { farmApr } = useFarming()
   const { push } = useHistory()
   const { approved } = useApprove(
     uniswapLPContract,
-    FOX_ETH_FARMING_ADDRESS,
+    params.stakingContractAddress,
     userLpBalance?.toString() as string
   )
   const {
@@ -37,7 +38,10 @@ export const Staking = () => {
   } = useWallet()
 
   const onStake = () => {
-    if (!approved) return push('/fox-farming/staking/approve')
+    if (!approved)
+      return push(
+        lpUrlFormatter('approve', params.liquidityContractAddress, params.stakingContractAddress)
+      )
     if (bn(userLpBalance?.toString() as string).gt(0) && approved) {
       stake()
     }
@@ -45,9 +49,11 @@ export const Staking = () => {
 
   useEffect(() => {
     if (stakeTxID && !confirming) {
-      push('/fox-farming/staking/pending')
+      push(
+        lpUrlFormatter('pending', params.liquidityContractAddress, params.stakingContractAddress)
+      )
     }
-  }, [confirming, push, stakeTxID])
+  }, [confirming, params.liquidityContractAddress, params.stakingContractAddress, push, stakeTxID])
 
   return (
     <Card display='flex' minWidth='500px'>

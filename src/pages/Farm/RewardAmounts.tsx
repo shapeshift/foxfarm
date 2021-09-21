@@ -1,4 +1,4 @@
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { bnOrZero, bn, toDisplayAmount } from 'utils/math'
 import { useMemo, useState } from 'react'
 import { useCoinCapPrice } from 'hooks/useCoinCapPrice'
@@ -10,6 +10,7 @@ import { RewardsBtns } from './RewardsBtns'
 import { Text, Button } from '@chakra-ui/react'
 import { useHasContractExpired } from 'hooks/useHasContractExpired'
 import { useHistory } from 'react-router'
+import { useRouteMatch } from 'react-router-dom'
 
 type TRewardAmounts = { foxAmount: string | null }
 
@@ -25,6 +26,7 @@ export const RewardAmounts = ({ foxAmount }: TRewardAmounts) => {
   const [rewardRate, setRewardRate] = useState('0')
   const expired = useHasContractExpired()
   const { push } = useHistory()
+  const { params } = useRouteMatch<ContractParams>()
 
   const { start, intervalId } = useInterval({
     callback: () => {
@@ -89,7 +91,11 @@ export const RewardAmounts = ({ foxAmount }: TRewardAmounts) => {
           mb={4}
           maxWidth='350px'
           width='100%'
-          onClick={() => push('/fox-farming/staking/unstake')}
+          onClick={() =>
+            push(
+              `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/unstake`
+            )
+          }
           isDisabled={isDisabled}
         >
           Unstake & Claim Rewards
