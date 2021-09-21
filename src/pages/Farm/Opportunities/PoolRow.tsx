@@ -28,7 +28,7 @@ type PoolRowProps = {
 export const PoolRow = ({ contract }: PoolRowProps) => {
   const { push } = useHistory()
   const handleView = () => {
-    push(`/fox-farming/liquidity/${contract.contractAddress}`)
+    push(`/fox-farming/liquidity/${contract.contractAddress}/add`)
   }
   return (
     <Tr _hover={{ bg: useColorModeValue('gray.100', 'gray.750') }}>
