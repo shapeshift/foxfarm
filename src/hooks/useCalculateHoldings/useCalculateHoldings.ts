@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useWallet } from 'state/WalletProvider'
 import { useContract } from 'hooks/useContract'
-import { bn, bnOrZero, fromBaseUnit } from 'utils/math'
+import { BN, bn, bnOrZero, fromBaseUnit } from 'utils/math'
 import farmAbi from 'abis/farmingAbi.json'
 import { useCalculateLPHoldings } from '../useCalculateLPHoldings/useCalculateLPHoldings'
 
@@ -11,7 +11,7 @@ type UserHoldings = {
   userEthHoldings?: string
   userFoxHoldings?: string
   userStakedBalance?: string
-  userLpBalance?: string
+  userLpBalance?: BN
   userUnclaimedRewards?: string
   userEthHoldingsStakedAndLp?: string
   userFoxHoldingsStakedAndLp?: string
@@ -31,7 +31,7 @@ export const useCalculateHoldings = ({ lpAddress, rewardsAddress }: useCalculate
     userEthHoldings: '0',
     userFoxHoldings: '0',
     userStakedBalance: '0',
-    userLpBalance: '0',
+    userLpBalance: bn('0'),
     userEthHoldingsStakedAndLp: '0',
     userFoxHoldingsStakedAndLp: '0',
     totalUsdcValueStakedAndLp: '0'

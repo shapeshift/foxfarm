@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useMemo, useEffect, useCall
 import { useWallet } from 'state/WalletProvider'
 import { useContract } from 'hooks/useContract'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
-import { bn } from 'utils/math'
-import { BigNumber, Contract } from 'ethers'
+import { BN, bn } from 'utils/math'
+import { Contract } from 'ethers'
 import farmAbi from 'abis/farmingAbi.json'
 import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
 import { getBufferedGas, toHexString } from 'utils/helpers'
@@ -30,9 +30,9 @@ interface StakingContextInterface {
   totalUsdcValue?: string
   userEthHoldings?: string
   userFoxHoldings?: string
-  userLpBalance?: string | BigNumber
-  userStakedBalance?: string | BigNumber
-  userUnclaimedRewards?: string | BigNumber
+  userLpBalance?: BN
+  userStakedBalance?: string | BN
+  userUnclaimedRewards?: string | BN
   userEthHoldingsStakedAndLp?: string
   userFoxHoldingsStakedAndLp?: string
   totalUsdcValueStakedAndLp?: string
