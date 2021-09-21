@@ -21,7 +21,6 @@ type Farming = {
   farmApr: string
   lpApr: string
   totalApr: string
-  loading: boolean
 }
 
 const TRADING_FEE_RATE = 0.003
@@ -177,7 +176,6 @@ export function useFarming(): Farming {
   const [farmApr, setFarmApr] = useState('0')
   const [lpApr, setLpApr] = useState('0')
   const [totalApr, setTotalApr] = useState('0')
-  const [loading, setLoading] = useState(true)
   const provider = useActiveProvider()
   const blockNumber = useBlockListeners()
   const { params } = useRouteMatch<LiquidityParams>()
@@ -203,8 +201,6 @@ export function useFarming(): Farming {
         setTotalApr(new BigNumber(apr).plus(lpApr).toString())
       } catch (error) {
         console.error(error)
-      } finally {
-        setLoading(false)
       }
     })()
   }, [farmingRewardsContract, uniswapLPContract, provider, blockNumber])
@@ -212,7 +208,6 @@ export function useFarming(): Farming {
   return {
     farmApr,
     lpApr,
-    totalApr,
-    loading
+    totalApr
   }
 }

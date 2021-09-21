@@ -1,4 +1,4 @@
-import { Text, Center, Button, Box, Spinner } from '@chakra-ui/react'
+import { Text, Center, Button, Box } from '@chakra-ui/react'
 import { FoxEthLiquidityIconGroup } from 'Molecules/LiquidityIconGroup'
 import { useWallet } from 'state/WalletProvider'
 import { GetStartedCountDown } from '../CountDown'
@@ -13,26 +13,7 @@ const EARNING_STEPS = [
 
 export const GetStarted = ({ history, match }: LiquidityRouteProps) => {
   const { state, connect } = useWallet()
-  const { totalApr, loading } = useFarming()
-
-  if (loading) {
-    return (
-      <Card>
-        <Card.Body width='500px'>
-          <Center minHeight='500px'>
-            <Spinner
-              thickness='8px'
-              speed='3s'
-              emptyColor='gray.300'
-              color='blue.500'
-              w='4rem'
-              h='4rem'
-            />
-          </Center>
-        </Card.Body>
-      </Card>
-    )
-  }
+  const { totalApr } = useFarming()
 
   return (
     <Card flexDir='column' maxW='500px' position='relative'>
