@@ -20,6 +20,8 @@ import { CardContent } from 'Atoms/CardContent'
 import { Link } from '@chakra-ui/react'
 import { NavLink } from 'Atoms/NavLink'
 import { useEnsAddress } from 'hooks/useEnsAddress'
+import { FEATURE_FLAGS } from 'lib/constants'
+import { AirDropEnded } from './AirdropEnded'
 
 const AirDropContent = () => {
   const [addressInput, setAddressInput] = useState<string>('')
@@ -210,7 +212,5 @@ const AirDropContent = () => {
 }
 
 export const AirDrop = () => (
-  <ClaimProvider>
-    <AirDropContent />
-  </ClaimProvider>
+  <ClaimProvider>{FEATURE_FLAGS.airdrop ? <AirDropContent /> : <AirDropEnded />}</ClaimProvider>
 )
