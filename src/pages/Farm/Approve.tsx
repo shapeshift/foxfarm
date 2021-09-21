@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { formatBaseAmount } from 'utils/math'
 import { TxRejected } from './TxRejected'
 import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
-import { FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE } from 'lib/constants'
+import { MAX_ALLOWANCE } from 'lib/constants'
 import { useApprove } from 'hooks/useApprove'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
 import { useRouteMatch } from 'react-router-dom'
@@ -18,7 +18,7 @@ export const Approve = ({ history }: RouterProps) => {
   const { uniswapLPContract, userLpBalance } = useStaking()
   const approval = useApprove(
     uniswapLPContract,
-    FOX_ETH_FARMING_ADDRESS,
+    params.stakingContractAddress,
     userLpBalance?.toString() as string,
     MAX_ALLOWANCE
   )

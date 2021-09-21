@@ -4,7 +4,7 @@ import { ContractParams, useStaking } from 'state/StakingProvider'
 import { bnOrZero, formatBaseAmount } from 'utils/math'
 import { useMemo } from 'react'
 import { useApprove } from 'hooks/useApprove'
-import { FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE } from 'lib/constants'
+import { MAX_ALLOWANCE } from 'lib/constants'
 import { useHasContractExpired } from 'hooks/useHasContractExpired'
 import { useRouteMatch } from 'react-router-dom'
 
@@ -18,7 +18,7 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
     return formatBaseAmount(userLpBalance ? userLpBalance.toString() : '0', 18)
   }, [userLpBalance])
 
-  const { approved } = useApprove(uniswapLPContract, FOX_ETH_FARMING_ADDRESS, MAX_ALLOWANCE)
+  const { approved } = useApprove(uniswapLPContract, params.stakingContractAddress, MAX_ALLOWANCE)
 
   const handleStakeClick = () => {
     if (!approved)

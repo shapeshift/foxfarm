@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import {
   FOX_ETH_FARMING_ADDRESS,
   FOX_TOKEN_CONTRACT_ADDRESS,
-  UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
   WETH_TOKEN_CONTRACT_ADDRESS
 } from 'lib/constants'
 import { useContract } from './useContract'

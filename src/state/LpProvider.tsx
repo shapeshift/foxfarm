@@ -18,7 +18,6 @@ import { useWallet } from './WalletProvider'
 import {
   FOX_TOKEN_CONTRACT_ADDRESS,
   UNISWAP_V2_ROUTER,
-  UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
   WETH_TOKEN_CONTRACT_ADDRESS
 } from 'lib/constants'
 import { useRouteMatch } from 'react-router'
@@ -202,7 +201,7 @@ interface ILpContext {
   onUserInput: (field: TokenField, amount: any) => void
 }
 
-export type LiquidityParams = { liquidityContractAddress?: string }
+export type LiquidityParams = { liquidityContractAddress: string }
 
 const LpContext = createContext<ILpContext | null>(null)
 
@@ -216,6 +215,7 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { state: wallet } = useWallet()
   const { params } = useRouteMatch<LiquidityParams>()
+
   const uniswapRouter = useContract(
     wallet.provider,
     wallet.account,
@@ -225,7 +225,7 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const lpContract = useContract(
     wallet.provider,
     wallet.account,
-    params.liquidityContractAddress ?? UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    params.liquidityContractAddress,
     IUniswapV2PairABI
   )
   const foxContract = useContract(
@@ -263,10 +263,10 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
   const setRates = useCallback(async () => {
     try {
       const balanceWethPool: BigNumber = await wethContract?.balanceOf(
-        UNISWAP_V2_WETH_FOX_POOL_ADDRESS
+        params.liquidityContractAddress
       )
       const balanceFoxPool: BigNumber = await foxContract?.balanceOf(
-        UNISWAP_V2_WETH_FOX_POOL_ADDRESS
+        params.liquidityContractAddress
       )
       const totalLpSupply: BigNumber = await lpContract?.totalSupply()
       const tokensMinted = bn(toBaseUnit(state.A.amount as string, 18))
@@ -293,7 +293,7 @@ export const LpProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Error fetching rates: ', error)
     }
-  }, [foxContract, lpContract, state.A.amount, wethContract])
+  }, [foxContract, lpContract, params.liquidityContractAddress, state.A.amount, wethContract])
 
   const onUserInput = useCallback(
     (field: TokenField, amount: string) => {

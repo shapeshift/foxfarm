@@ -5,11 +5,7 @@ import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.
 import { bn } from 'utils/math'
 import { BigNumber, Contract } from 'ethers'
 import farmAbi from 'abis/farmingAbi.json'
-import {
-  UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
-  UNISWAP_V2_USDC_ETH_POOL_ADDRESS,
-  FOX_ETH_FARMING_ADDRESS
-} from 'lib/constants'
+import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
 import { getBufferedGas, toHexString } from 'utils/helpers'
 import { useCalculateHoldings } from 'hooks/useCalculateHoldings/useCalculateHoldings'
 import { useRouteMatch } from 'react-router'
@@ -53,7 +49,7 @@ interface StakingContextInterface {
   calculateHoldings: () => Promise<void>
 }
 
-export type ContractParams = LiquidityParams & { stakingContractAddress?: string }
+export type ContractParams = LiquidityParams & { stakingContractAddress: string }
 
 const StakingContext = createContext<StakingContextInterface>(initialContext)
 
@@ -63,11 +59,10 @@ export const StakingProvider = ({ children }: { children: React.ReactNode }) => 
   const [stakeTxID, setStakeTxID] = useState<string | null>(null)
   const { state } = useWallet()
   const { params } = useRouteMatch<ContractParams>()
-
   const uniswapLPContract = useContract(
     state.provider,
     state.account,
-    params.liquidityContractAddress ?? UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    params.liquidityContractAddress,
     IUniswapV2PairABI
   )
 
@@ -81,12 +76,12 @@ export const StakingProvider = ({ children }: { children: React.ReactNode }) => 
   const farmingRewardsContract = useContract(
     state.provider,
     state.account,
-    params?.stakingContractAddress ?? FOX_ETH_FARMING_ADDRESS,
+    params.stakingContractAddress,
     farmAbi
   )
   const { userHoldings, calculateHoldings } = useCalculateHoldings({
-    lpAddress: UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
-    rewardsAddress: FOX_ETH_FARMING_ADDRESS
+    lpAddress: params.liquidityContractAddress,
+    rewardsAddress: params.stakingContractAddress
   })
 
   const stake = useCallback(async () => {

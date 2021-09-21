@@ -6,7 +6,6 @@ import { ContractParams, useStaking } from 'state/StakingProvider'
 import { useApprove } from 'hooks/useApprove'
 import { TxRejected } from './TxRejected'
 import { useFarming } from 'hooks/useFarming'
-import { FOX_ETH_FARMING_ADDRESS } from 'lib/constants'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import { bn } from 'utils/math'
 import { useWallet } from 'state/WalletProvider'
@@ -30,7 +29,7 @@ export const Staking = () => {
   const { push } = useHistory()
   const { approved } = useApprove(
     uniswapLPContract,
-    FOX_ETH_FARMING_ADDRESS,
+    params.stakingContractAddress,
     userLpBalance?.toString() as string
   )
   const {
