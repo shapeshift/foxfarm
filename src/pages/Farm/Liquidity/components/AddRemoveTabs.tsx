@@ -37,7 +37,9 @@ export const AddRemoveTabs = ({ match, history, back }: TabProps) => {
           )
         }
         isActive={
-          match?.path === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/lp-add`
+          match?.url === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/lp-add` ||
+          match?.url ===
+            `/fox-farming/liquidity/${match.params.liquidityContractAddress}/staking/${match.params.stakingContractAddress}/lp-add`
         }
       >
         Add Liquidity
@@ -56,9 +58,9 @@ export const AddRemoveTabs = ({ match, history, back }: TabProps) => {
           )
         }
         isActive={
-          match?.path ===
+          match?.url ===
             `/fox-farming/liquidity/${match.params.liquidityContractAddress}/lp-remove` ||
-          match?.path ===
+          match?.url ===
             `/fox-farming/liquidity/${match.params.liquidityContractAddress}/staking/${match.params.stakingContractAddress}/lp-remove`
         }
       >
