@@ -27,7 +27,7 @@ describe('useCalculateLPHoldings', () => {
       ;(useContract as jest.Mock<unknown>)
         .mockImplementationOnce(() => ({
           totalSupply: jest.fn().mockResolvedValue('237811640779074357101305'),
-          balanceOf: jest.fn().mockResolvedValue('3846733958239020657'),
+          balanceOf: jest.fn().mockResolvedValue(bn('3846733958239020657')),
           getReserves: jest.fn().mockResolvedValue(reserves)
         }))
         .mockImplementationOnce(() => ({
@@ -46,7 +46,7 @@ describe('useCalculateLPHoldings', () => {
       expect(result.current.ethPriceUsdc).toBe('3028.58577941402245763707')
       expect(result.current.userEthHoldings).toBe('45558255891442583')
       expect(result.current.userFoxHoldings).toBe('391974984068728436394')
-      expect(result.current.userLpBalance).toBe('3846733958239020657')
+      expect(result.current.userLpBalance?.toString()).toBe('3846733958239020657')
       expect(result.current.totalSupply).toBe('237811640779074357101305')
       expect(result.current.reserves).toEqual(reserves)
     })
@@ -62,7 +62,7 @@ describe('useCalculateLPHoldings', () => {
       expect(result.current.ethPriceUsdc).toBe('0')
       expect(result.current.userEthHoldings).toBe('0')
       expect(result.current.userFoxHoldings).toBe('0')
-      expect(result.current.userLpBalance).toBe('0')
+      expect(result.current.userLpBalance?.toString()).toBe('0')
       expect(result.current.totalSupply).toBe('0')
       expect(result.current.reserves).toBeUndefined()
     })
