@@ -81,8 +81,20 @@ export const Add = ({ history, match, location }: LiquidityRouteProps) => {
 
   useEffect(() => {
     if (!lpState.confirming && lpState.lpTxHash)
-      history.push(`/fox-farming/liquidity/${match.params.liquidityContractAddress}/pending`)
-  }, [history, lpState.confirming, lpState.lpTxHash, match.params.liquidityContractAddress])
+      history.push(
+        lpUrlFormatter(
+          'lp-pending',
+          match.params.liquidityContractAddress,
+          match.params.stakingContractAddress
+        )
+      )
+  }, [
+    history,
+    lpState.confirming,
+    lpState.lpTxHash,
+    match.params.liquidityContractAddress,
+    match.params.stakingContractAddress
+  ])
 
   useEffect(() => {
     onUserInput(TokenField.A, '')

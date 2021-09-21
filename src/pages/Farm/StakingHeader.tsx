@@ -6,6 +6,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom'
 import { formatBaseAmount } from 'utils/math'
 import { bnOrZero } from 'utils/math'
 import { ContractParams } from 'state/StakingProvider'
+import { lpUrlFormatter } from 'utils/helpers'
 
 type WalletColProps = ButtonProps & {
   label: string
@@ -96,9 +97,16 @@ export const StakingHeader = ({
           color='primary'
           fontSize='sm'
           onClick={() =>
-            history.push(`/fox-farming/liquidity/${params.liquidityContractAddress}/add`, {
-              back: true
-            })
+            history.push(
+              lpUrlFormatter(
+                'lp-add',
+                params.liquidityContractAddress,
+                params.stakingContractAddress
+              ),
+              {
+                back: true
+              }
+            )
           }
           mt={6}
         >

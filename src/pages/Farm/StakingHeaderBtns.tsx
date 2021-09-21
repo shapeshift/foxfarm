@@ -26,7 +26,7 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
         `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}/approve`
       )
     if (bnOrZero(unstakedLpBalance).gt(0) && approved) return stake()
-    push(`/fox-farming/liquidity/${params.liquidityContractAddress}/add`)
+    push(`/fox-farming/liquidity/${params.liquidityContractAddress}/lp-add`)
   }
 
   return (

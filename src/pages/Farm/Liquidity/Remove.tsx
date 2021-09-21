@@ -34,7 +34,7 @@ import { useCalculateLPHoldings } from 'hooks/useCalculateLPHoldings/useCalculat
 
 export type LiquidityRouteProps = RouteComponentProps & {
   location?: { state?: { back?: boolean } }
-  match?: { params?: { liquidityContractAddress: string } }
+  match?: { params?: { liquidityContractAddress: string; stakingContractAddress?: string } }
 }
 
 export const Remove = ({ match, history, location }: LiquidityRouteProps) => {

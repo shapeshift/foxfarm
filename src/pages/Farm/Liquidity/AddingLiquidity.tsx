@@ -8,6 +8,7 @@ import { ViewOnChainLink } from 'Molecules/ViewOnChainLink'
 import { TxStatus, usePendingTx } from 'hooks/usePendingTx'
 import { ContractParams } from 'state/StakingProvider'
 import { useRouteMatch } from 'react-router-dom'
+import { lpUrlFormatter } from 'utils/helpers'
 
 export const AddingLiquidity = ({ history }: RouterProps) => {
   const { state: lpState, dispatch } = useLp()
@@ -24,7 +25,9 @@ export const AddingLiquidity = ({ history }: RouterProps) => {
       )
     }
     if (pendingState === TxStatus.UNKNOWN && !ignore && !lpState.lpTxHash) {
-      history.push(`/fox-farming/liquidity/${params.liquidityContractAddress}/add`)
+      history.push(
+        lpUrlFormatter('lp-add', params.liquidityContractAddress, params.stakingContractAddress)
+      )
     }
     return () => {
       ignore = true

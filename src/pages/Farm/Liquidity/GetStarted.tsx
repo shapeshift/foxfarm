@@ -5,6 +5,7 @@ import { GetStartedCountDown } from '../CountDown'
 import { useFarming } from 'hooks/useFarming'
 import { Card } from 'components/Card/Card'
 import { LiquidityRouteProps } from './Remove'
+import { lpUrlFormatter } from 'utils/helpers'
 
 const EARNING_STEPS = [
   'Deposit FOX and ETH into the FOX-ETH liquidity pool on Uniswap v2.',
@@ -61,7 +62,13 @@ export const GetStarted = ({ history, match }: LiquidityRouteProps) => {
             mt={6}
             size='lg'
             onClick={() => {
-              history.push(`/fox-farming/liquidity/${match.params.liquidityContractAddress}/add`)
+              history.push(
+                lpUrlFormatter(
+                  'lp-add',
+                  match.params.liquidityContractAddress,
+                  match.params.stakingContractAddress
+                )
+              )
             }}
           >
             Provide Liquidity

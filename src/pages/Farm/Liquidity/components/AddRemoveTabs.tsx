@@ -1,5 +1,6 @@
 import { Button, ButtonProps, Flex } from '@chakra-ui/react'
 import { RouteChildrenProps } from 'react-router-dom'
+import { lpUrlFormatter } from 'utils/helpers'
 import { LiquidityRouteProps } from '../Remove'
 
 const TabButton = ({ ...props }: ButtonProps) => {
@@ -24,12 +25,19 @@ export const AddRemoveTabs = ({ match, history, back }: TabProps) => {
     <Flex mx='auto' maxW='400px' borderRadius='30' bg='gray.100' mb='6'>
       <TabButton
         onClick={() =>
-          history?.replace(`/fox-farming/liquidity/${match.params.liquidityContractAddress}/add`, {
-            back
-          })
+          history?.replace(
+            lpUrlFormatter(
+              'lp-add',
+              match.params.liquidityContractAddress,
+              match.params.stakingContractAddress
+            ),
+            {
+              back
+            }
+          )
         }
         isActive={
-          match?.path === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/add`
+          match?.path === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/lp-add`
         }
       >
         Add Liquidity
@@ -37,14 +45,21 @@ export const AddRemoveTabs = ({ match, history, back }: TabProps) => {
       <TabButton
         onClick={() =>
           history?.replace(
-            `/fox-farming/liquidity/${match.params.liquidityContractAddress}/remove`,
+            lpUrlFormatter(
+              'lp-remove',
+              match.params.liquidityContractAddress,
+              match.params.stakingContractAddress
+            ),
             {
               back
             }
           )
         }
         isActive={
-          match?.path === `/fox-farming/liquidity/${match.params.liquidityContractAddress}/remove`
+          match?.path ===
+            `/fox-farming/liquidity/${match.params.liquidityContractAddress}/lp-remove` ||
+          match?.path ===
+            `/fox-farming/liquidity/${match.params.liquidityContractAddress}/staking/${match.params.stakingContractAddress}/lp-remove`
         }
       >
         Remove Liquidity
