@@ -6,6 +6,7 @@ import { useWallet } from 'state/WalletProvider'
 import { Pending } from './components/Pending'
 import { Success } from './components/Success'
 import { Failed } from './components/Failed'
+import { FOX_ETH_FARMING_ADDRESS, UNISWAP_V2_WETH_FOX_POOL_ADDRESS } from 'lib/constants'
 
 enum ClaimStatus {
   PENDING = 'PENDING',
@@ -22,7 +23,10 @@ export const Status = ({
   foxPrice: string | null
   usdValue: string | null
 }) => {
-  const { totalApr } = useFarming()
+  const { totalApr } = useFarming({
+    lpContract: UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    stakingContract: FOX_ETH_FARMING_ADDRESS
+  })
   const { state } = useClaim()
   const { state: wallet } = useWallet()
   const blockNumber = useBlockListeners()

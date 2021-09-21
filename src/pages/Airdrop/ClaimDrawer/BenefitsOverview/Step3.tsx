@@ -1,9 +1,13 @@
 import { Heading, Text, Button, Box, Image } from '@chakra-ui/react'
 import Src from 'assets/img/farming.png'
 import { useFarming } from 'hooks/useFarming'
+import { FOX_ETH_FARMING_ADDRESS, UNISWAP_V2_WETH_FOX_POOL_ADDRESS } from 'lib/constants'
 import { RouterProps } from 'react-router'
 export const Step3 = ({ history }: RouterProps) => {
-  const { totalApr } = useFarming()
+  const { totalApr } = useFarming({
+    lpContract: UNISWAP_V2_WETH_FOX_POOL_ADDRESS,
+    stakingContract: FOX_ETH_FARMING_ADDRESS
+  })
   return (
     <Box pb={8} display='flex' flexDir='column' height='100%'>
       <Image src={Src} width='100%' />

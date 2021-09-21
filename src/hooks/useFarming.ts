@@ -16,6 +16,7 @@ import { useBlockListeners } from 'hooks/useBlockListeners'
 import BigNumber from 'bignumber.js'
 import { useRouteMatch } from 'react-router'
 import { LiquidityParams } from 'state/LpProvider'
+import { ContractParams } from 'state/StakingProvider'
 
 type Farming = {
   farmApr: string
@@ -172,22 +173,32 @@ export const farmingAPR = async (
   }
 }
 
-export function useFarming(): Farming {
+type UseFarming = {
+  lpContract?: string
+  stakingContract?: string
+}
+
+export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Farming {
   const [farmApr, setFarmApr] = useState('0')
   const [lpApr, setLpApr] = useState('0')
   const [totalApr, setTotalApr] = useState('0')
   const provider = useActiveProvider()
   const blockNumber = useBlockListeners()
-  const { params } = useRouteMatch<LiquidityParams>()
+  const { params } = useRouteMatch<ContractParams>()
   const uniswapLPContract = useContract(
     provider,
     null,
-    params.liquidityContractAddress,
+    lpContract ?? params.liquidityContractAddress,
     IUniswapV2PairABI
   )
 
   // We dont have the fox eth farming address to help calculate farming apr at this point and time.
-  const farmingRewardsContract = useContract(provider, null, FOX_ETH_FARMING_ADDRESS, farmAbi)
+  const farmingRewardsContract = useContract(
+    provider,
+    null,
+    stakingContract ?? params.stakingContractAddress,
+    farmAbi
+  )
 
   useEffect(() => {
     void (async () => {
