@@ -17,7 +17,7 @@ import {
 type AprLabelProps = {
   popoverProps?: PopoverProps
   isEnded?: boolean
-  apr: number
+  apr: string
   periodFinish?: number
 } & TagProps
 
