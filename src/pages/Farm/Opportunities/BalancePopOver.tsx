@@ -40,11 +40,11 @@ export const BalancePopOver = ({
           <Stack>
             <Flex width='full' justifyContent='space-between'>
               <Text color='gray.500'>Pool Value</Text>
-              <Text>${bnOrZero(userHoldingsValue).plus(bnOrZero(fiatAmount)).toFixed(2)}</Text>
+              <Text>${bnOrZero(userHoldingsValue).plus(bnOrZero(fiatAmount)).toFixed(5)}</Text>
             </Flex>
             <Flex width='full' justifyContent='space-between'>
               <Text color='gray.500'>Rewards</Text>
-              <Text>${bnOrZero(fiatAmount).toFixed(2)}</Text>
+              <Text>${bnOrZero(fiatAmount).toFixed(5)}</Text>
             </Flex>
           </Stack>
         </PopoverBody>

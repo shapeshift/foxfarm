@@ -109,7 +109,9 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
         <Text>$21.85m</Text>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Tag colorScheme='purple'>Ethereum</Tag>
+        <Tag colorScheme='purple' textTransform='capitalize'>
+          {contract.network}
+        </Tag>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
