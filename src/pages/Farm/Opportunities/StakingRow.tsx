@@ -9,13 +9,6 @@ import {
   Button,
   Flex,
   Box,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  PopoverArrow,
-  Stack,
   useColorModeValue
 } from '@chakra-ui/react'
 import { AprLabel } from './AprLabel'
@@ -25,6 +18,7 @@ import { useCalculateHoldings } from 'hooks/useCalculateHoldings/useCalculateHol
 import { useHistory } from 'react-router'
 import { useWallet } from 'state/WalletProvider'
 import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
+import { BalancePopOver } from './BalancePopOver'
 
 type StakingRowProps = {
   contract: StakingContractProps
@@ -43,6 +37,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
   const userHoldingsValue = useUserFriendlyAmount(userHoldings?.totalUsdcValueStakedAndLp)
   const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance)
   const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance?.toString())
+  const foxAmount = useUserFriendlyAmount(userHoldings?.userUnclaimedRewards?.toString())
 
   const handleGetStarted = () => {
     const stakedBalance = bnOrZero(userStakedBalance).toNumber()
@@ -125,27 +120,11 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>
         {Number(userHoldingsValue) > 0 ? (
-          <Popover placement='top-start' trigger='hover'>
-            <PopoverTrigger>
-              <Text>${userHoldingsValue}</Text>
-            </PopoverTrigger>
-            <PopoverContent maxWidth='250px'>
-              <PopoverArrow />
-              <PopoverHeader fontWeight='bold'>Balance</PopoverHeader>
-              <PopoverBody>
-                <Stack>
-                  <Flex width='full' justifyContent='space-between'>
-                    <Text color='gray.500'>Pool Value</Text>
-                    <Text>$4,125.40</Text>
-                  </Flex>
-                  <Flex width='full' justifyContent='space-between'>
-                    <Text color='gray.500'>Rewards</Text>
-                    <Text>$1,000.00</Text>
-                  </Flex>
-                </Stack>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
+          <BalancePopOver
+            foxAmount={foxAmount}
+            userHoldingsValue={userHoldingsValue}
+            contractAddress={contract.contractAddress}
+          />
         ) : (
           '-'
         )}
