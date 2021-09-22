@@ -25,6 +25,9 @@ import { useCalculateHoldings } from 'hooks/useCalculateHoldings/useCalculateHol
 import { useHistory } from 'react-router'
 import { useWallet } from 'state/WalletProvider'
 import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
+import { useFarming } from 'hooks/useFarming'
+import { useCalculateFarmingDeposits } from './hooks/useCalculateFarmingDeposits'
+import { numberFormatter } from 'utils/helpers'
 
 type StakingRowProps = {
   contract: StakingContractProps
@@ -33,6 +36,15 @@ type StakingRowProps = {
 export const StakingRow = ({ contract }: StakingRowProps) => {
   const { push } = useHistory()
   const { state, connect } = useWallet()
+  const { farmApr } = useFarming({
+    lpContract: contract.pool.contractAddress,
+    stakingContract: contract.contractAddress
+  })
+  const { totalDeposited } = useCalculateFarmingDeposits(
+    contract.contractAddress,
+    contract.pool.contractAddress
+  )
+
   const bg = useColorModeValue('gray.100', 'gray.750')
   const isEnded = useHasContractExpired(contract.contractAddress)
   const { userHoldings } = useCalculateHoldings({
@@ -43,6 +55,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
   const userHoldingsValue = useUserFriendlyAmount(userHoldings?.totalUsdcValueStakedAndLp)
   const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance)
   const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance?.toString())
+  const totalStakedInContract = useUserFriendlyAmount(totalDeposited)
 
   const handleGetStarted = () => {
     const stakedBalance = bnOrZero(userStakedBalance).toNumber()
@@ -98,7 +111,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
               {contract.owner}
             </Text>
             <AprLabel
-              apr={1.25}
+              apr={farmApr}
               isEnded={isEnded}
               periodFinish={contract.periodFinish}
               size='sm'
@@ -108,10 +121,10 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <AprLabel apr={1.25} isEnded={isEnded} periodFinish={contract.periodFinish} />
+        <AprLabel apr={farmApr} isEnded={isEnded} periodFinish={contract.periodFinish} />
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Text>$21.85m</Text>
+        <Text>${numberFormatter(bnOrZero(totalStakedInContract).toNumber(), 2)}</Text>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Tag colorScheme='purple'>Ethereum</Tag>
