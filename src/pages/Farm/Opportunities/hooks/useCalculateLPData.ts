@@ -1,5 +1,6 @@
 import { useWallet } from 'state/WalletProvider'
 import { useContract } from 'hooks/useContract'
+import { useActiveProvider } from 'hooks/useActiveProvider'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
 import { useCallback, useEffect, useState } from 'react'
@@ -11,16 +12,12 @@ export const useCalculateLPData = (lpContractAddress: string) => {
     lpTokenPrice: '0'
   })
   const { state } = useWallet()
+  const provider = useActiveProvider()
 
-  const lpContract = useContract(
-    state.provider,
-    state.account,
-    lpContractAddress,
-    IUniswapV2PairABI
-  )
+  const lpContract = useContract(provider, state.account, lpContractAddress, IUniswapV2PairABI)
 
   const usdcEthContract = useContract(
-    state.provider,
+    provider,
     state.account,
     UNISWAP_V2_USDC_ETH_POOL_ADDRESS,
     IUniswapV2PairABI
@@ -53,10 +50,10 @@ export const useCalculateLPData = (lpContractAddress: string) => {
   }, [lpContract, usdcEthContract])
 
   useEffect(() => {
-    if (lpContract && usdcEthContract && state.blockNumber && state.account) {
+    if (lpContract && usdcEthContract) {
       calculateLPData()
     }
-  }, [calculateLPData, state.account, state.blockNumber, usdcEthContract, lpContract])
+  }, [calculateLPData, usdcEthContract, lpContract])
 
   return lpData
 }

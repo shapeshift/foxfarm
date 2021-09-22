@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { bnOrZero } from 'utils/math'
 import { useCalculateLPData } from './useCalculateLPData'
 import { useContract } from 'hooks/useContract'
+import { useActiveProvider } from 'hooks/useActiveProvider'
 
 export const useCalculateFarmingDeposits = (
   stakingContractAddress: string,
@@ -11,13 +12,9 @@ export const useCalculateFarmingDeposits = (
 ) => {
   const [amount, setFarmingData] = useState({ totalDeposited: '0' })
   const { state } = useWallet()
+  const provider = useActiveProvider()
 
-  const stakingContract = useContract(
-    state.provider,
-    state.account,
-    stakingContractAddress,
-    farmAbi
-  )
+  const stakingContract = useContract(provider, state.account, stakingContractAddress, farmAbi)
 
   const { lpTokenPrice } = useCalculateLPData(lpContractAddress)
 
@@ -33,10 +30,10 @@ export const useCalculateFarmingDeposits = (
   }, [stakingContract, lpTokenPrice])
 
   useEffect(() => {
-    if (stakingContract && state.blockNumber && state.account) {
+    if (stakingContract) {
       calculateAmount()
     }
-  }, [calculateAmount, state.account, state.blockNumber, stakingContract])
+  }, [calculateAmount, stakingContract])
 
   return amount
 }
