@@ -6,7 +6,7 @@ import { UNISWAP_V2_USDC_ETH_POOL_ADDRESS } from 'lib/constants'
 import { useCallback, useEffect, useState } from 'react'
 import { bn, bnOrZero, fromBaseUnit } from 'utils/math'
 
-export const useCalculateLPData = (lpContractAddress: string) => {
+export const useCalculateLPDeposits = (lpContractAddress: string) => {
   const [lpData, setLPData] = useState({
     totalLiquidity: '0',
     lpTokenPrice: '0'

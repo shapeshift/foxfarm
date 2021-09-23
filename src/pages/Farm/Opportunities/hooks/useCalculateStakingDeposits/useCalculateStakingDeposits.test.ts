@@ -1,20 +1,19 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { useWallet } from 'state/WalletProvider'
 import { useContract } from 'hooks/useContract'
-import { useCalculateLPData } from '../useCalculateLPData'
+import { useCalculateLPDeposits } from '../useCalculateLPDeposits/useCalculateLPDeposits'
 import { useCalculateStakingDeposits } from './useCalculateStakingDeposits'
-import { bn } from 'utils/math'
 
 jest.mock('state/WalletProvider')
 jest.mock('hooks/useContract')
 jest.mock('hooks/useActiveProvider')
-jest.mock('../useCalculateLPData')
+jest.mock('../useCalculateLPDeposits')
 
 const setup = () => {
   ;(useWallet as jest.Mock<unknown>).mockImplementation(() => ({
     state: { account: 'account' }
   }))
-  ;(useCalculateLPData as jest.Mock<unknown>).mockImplementation(() => ({
+  ;(useCalculateLPDeposits as jest.Mock<unknown>).mockImplementation(() => ({
     lpTokenPrice: '72'
   }))
 

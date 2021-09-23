@@ -2,7 +2,7 @@ import { useWallet } from 'state/WalletProvider'
 import farmAbi from 'abis/farmingAbi.json'
 import { useCallback, useEffect, useState } from 'react'
 import { bnOrZero } from 'utils/math'
-import { useCalculateLPData } from '../useCalculateLPData'
+import { useCalculateLPDeposits } from '../useCalculateLPDeposits/useCalculateLPDeposits'
 import { useContract } from 'hooks/useContract'
 import { useActiveProvider } from 'hooks/useActiveProvider'
 
@@ -16,7 +16,7 @@ export const useCalculateStakingDeposits = (
 
   const stakingContract = useContract(provider, state.account, stakingContractAddress, farmAbi)
 
-  const { lpTokenPrice } = useCalculateLPData(lpContractAddress)
+  const { lpTokenPrice } = useCalculateLPDeposits(lpContractAddress)
 
   const calculateAmount = useCallback(async () => {
     if (stakingContract) {
