@@ -3,6 +3,7 @@ import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 import { Web3Provider, InfuraProvider } from '@ethersproject/providers'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { bufferGas } from './math'
+import { PoolProps, StakingContractProps } from 'lib/constants'
 
 // checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -82,6 +83,24 @@ export const lpUrlFormatter = (route?: string, lpAddress?: string, stakingAddres
     return `/fox-farming/liquidity/${lpAddress}/staking/${stakingAddress}/${route}`
   }
   return `/fox-farming/liquidity/${lpAddress}/${route}`
+}
+
+export const supportedContractsPath = (arr: StakingContractProps[] | PoolProps[]) => {
+  let allowed = ''
+  arr.forEach(({ contractAddress }, index) => {
+    if (arr.length === 0) {
+      allowed = ''
+    } else if (arr.length === 1) {
+      allowed = `(${contractAddress})`
+    } else if (index === 0) {
+      allowed = `(${contractAddress}`
+    } else if (index === arr.length - 1) {
+      allowed = `${allowed}|${contractAddress})`
+    } else {
+      allowed = `${allowed}|${contractAddress}`
+    }
+  })
+  return allowed
 }
 
 export function numberFormatter(num: number, digits: number) {

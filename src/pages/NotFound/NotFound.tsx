@@ -1,12 +1,20 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/layout'
+import { Heading, Text } from '@chakra-ui/layout'
+import { Card } from 'components/Card/Card'
 
 export const NotFound = () => {
   return (
-    <Flex minHeight='100vh' alignItems='center' justifyContent='center'>
-      <Box maxWidth='300px' textAlign='center'>
+    <Card
+      minHeight='250px'
+      alignItems='center'
+      justifyContent='center'
+      maxWidth='350px'
+      textAlign='center'
+      display='flex'
+    >
+      <Card.Body>
         <Heading as='h1'>404</Heading>
         <Text>The page you're looking for cannot be found</Text>
-      </Box>
-    </Flex>
+      </Card.Body>
+    </Card>
   )
 }
