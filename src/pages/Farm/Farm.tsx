@@ -8,8 +8,16 @@ import { LayoutCard } from 'Atoms/LayoutCard'
 import { Opportunities } from './Opportunities'
 import { LiquidityRoutes } from './Liquidity/LiquidityRoutes'
 import { APRFluctuates } from './APRFluctuates'
+import { useMemo } from 'react'
+import { supportedContractsPath } from 'utils/helpers'
+import { poolContracts } from 'lib/constants'
+import { NotFound } from 'pages/NotFound/NotFound'
 
 export const Farm = () => {
+  const supportedContracts = useMemo(() => {
+    return supportedContractsPath(poolContracts)
+  }, [])
+
   return (
     <Layout>
       <Hero>
@@ -33,9 +41,10 @@ export const Farm = () => {
           <Switch>
             <Route exact path='/fox-farming' component={Opportunities} />
             <Route
-              path='/fox-farming/liquidity/:liquidityContractAddress'
+              path={`/fox-farming/liquidity/:liquidityContractAddress${supportedContracts}`}
               component={LiquidityRoutes}
             />
+            <Route component={NotFound} />
           </Switch>
         </LayoutCard>
         <Route exact path='/fox-farming'>
