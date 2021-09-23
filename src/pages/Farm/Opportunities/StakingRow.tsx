@@ -26,7 +26,7 @@ import { useHistory } from 'react-router'
 import { useWallet } from 'state/WalletProvider'
 import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
 import { useFarming } from 'hooks/useFarming'
-import { useCalculateFarmingDeposits } from './hooks/useCalculateFarmingDeposits'
+import { useCalculateStakingDeposits } from './hooks/useCalculateStakingDeposits/useCalculateStakingDeposits'
 import { numberFormatter } from 'utils/helpers'
 
 type StakingRowProps = {
@@ -40,7 +40,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
     lpContract: contract.pool.contractAddress,
     stakingContract: contract.contractAddress
   })
-  const { totalDeposited } = useCalculateFarmingDeposits(
+  const { totalDeposited } = useCalculateStakingDeposits(
     contract.contractAddress,
     contract.pool.contractAddress
   )

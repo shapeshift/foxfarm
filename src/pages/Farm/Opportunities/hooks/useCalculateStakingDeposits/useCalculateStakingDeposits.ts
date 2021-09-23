@@ -2,11 +2,11 @@ import { useWallet } from 'state/WalletProvider'
 import farmAbi from 'abis/farmingAbi.json'
 import { useCallback, useEffect, useState } from 'react'
 import { bnOrZero } from 'utils/math'
-import { useCalculateLPData } from './useCalculateLPData'
+import { useCalculateLPData } from '../useCalculateLPData'
 import { useContract } from 'hooks/useContract'
 import { useActiveProvider } from 'hooks/useActiveProvider'
 
-export const useCalculateFarmingDeposits = (
+export const useCalculateStakingDeposits = (
   stakingContractAddress: string,
   lpContractAddress: string
 ) => {
