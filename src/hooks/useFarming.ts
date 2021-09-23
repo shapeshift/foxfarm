@@ -202,7 +202,7 @@ export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Fa
           return null
         }
         const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
-        setFarmApr(apr)
+        setFarmApr(Number(apr) === Infinity ? '0' : apr)
         const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
         setLpApr(lpApr)
         setTotalApr(new BigNumber(apr).plus(lpApr).toString())
