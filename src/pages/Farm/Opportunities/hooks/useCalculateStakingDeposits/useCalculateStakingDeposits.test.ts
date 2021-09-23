@@ -7,7 +7,7 @@ import { useCalculateStakingDeposits } from './useCalculateStakingDeposits'
 jest.mock('state/WalletProvider')
 jest.mock('hooks/useContract')
 jest.mock('hooks/useActiveProvider')
-jest.mock('../useCalculateLPDeposits')
+jest.mock('../useCalculateLPDeposits/useCalculateLPDeposits')
 
 const setup = () => {
   ;(useWallet as jest.Mock<unknown>).mockImplementation(() => ({
