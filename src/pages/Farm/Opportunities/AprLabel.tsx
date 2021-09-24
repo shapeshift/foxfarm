@@ -13,6 +13,7 @@ import {
   TagLabel,
   TagLeftIcon
 } from '@chakra-ui/react'
+import { bnOrZero } from 'utils/math'
 
 type AprLabelProps = {
   popoverProps?: PopoverProps
@@ -42,7 +43,7 @@ export const AprLabel = ({ popoverProps, isEnded, periodFinish, apr, ...rest }: 
     </Popover>
   ) : (
     <Tag colorScheme='green' {...rest}>
-      {`${apr}%`}
+      {`${bnOrZero(apr).toFixed(2)}%`}
     </Tag>
   )
 }
