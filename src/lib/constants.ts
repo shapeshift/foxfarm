@@ -14,7 +14,9 @@ export const MAX_ALLOWANCE = '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 export const COUNT_DOWN_TIME = 1626447600 * 1000 // July 16 2021 9am MST
 
 export const FEATURE_FLAGS = {
-  airdrop: true
+  airdrop: true,
+  ethFoxStakingV1: true,
+  ethFoxStakingV2: true
 }
 
 type TokenProps = {
@@ -72,6 +74,7 @@ export type StakingContractProps = {
   periodFinish: number
   balance: number
   rewards: TokenProps[]
+  enabled?: boolean
 }
 
 export const stakingContracts = [
@@ -88,7 +91,8 @@ export const stakingContracts = [
         symbol: 'FOX',
         icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
       }
-    ]
+    ],
+    enabled: FEATURE_FLAGS.ethFoxStakingV1
   },
   {
     name: 'ETH-FOX V2',
@@ -105,6 +109,7 @@ export const stakingContracts = [
         symbol: 'FOX',
         icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
       }
-    ]
+    ],
+    enabled: FEATURE_FLAGS.ethFoxStakingV2
   }
 ] as StakingContractProps[]
