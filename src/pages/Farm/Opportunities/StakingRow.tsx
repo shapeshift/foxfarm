@@ -83,7 +83,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
     )
   }
 
-  if (!contract.enabled || (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0)) return null
+  if (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0) return null
 
   return (
     <Tr _hover={{ bg }}>
