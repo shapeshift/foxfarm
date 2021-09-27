@@ -176,7 +176,6 @@ type UseFarming = {
 export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Farming {
   const [farmApr, setFarmApr] = useState('0')
   const [lpApr, setLpApr] = useState('0')
-  const [totalApr, setTotalApr] = useState('0')
   const provider = useActiveProvider()
   const blockNumber = useBlockListeners()
   const { params } = useRouteMatch<ContractParams>()
@@ -198,14 +197,14 @@ export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Fa
   useEffect(() => {
     void (async () => {
       try {
-        if (!farmingRewardsContract || !uniswapLPContract || !provider || !blockNumber) {
-          return null
+        if (uniswapLPContract && farmingRewardsContract && provider && blockNumber) {
+          const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
+          setFarmApr(Number(apr) === Infinity ? '0' : apr)
         }
-        const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
-        setFarmApr(Number(apr) === Infinity ? '0' : apr)
-        const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
-        setLpApr(lpApr)
-        setTotalApr(new BigNumber(apr).plus(lpApr).toString())
+        if (uniswapLPContract && provider && blockNumber) {
+          const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
+          setLpApr(lpApr)
+        }
       } catch (error) {
         console.error(error)
       }
@@ -215,6 +214,6 @@ export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Fa
   return {
     farmApr,
     lpApr,
-    totalApr
+    totalApr: new BigNumber(farmApr).plus(lpApr).toString()
   }
 }
