@@ -52,7 +52,11 @@ export const Opportunities = () => {
           </Thead>
           <Tbody>
             {stakingContracts.map(contract => {
-              return <StakingRow key={contract.contractAddress} contract={contract} />
+              return (
+                contract.enabled && (
+                  <StakingRow key={contract.contractAddress} contract={contract} />
+                )
+              )
             })}
           </Tbody>
         </Table>
