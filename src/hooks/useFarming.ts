@@ -31,18 +31,15 @@ const getToken0Volume24Hr = async ({ blockNumber, uniswapLPContract }: any) => {
     currentBlockNumber
   )
 
-  const token0SwapAmounts = events.map(
-    (event: { args: { amount0In: BN; amount0Out: BN } }) =>
-      Number(event.args.amount0In)
-        ? bn(event.args.amount0In.toString())
-        : bn(event.args.amount0Out.toString())
-            .div(bn(1).minus(TRADING_FEE_RATE)) // Since these are outbound txs, this corrects the value to include trading fees taken out.
-            .decimalPlaces(0)
+  const token0SwapAmounts = events.map((event: { args: { amount0In: BN; amount0Out: BN } }) =>
+    Number(event.args.amount0In)
+      ? bn(event.args.amount0In.toString())
+      : bn(event.args.amount0Out.toString())
+          .div(bn(1).minus(TRADING_FEE_RATE)) // Since these are outbound txs, this corrects the value to include trading fees taken out.
+          .decimalPlaces(0)
   )
 
-  const token0Volume24hr = token0SwapAmounts.reduce((a: BN, b: BN) =>
-    bn(a).plus(b)
-  )
+  const token0Volume24hr = token0SwapAmounts.reduce((a: BN, b: BN) => bn(a).plus(b))
   return token0Volume24hr.decimalPlaces(0).valueOf()
 }
 
