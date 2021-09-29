@@ -1,15 +1,14 @@
 import { Contract } from '@ethersproject/contracts'
 import { InfuraProvider, Web3Provider } from '@ethersproject/providers'
-import { bn } from 'utils/math'
+import { BN, bn } from 'utils/math'
 import { Token, Fetcher } from '@uniswap/sdk'
 import farmAbi from 'abis/farmingAbi.json'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FOX_TOKEN_CONTRACT_ADDRESS, WETH_TOKEN_CONTRACT_ADDRESS } from 'lib/constants'
 import { useContract } from './useContract'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { useActiveProvider } from './useActiveProvider'
 import { useBlockListeners } from 'hooks/useBlockListeners'
-import BigNumber from 'bignumber.js'
 import { useRouteMatch } from 'react-router'
 import { ContractParams } from 'state/StakingProvider'
 
@@ -33,16 +32,16 @@ const getToken0Volume24Hr = async ({ blockNumber, uniswapLPContract }: any) => {
   )
 
   const token0SwapAmounts = events.map(
-    (event: { args: { amount0In: BigNumber.Value; amount0Out: BigNumber.Value } }) =>
+    (event: { args: { amount0In: BN; amount0Out: BN } }) =>
       Number(event.args.amount0In)
-        ? new BigNumber(event.args.amount0In.toString())
-        : new BigNumber(event.args.amount0Out.toString())
-            .div(new BigNumber(1).minus(TRADING_FEE_RATE)) // Since these are outbound txs, this corrects the value to include trading fees taken out.
+        ? bn(event.args.amount0In.toString())
+        : bn(event.args.amount0Out.toString())
+            .div(bn(1).minus(TRADING_FEE_RATE)) // Since these are outbound txs, this corrects the value to include trading fees taken out.
             .decimalPlaces(0)
   )
 
-  const token0Volume24hr = token0SwapAmounts.reduce((a: BigNumber.Value, b: BigNumber.Value) =>
-    new BigNumber(a).plus(b)
+  const token0Volume24hr = token0SwapAmounts.reduce((a: BN, b: BN) =>
+    bn(a).plus(b)
   )
   return token0Volume24hr.decimalPlaces(0).valueOf()
 }
@@ -58,11 +57,11 @@ const calculateAPRFromToken0 = async ({
     uniswapLPContract
   })
 
-  const token0PoolReservesEquivalent = new BigNumber(token0Reserves.toFixed())
+  const token0PoolReservesEquivalent = bn(token0Reserves.toFixed())
     .times(2) // Double to get equivalent of both sides of pool
-    .times(new BigNumber(10).pow(token0Decimals))
+    .times(bn(10).pow(token0Decimals))
 
-  const estimatedAPR = new BigNumber(token0Volume24Hr) // 24hr volume in terms of token0
+  const estimatedAPR = bn(token0Volume24Hr) // 24hr volume in terms of token0
     .div(token0PoolReservesEquivalent) // Total value (both sides) of pool reserves in terms of token0
     .times(TRADING_FEE_RATE) // Trading fee rate of pool
     .times(365.25) // Days in a year
@@ -176,7 +175,6 @@ type UseFarming = {
 export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Farming {
   const [farmApr, setFarmApr] = useState('0')
   const [lpApr, setLpApr] = useState('0')
-  const [totalApr, setTotalApr] = useState('0')
   const provider = useActiveProvider()
   const blockNumber = useBlockListeners()
   const { params } = useRouteMatch<ContractParams>()
@@ -198,19 +196,21 @@ export function useFarming({ lpContract, stakingContract }: UseFarming = {}): Fa
   useEffect(() => {
     void (async () => {
       try {
-        if (!farmingRewardsContract || !uniswapLPContract || !provider || !blockNumber) {
-          return null
+        if (uniswapLPContract && farmingRewardsContract && provider && blockNumber) {
+          const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
+          setFarmApr(Number(apr) === Infinity ? '0' : apr)
         }
-        const apr = await farmingAPR(farmingRewardsContract, uniswapLPContract, provider)
-        setFarmApr(Number(apr) === Infinity ? '0' : apr)
-        const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
-        setLpApr(lpApr)
-        setTotalApr(new BigNumber(apr).plus(lpApr).toString())
+        if (uniswapLPContract && provider && blockNumber) {
+          const lpApr = await lpAPR(uniswapLPContract, provider, blockNumber)
+          setLpApr(lpApr)
+        }
       } catch (error) {
         console.error(error)
       }
     })()
   }, [farmingRewardsContract, uniswapLPContract, provider, blockNumber])
+
+  const totalApr = useMemo(() => bn(farmApr).plus(lpApr).toString(), [farmApr, lpApr])
 
   return {
     farmApr,
