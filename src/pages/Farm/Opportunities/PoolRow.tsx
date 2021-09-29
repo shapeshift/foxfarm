@@ -34,9 +34,9 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
   })
   const { totalLiquidity, lpTokenPrice } = useCalculateLPDeposits(contract.contractAddress)
   const totalInLiquidity = useUserFriendlyAmount(totalLiquidity)
-  const totalUserBalance =
-    bnOrZero(useUserFriendlyAmount(userLpBalance?.toString())).toNumber() *
-    bnOrZero(lpTokenPrice).toNumber()
+  const totalUserBalance = bnOrZero(useUserFriendlyAmount(userLpBalance?.toString()))
+    .times(bnOrZero(lpTokenPrice))
+    .toNumber()
   const handleView = () => {
     push(`/fox-farming/liquidity/${contract.contractAddress}/lp-add`)
   }
