@@ -9,17 +9,16 @@ import {
   Button,
   Flex,
   Box,
-  useColorModeValue,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Stack
+  useColorModeValue
 } from '@chakra-ui/react'
 import { AprLabel } from './AprLabel'
+import { bnOrZero } from 'utils/math'
+import { numberFormatter } from 'utils/helpers'
 import { useHistory } from 'react-router'
+import { useCalculateLPDeposits } from './hooks/useCalculateLPDeposits/useCalculateLPDeposits'
+import { useUserFriendlyAmount } from 'hooks/useUserFriendlyAmount'
+import { useFarming } from 'hooks/useFarming'
+import { useCalculateLPHoldings } from 'hooks/useCalculateLPHoldings/useCalculateLPHoldings'
 
 type PoolRowProps = {
   contract: PoolProps
@@ -27,6 +26,17 @@ type PoolRowProps = {
 
 export const PoolRow = ({ contract }: PoolRowProps) => {
   const { push } = useHistory()
+  const { lpApr } = useFarming({
+    lpContract: contract.contractAddress
+  })
+  const { userLpBalance } = useCalculateLPHoldings({
+    lpAddress: contract.contractAddress
+  })
+  const { totalLiquidity, lpTokenPrice } = useCalculateLPDeposits(contract.contractAddress)
+  const totalInLiquidity = useUserFriendlyAmount(totalLiquidity)
+  const totalUserBalance = bnOrZero(useUserFriendlyAmount(userLpBalance?.toString()))
+    .times(bnOrZero(lpTokenPrice))
+    .toNumber()
   const handleView = () => {
     push(`/fox-farming/liquidity/${contract.contractAddress}/lp-add`)
   }
@@ -55,13 +65,15 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <AprLabel colorScheme='green' apr={'1.25'} />
+        <AprLabel colorScheme='green' apr={lpApr} />
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Text>$21.85m</Text>
+        <Text>${numberFormatter(bnOrZero(totalInLiquidity).toNumber(), 2)}</Text>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Tag colorScheme='purple'>Ethereum</Tag>
+        <Tag colorScheme='purple' textTransform='capitalize'>
+          {contract.network}
+        </Tag>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
@@ -71,35 +83,11 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>
-        {contract.balance > 0 ? (
-          <Popover placement='top-start' trigger='hover'>
-            <PopoverTrigger>
-              <Text>${contract.balance}</Text>
-            </PopoverTrigger>
-            <PopoverContent maxWidth='250px'>
-              <PopoverArrow />
-              <PopoverHeader fontWeight='bold'>Balance</PopoverHeader>
-              <PopoverBody>
-                <Stack>
-                  <Flex width='full' justifyContent='space-between'>
-                    <Text color='gray.500'>Pool Value</Text>
-                    <Text>$4,125.40</Text>
-                  </Flex>
-                  <Flex width='full' justifyContent='space-between'>
-                    <Text color='gray.500'>Rewards</Text>
-                    <Text>$1,000.00</Text>
-                  </Flex>
-                </Stack>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        ) : (
-          '-'
-        )}
+        {contract.balance > 0 ? <Text>${totalUserBalance}</Text> : '-'}
       </Td>
       <Td>
         <Button isFullWidth onClick={handleView}>
-          View
+          Manage
         </Button>
       </Td>
     </Tr>
