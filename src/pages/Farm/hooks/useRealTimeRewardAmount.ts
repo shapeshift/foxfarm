@@ -30,9 +30,7 @@ export const useRealTimeRewardAmounts = ({
   const { start, intervalId } = useInterval({
     callback: () => {
       const rate = bnOrZero(rewardRate).div('1e+18')
-      let value = bnOrZero(displayFarmRewardsValue).gt(0)
-        ? bnOrZero(displayFarmRewardsValue)
-        : bnOrZero(foxAmount)
+      const value = bnOrZero(foxAmount)
       const rewardVal = value.plus(bnOrZero(rate).times(REWARD_INTERVAL).div(1000)).toFixed(6)
       setDisplayFarmRewardsValue(rewardVal)
     },
@@ -53,7 +51,7 @@ export const useRealTimeRewardAmounts = ({
 
   useEffect(() => {
     if (isConnected && bnOrZero(foxAmount).gt(0) && !intervalId) start()
-  }, [foxAmount, start, isConnected, intervalId])
+  }, [foxAmount, start, isConnected, intervalId, account])
 
   const fiatAmount = useMemo(
     () =>
