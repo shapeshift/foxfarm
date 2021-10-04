@@ -60,7 +60,7 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
             <Text color='gray.500' fontSize='sm' display={{ base: 'none', lg: 'table-cell' }}>
               {contract.owner}
             </Text>
-            <AprLabel apr={'1.235'} size='sm' display={{ base: 'inline-flex', lg: 'none' }} />
+            <AprLabel apr={lpApr} size='sm' display={{ base: 'inline-flex', lg: 'none' }} />
           </Box>
         </Flex>
       </Td>
