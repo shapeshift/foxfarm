@@ -30,7 +30,7 @@ type StakingRowProps = {
 export const StakingRow = ({ contract }: StakingRowProps) => {
   const { push } = useHistory()
   const { state, connect } = useWallet()
-  const { farmApr, lpApr } = useFarming({
+  const { totalApr } = useFarming({
     lpContract: contract.pool.contractAddress,
     stakingContract: contract.contractAddress
   })
@@ -38,7 +38,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
     contract.contractAddress,
     contract.pool.contractAddress
   )
-  console.log(lpApr)
+
   const bg = useColorModeValue('gray.100', 'gray.750')
   const isEnded = useHasContractExpired(contract.contractAddress)
   const { userHoldings } = useCalculateHoldings({
@@ -106,7 +106,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
               {contract.owner}
             </Text>
             <AprLabel
-              apr={farmApr}
+              apr={totalApr}
               isEnded={isEnded}
               periodFinish={contract.periodFinish}
               size='sm'
@@ -116,7 +116,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <AprLabel apr={farmApr} isEnded={isEnded} periodFinish={contract.periodFinish} />
+        <AprLabel apr={totalApr} isEnded={isEnded} periodFinish={contract.periodFinish} />
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Text>${numberFormatter(bnOrZero(totalStakedInContract).toNumber(), 2)}</Text>
