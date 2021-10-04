@@ -30,7 +30,7 @@ type StakingRowProps = {
 export const StakingRow = ({ contract }: StakingRowProps) => {
   const { push } = useHistory()
   const { state, connect } = useWallet()
-  const { farmApr } = useFarming({
+  const { farmApr, lpApr } = useFarming({
     lpContract: contract.pool.contractAddress,
     stakingContract: contract.contractAddress
   })
@@ -38,7 +38,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
     contract.contractAddress,
     contract.pool.contractAddress
   )
-
+  console.log(lpApr)
   const bg = useColorModeValue('gray.100', 'gray.750')
   const isEnded = useHasContractExpired(contract.contractAddress)
   const { userHoldings } = useCalculateHoldings({
