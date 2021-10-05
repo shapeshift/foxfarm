@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react'
 import React from 'react'
 import BgImage from 'assets/img/benefits-bg.jpg'
-import { navOffset, TabNav } from 'Organisims/TabNav'
+import { TabNav } from 'Organisims/TabNav'
 
 export const Hero: React.FC<{ bgImage?: string }> = ({ children, bgImage }) => {
   return (
@@ -22,7 +22,7 @@ export const Hero: React.FC<{ bgImage?: string }> = ({ children, bgImage }) => {
         flexDirection='column'
         alignItems='center'
         justifyContent='center'
-        pt={navOffset}
+        pt='85px'
       >
         {children}
       </Flex>
