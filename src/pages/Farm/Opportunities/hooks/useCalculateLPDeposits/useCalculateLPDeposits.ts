@@ -1,4 +1,3 @@
-import { useWallet } from 'state/WalletProvider'
 import { useContract } from 'hooks/useContract'
 import { useActiveProvider } from 'hooks/useActiveProvider'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
@@ -11,14 +10,13 @@ export const useCalculateLPDeposits = (lpContractAddress: string) => {
     totalLiquidity: '0',
     lpTokenPrice: '0'
   })
-  const { state } = useWallet()
   const provider = useActiveProvider()
 
-  const lpContract = useContract(provider, state.account, lpContractAddress, IUniswapV2PairABI)
+  const lpContract = useContract(provider, null, lpContractAddress, IUniswapV2PairABI)
 
   const usdcEthContract = useContract(
     provider,
-    state.account,
+    null,
     UNISWAP_V2_USDC_ETH_POOL_ADDRESS,
     IUniswapV2PairABI
   )

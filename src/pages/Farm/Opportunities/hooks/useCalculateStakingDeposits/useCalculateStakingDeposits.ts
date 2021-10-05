@@ -1,4 +1,3 @@
-import { useWallet } from 'state/WalletProvider'
 import farmAbi from 'abis/farmingAbi.json'
 import { useCallback, useEffect, useState } from 'react'
 import { bnOrZero } from 'utils/math'
@@ -11,10 +10,9 @@ export const useCalculateStakingDeposits = (
   lpContractAddress: string
 ) => {
   const [amount, setFarmingData] = useState({ totalDeposited: '0' })
-  const { state } = useWallet()
   const provider = useActiveProvider()
 
-  const stakingContract = useContract(provider, state.account, stakingContractAddress, farmAbi)
+  const stakingContract = useContract(provider, null, stakingContractAddress, farmAbi)
 
   const { lpTokenPrice } = useCalculateLPDeposits(lpContractAddress)
 
