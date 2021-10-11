@@ -76,7 +76,7 @@ export async function getBufferedGas(
 export const lpUrlFormatter = (route?: string, lpAddress?: string, stakingAddress?: string) => {
   if (!route) {
     if (stakingAddress) return `/fox-farming/liquidity/${lpAddress}/staking/${stakingAddress}`
-    return `/fox-farming/liquidity/${lpAddress}`
+    return '/fox-farming'
   }
 
   if (stakingAddress) {
