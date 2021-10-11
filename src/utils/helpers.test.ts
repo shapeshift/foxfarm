@@ -18,8 +18,8 @@ describe('lpUrlFormatter', () => {
       )
     })
 
-    it('renders with no staking route if there is not a staking address passed in', () => {
-      expect(lpUrlFormatter('', 'lpAddress')).toBe('/fox-farming/liquidity/lpAddress')
+    it('redirects to fox-farming when no route and there is not a staking address passed in', () => {
+      expect(lpUrlFormatter('', 'lpAddress')).toBe('/fox-farming')
     })
 
     it('renders with staking address in url when stakingAddress is passed in', () => {
@@ -28,8 +28,8 @@ describe('lpUrlFormatter', () => {
       )
     })
 
-    it('renders with no staking route if there is not a staking address passed in', () => {
-      expect(lpUrlFormatter(undefined, 'lpAddress')).toBe('/fox-farming/liquidity/lpAddress')
+    it('redirects to fox-farming when no route and there is not a staking address passed in', () => {
+      expect(lpUrlFormatter(undefined, 'lpAddress')).toBe('/fox-farming')
     })
   })
 })
