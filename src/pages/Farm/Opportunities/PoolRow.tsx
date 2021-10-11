@@ -83,7 +83,7 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>
-        {totalUserBalance > 0 ? <Text>${totalUserBalance}</Text> : '-'}
+        {totalUserBalance > 0 ? <Text>${numberFormatter(totalUserBalance, 2)}</Text> : '-'}
       </Td>
       <Td>
         <Button isFullWidth onClick={handleView}>

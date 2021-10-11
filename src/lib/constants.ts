@@ -97,7 +97,9 @@ export const stakingContracts = [
   {
     name: 'ETH-FOX V2',
     owner: 'ShapeShift',
-    contractAddress: '0x6327fa640ecf1ab1967eb12c7b3494fc269a20b9',
+    contractAddress: '0xc54B9F82C1c54E9D4d274d633c7523f2299c42A0',
+    // test contract
+    // contractAddress: '0x6327fa640ecf1ab1967eb12c7b3494fc269a20b9',
     // expired contract
     // contractAddress: '0x7479831e095481cE46d378Ec6C5291e59BF25A76',
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],

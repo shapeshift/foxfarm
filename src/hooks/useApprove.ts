@@ -29,7 +29,7 @@ export const useApprove = (
     if (amount && contract && wallet.account && spender) {
       try {
         const allowance = await contract.allowance(wallet.account, spender)
-        if (bn(allowance.toString()).gte(bn(amount))) {
+        if (bn(allowance.toString()).gte(bn(amount)) && bn(amount).gt(0)) {
           setApproved(true)
         } else {
           setApproved(false)
