@@ -12,7 +12,7 @@ export const useHasContractExpired = (contractAddress?: string) => {
       if (timeStamp.toNumber() === 0) {
         return setExpired(false)
       }
-      const isExpired = dayjs().isAfter(dayjs.unix(timeStamp))
+      const isExpired = dayjs().isAfter(dayjs.unix(timeStamp.toNumber()))
       setExpired(isExpired)
     })()
   }, [contract])
