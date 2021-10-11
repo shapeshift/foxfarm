@@ -46,6 +46,14 @@ export const Approve = ({ history }: RouterProps) => {
     pendingTx
   ])
 
+  useEffect(() => {
+    if (approval.approved) {
+      history.push(
+        `/fox-farming/liquidity/${params.liquidityContractAddress}/staking/${params.stakingContractAddress}`
+      )
+    }
+  }, [approval.approved, history, params.liquidityContractAddress, params.stakingContractAddress])
+
   return (
     <CardContent maxW='500px'>
       <PendingIconGroup mb={10} mt={8} isLoading={isLoading} />
