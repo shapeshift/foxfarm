@@ -27,11 +27,11 @@ export const RewardAmounts = ({ foxAmount }: TRewardAmounts) => {
 
   return (
     <>
-      {displayFarmRewardsValue && (
+      {fiatAmount && (
         <>
           <Text color='gray.500'>Available Rewards</Text>
           <Text fontSize='5xl' fontWeight='bold' mt='-10px' mb='-5px'>
-            ${fiatAmount || '0.00'}
+            ${fiatAmount}
           </Text>
         </>
       )}
