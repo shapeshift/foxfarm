@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 import { rewardRatePerAddress } from 'utils/rates'
 import { useContract } from 'hooks/useContract'
 import farmAbi from 'abis/farmingAbi.json'
-import { useActiveProvider } from 'hooks/useActiveProvider'
 
 type TUseRealTimeRewardAmounts = { foxAmount: string | null; stakingContractAddress: string }
 
@@ -18,10 +17,9 @@ export const useRealTimeRewardAmounts = ({
   stakingContractAddress
 }: TUseRealTimeRewardAmounts) => {
   const {
-    state: { account, isConnected }
+    state: { account, isConnected, blockNumber, provider }
   } = useWallet()
 
-  const provider = useActiveProvider()
   const farmingRewardsContract = useContract(provider, account, stakingContractAddress, farmAbi)
   const price = useCoinCapPrice('fox-token')
   const [displayFarmRewardsValue, setDisplayFarmRewardsValue] = useState<string | undefined>()
@@ -30,8 +28,10 @@ export const useRealTimeRewardAmounts = ({
   const { start, intervalId } = useInterval({
     callback: () => {
       const rate = bnOrZero(rewardRate).div('1e+18')
-      const value = bnOrZero(foxAmount)
-      const rewardVal = value.plus(bnOrZero(rate).times(REWARD_INTERVAL).div(1000)).toFixed(6)
+      const rewardVal = toDisplayAmount(
+        bnOrZero(foxAmount).plus(bnOrZero(rate).times(REWARD_INTERVAL).div(1000)).toFixed(),
+        18
+      )
       setDisplayFarmRewardsValue(rewardVal)
     },
     delay: REWARD_INTERVAL,
@@ -47,19 +47,19 @@ export const useRealTimeRewardAmounts = ({
       setRewardRate(rate)
     }
     if (account && isConnected) getRewardRate()
-  }, [account, farmingRewardsContract, isConnected])
+  }, [account, farmingRewardsContract, isConnected, blockNumber])
 
   useEffect(() => {
     if (isConnected && bnOrZero(foxAmount).gt(0) && !intervalId) start()
   }, [foxAmount, start, isConnected, intervalId, account])
 
-  const fiatAmount = useMemo(
-    () =>
-      price && displayFarmRewardsValue
-        ? toDisplayAmount(bn(price).times(displayFarmRewardsValue).toFixed(), 18)
-        : null,
-    [displayFarmRewardsValue, price]
-  )
+  const fiatAmount = useMemo(() => {
+    if (price && displayFarmRewardsValue && foxAmount && account) {
+      return toDisplayAmount(bn(price).times(displayFarmRewardsValue).toFixed(), 18)
+    } else {
+      return null
+    }
+  }, [price, displayFarmRewardsValue, foxAmount, account])
 
   return { displayFarmRewardsValue, fiatAmount }
 }

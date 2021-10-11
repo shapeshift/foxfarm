@@ -3,7 +3,7 @@ import { CheckCircleIcon } from '@chakra-ui/icons'
 import { FoxEthStakingIconGroup } from 'Molecules/LiquidityIconGroup'
 import { StakingHeader } from './StakingHeader'
 import { useStaking } from 'state/StakingProvider'
-import { bnOrZero, formatBaseAmount } from 'utils/math'
+import { bnOrZero, formatBaseAmount, fromBaseUnit } from 'utils/math'
 import { useMemo } from 'react'
 import { RouteProps } from 'react-router-dom'
 import { useFarming } from 'hooks/useFarming'
@@ -23,10 +23,6 @@ export const Rewards = ({ location }: RewardsType) => {
     userLpBalance
   } = useStaking()
   const { totalApr } = useFarming()
-
-  const foxAmount = useMemo(() => {
-    return formatBaseAmount(bnOrZero(userUnclaimedRewards?.toString()), 18)
-  }, [userUnclaimedRewards])
 
   const stakedLpBalance = useMemo(() => {
     return formatBaseAmount(bnOrZero(userStakedBalance?.toString()), 18)
@@ -100,7 +96,7 @@ export const Rewards = ({ location }: RewardsType) => {
         <FoxEthStakingIconGroup w='170px' my={8} />
 
         <Center flexDir='column' width='100%'>
-          <RewardAmounts foxAmount={foxAmount} />
+          <RewardAmounts foxAmount={fromBaseUnit(userUnclaimedRewards?.toString() ?? '', 18)} />
         </Center>
       </Card.Body>
     </Card>
