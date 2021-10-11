@@ -9,6 +9,9 @@ export const useHasContractExpired = (contractAddress?: string) => {
   useEffect(() => {
     ;(async () => {
       const timeStamp = await contract?.periodFinish()
+      if (timeStamp.toNumber() === 0) {
+        return setExpired(false)
+      }
       const isExpired = dayjs().isAfter(dayjs.unix(timeStamp))
       setExpired(isExpired)
     })()
