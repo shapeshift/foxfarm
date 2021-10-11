@@ -81,16 +81,7 @@ export const totalLpSupply = async (farmingRewardsContract: Contract) => {
 
 export const rewardRatePerToken = async (farmingRewardsContract: Contract) => {
   try {
-    const farmingContractFundedFlag = process.env.REACT_APP_FARMING_CONTRACT_FUNDED
-    let rewardRate = await farmingRewardsContract.rewardRate() // Rate of FOX given per second for all staked addresses
-    if (
-      (farmingContractFundedFlag && !JSON.parse(farmingContractFundedFlag)) ||
-      bn(rewardRate.toString()).eq(0)
-    ) {
-      const foxFunding = bn(15768000) // Fox added to the contract
-      const threeMonths = bn(90).times(24).times(60).times(60)
-      rewardRate = foxFunding.div(threeMonths).times('1e+18')
-    }
+    const rewardRate = await farmingRewardsContract.rewardRate() // Rate of FOX given per second for all staked addresses
     const totalSupply = await totalLpSupply(farmingRewardsContract)
     return bn(rewardRate.toString()).div(totalSupply).times('1e+18').decimalPlaces(0).toString()
   } catch (error) {
