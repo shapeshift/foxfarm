@@ -16,7 +16,7 @@ export const COUNT_DOWN_TIME = 1626447600 * 1000 // July 16 2021 9am MST
 export const FEATURE_FLAGS = {
   airdrop: true,
   ethFoxStakingV1: true,
-  ethFoxStakingV2: false
+  ethFoxStakingV2: true
 }
 
 type TokenProps = {
