@@ -9,16 +9,16 @@ export const Opportunities = () => {
   return (
     <Card>
       <Card.Header pb={0}>
-        <Card.Heading>Liqudity Pools</Card.Heading>
+        <Card.Heading>Liquidity Pools</Card.Heading>
         <Text color='gray.500'>Add liquidity to earn fees, incentives, voting rights, etc.</Text>
       </Card.Header>
       <Card.Body px={2}>
         <Table>
           <Thead>
             <Tr>
-              <Th>Liqudity Pool</Th>
+              <Th>Liquidity Pool</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Fee APR</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Liqudity</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Liquidity</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
               <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
@@ -35,7 +35,7 @@ export const Opportunities = () => {
       <Divider />
       <Card.Header pb={0}>
         <Card.Heading>Farming Opportunities</Card.Heading>
-        <Text color='gray.500'>Safely lend your assets to earn passive income.</Text>
+        <Text color='gray.500'>Stake your LP tokens to earn passive income.</Text>
       </Card.Header>
       <Card.Body px={2}>
         <Table>
