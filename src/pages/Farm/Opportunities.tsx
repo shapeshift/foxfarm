@@ -35,7 +35,7 @@ export const Opportunities = () => {
       <Divider />
       <Card.Header pb={0}>
         <Card.Heading>Farming Opportunities</Card.Heading>
-        <Text color='gray.500'>Safely lend your assets to earn passive income.</Text>
+        <Text color='gray.500'>Stake your LP tokens to earn passive income.</Text>
       </Card.Header>
       <Card.Body px={2}>
         <Table>
