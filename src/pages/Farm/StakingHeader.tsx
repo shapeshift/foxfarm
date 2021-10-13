@@ -55,7 +55,6 @@ export const StakingHeader = ({
   const { params } = useRouteMatch<ContractParams>()
   return (
     <CardContent
-      order={{ base: 2, md: 1 }}
       borderRightWidth={{ base: 0, md: 1 }}
       borderTopWidth={{ base: 1, md: 0 }}
       borderColor='blackAlpha.100'
