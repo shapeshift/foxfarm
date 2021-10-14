@@ -11,9 +11,9 @@ import { useRealTimeRewardAmounts } from './hooks/useRealTimeRewardAmount'
 type TRewardAmounts = { foxAmount: string | null }
 
 export const RewardAmounts = ({ foxAmount }: TRewardAmounts) => {
-  const expired = useHasContractExpired()
   const { push } = useHistory()
   const { params } = useRouteMatch<ContractParams>()
+  const expired = useHasContractExpired(params.stakingContractAddress)
 
   const { fiatAmount, displayFarmRewardsValue } = useRealTimeRewardAmounts({
     foxAmount,

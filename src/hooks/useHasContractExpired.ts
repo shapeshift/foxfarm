@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { useContractMethods } from './useContractMethods'
 
-export const useHasContractExpired = (contractAddress?: string) => {
+export const useHasContractExpired = (contractAddress: string) => {
   const [expired, setExpired] = useState(false)
   const contract = useContractMethods(contractAddress)
 

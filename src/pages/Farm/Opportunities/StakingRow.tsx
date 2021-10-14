@@ -47,7 +47,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
   })
 
   const userHoldingsValue = useUserFriendlyAmount(userHoldings?.totalUsdcValueStakedAndLp)
-  const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance)
+  const userStakedBalance = useUserFriendlyAmount(userHoldings?.userStakedBalance?.toString())
   const userLpBalance = useUserFriendlyAmount(userHoldings?.userLpBalance?.toString())
   const foxAmount = useUserFriendlyAmount(userHoldings?.userUnclaimedRewards?.toString())
   const totalStakedInContract = useUserFriendlyAmount(totalDeposited)
@@ -83,7 +83,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
     )
   }
 
-  if (isEnded && bnOrZero(userStakedBalance).toNumber() <= 0) return null
+  if (isEnded && bnOrZero(userStakedBalance).lte(0)) return null
 
   return (
     <Tr _hover={{ bg }}>

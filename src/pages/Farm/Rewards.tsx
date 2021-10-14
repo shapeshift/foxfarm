@@ -2,10 +2,10 @@ import { Text, Center, HStack } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { FoxEthStakingIconGroup } from 'Molecules/LiquidityIconGroup'
 import { StakingHeader } from './StakingHeader'
-import { useStaking } from 'state/StakingProvider'
+import { ContractParams, useStaking } from 'state/StakingProvider'
 import { bnOrZero, formatBaseAmount, fromBaseUnit } from 'utils/math'
 import { useMemo } from 'react'
-import { RouteProps } from 'react-router-dom'
+import { RouteProps, useRouteMatch } from 'react-router-dom'
 import { useFarming } from 'hooks/useFarming'
 import { RewardAmounts } from './RewardAmounts'
 import { Card } from 'components/Card/Card'
@@ -23,6 +23,7 @@ export const Rewards = ({ location }: RewardsType) => {
     userLpBalance
   } = useStaking()
   const { totalApr } = useFarming()
+  const { params } = useRouteMatch<ContractParams>()
 
   const stakedLpBalance = useMemo(() => {
     return formatBaseAmount(bnOrZero(userStakedBalance?.toString()), 18)
@@ -36,7 +37,7 @@ export const Rewards = ({ location }: RewardsType) => {
     return formatBaseAmount(userLpBalance ? userLpBalance.toString() : '0', 18)
   }, [userLpBalance])
 
-  const expired = useHasContractExpired()
+  const expired = useHasContractExpired(params.stakingContractAddress)
 
   return (
     <Card

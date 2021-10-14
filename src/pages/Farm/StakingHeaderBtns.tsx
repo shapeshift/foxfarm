@@ -12,7 +12,7 @@ export const StakingHeaderBtns = ({ isDisabled }: { isDisabled?: boolean }) => {
   const { push } = useHistory()
   const { params } = useRouteMatch<ContractParams>()
   const { userLpBalance, uniswapLPContract, stake } = useStaking()
-  const expired = useHasContractExpired()
+  const expired = useHasContractExpired(params.stakingContractAddress)
 
   const unstakedLpBalance = useMemo(() => {
     return formatBaseAmount(userLpBalance ? userLpBalance.toString() : '0', 18)
