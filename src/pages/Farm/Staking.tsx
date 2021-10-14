@@ -56,14 +56,27 @@ export const Staking = () => {
   }, [confirming, params.liquidityContractAddress, params.stakingContractAddress, push, stakeTxID])
 
   return (
-    <Card display='flex' minWidth='500px'>
+    <Card
+      display='flex'
+      width='100vw'
+      maxWidth='900px'
+      flexDirection={{ base: 'column-reverse', md: 'row' }}
+    >
       <StakingHeader
         totalUsdcValue={totalUsdcValue}
         userEthHoldings={userEthHoldings}
         userFoxHoldings={userFoxHoldings}
       />
-      <Card.Body>
-        <FoxEthLiquidityIconGroup mb={6} w='175px' mt={6} />
+      <Card.Body
+        mx='auto'
+        px={8}
+        width='full'
+        display='flex'
+        flexDir='column'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <FoxEthLiquidityIconGroup mx='auto' mb={6} w='175px' mt={6} />
         <GetStartedCountDown
           headerText='Stake your LP Tokens to earn up to'
           completedHeader='Stake Your LP Tokens To Earn'
@@ -74,6 +87,7 @@ export const Staking = () => {
           isLoading={confirming}
           loadingText={confirming ? `Confirm on ${wallet?.name}` : ''}
           w='full'
+          maxWidth='350px'
           mb={4}
           mt={8}
           onClick={() => onStake()}
