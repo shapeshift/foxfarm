@@ -13,7 +13,7 @@ export const PendingIconGroup: React.FC<PendingIconGroupProps> = ({
       thickness='10px'
       speed={isLoading ? '3s' : '0'}
       emptyColor='gray.300'
-      color='primary'
+      color='blue.500'
       w='9rem'
       h='9rem'
     />

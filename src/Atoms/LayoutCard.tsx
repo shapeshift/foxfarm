@@ -8,6 +8,7 @@ export const LayoutCard: FC<CenterProps> = ({ children, ...rest }) => (
     flexDir='column'
     overflow='hidden'
     m={8}
+    bg='white'
     {...rest}
   >
     {children}

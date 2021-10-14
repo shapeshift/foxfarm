@@ -83,7 +83,7 @@ export const stakingContracts = [
     owner: 'ShapeShift',
     contractAddress: '0xdd80e21669a664bce83e3ad9a0d74f8dad5d9e72',
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
-    periodFinish: 1631329219,
+    periodFinish: 1634223324,
     balance: 2000,
     network: 'ethereum',
     rewards: [
@@ -103,7 +103,7 @@ export const stakingContracts = [
     // expired contract
     // contractAddress: '0x7479831e095481cE46d378Ec6C5291e59BF25A76',
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
-    periodFinish: 1759632858,
+    periodFinish: 1645714373,
     network: 'ethereum',
     balance: 0,
     rewards: [
