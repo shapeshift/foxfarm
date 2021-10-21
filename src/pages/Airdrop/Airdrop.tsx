@@ -22,7 +22,6 @@ import { NavLink } from 'Atoms/NavLink'
 import { useEnsAddress } from 'hooks/useEnsAddress'
 import { FEATURE_FLAGS } from 'lib/constants'
 import { AirDropEnded } from './AirdropEnded'
-import { FarmCTA } from 'Atoms/FarmCTA'
 
 const AirDropContent = () => {
   const [addressInput, setAddressInput] = useState<string>('')
@@ -119,7 +118,6 @@ const AirDropContent = () => {
           have a qualifying wallet balance, you may have FOX Tokens waiting for you. Check your ETH
           addresses to see if they're eligible.
         </Text>
-        <FarmCTA />
       </Hero>
       <LayoutContent>
         <LayoutCard>
