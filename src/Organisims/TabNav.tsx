@@ -21,10 +21,6 @@ const StyleNavLink = styled(NavLink)`
 
 const tabNav = [
   {
-    label: 'Benefits',
-    href: 'https://shapeshift.com/fox/benefits'
-  },
-  {
     label: 'Airdrop',
     href: '/airdrop'
   },
