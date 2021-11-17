@@ -1,11 +1,34 @@
 import { Text, Table, Thead, Tr, Th, Tbody, Divider } from '@chakra-ui/react'
+import axios from 'axios'
 import { Card } from 'components/Card/Card'
 
 import { poolContracts, stakingContracts } from 'lib/constants'
+import { useEffect, useState } from 'react'
+import { FarmOneFox } from './Opportunities/FarmOneFox'
+import { MintoneFOX } from './Opportunities/MintoneFOX'
 import { PoolRow } from './Opportunities/PoolRow'
 import { StakingRow } from './Opportunities/StakingRow'
 
+const ichiAPI = 'https://api.ichi.org/v1/farms/1015'
+type FarmOneFoxType = {
+  apy?: string
+  tvl?: string
+  farmTvl?: string
+}
 export const Opportunities = () => {
+  const [farmData, setFarmData] = useState<FarmOneFoxType>({})
+  useEffect(() => {
+    axios.get(ichiAPI).then(resp => {
+      const data = resp.data
+      console.log(data)
+      setFarmData({
+        apy: data.yearlyAPY.toString(),
+        tvl: data.tvl,
+        farmTvl: data?.farmTVL
+      })
+    })
+  }, [])
+
   return (
     <Card>
       <Card.Header pb={0}>
@@ -58,6 +81,27 @@ export const Opportunities = () => {
                 )
               )
             })}
+            <FarmOneFox tvl={farmData?.farmTvl} apy={farmData.apy} />
+          </Tbody>
+        </Table>
+      </Card.Body>
+      <Divider />
+      <Card.Header pb={0}>
+        <Card.Heading>Other Opportunities</Card.Heading>
+        <Text color='gray.500'>Other opportunities to earn fox</Text>
+      </Card.Header>
+      <Card.Body px={2}>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>Asset</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Deposits</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <MintoneFOX tvl={farmData?.tvl ?? ''} />
           </Tbody>
         </Table>
       </Card.Body>
