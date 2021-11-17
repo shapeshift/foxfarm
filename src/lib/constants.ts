@@ -13,6 +13,8 @@ export const MAX_ALLOWANCE = '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 export const COUNT_DOWN_TIME = 1626447600 * 1000 // July 16 2021 9am MST
 
+export const ICHI_ONEFOX_API = 'https://api.ichi.org/v1/farms/1015'
+
 export const FEATURE_FLAGS = {
   airdrop: false,
   ethFoxStakingV1: true,
