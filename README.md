@@ -11,6 +11,10 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+You may get a 404 error if you don't add /fox-farming to the url.
+
+If you get the error "Failed to replace env in config: ${NPM_TOKEN}" then node has added some unnecessary files. Remove them with: rm -f ./.npmrc
+
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
