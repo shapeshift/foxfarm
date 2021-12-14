@@ -24,7 +24,7 @@ export const FarmOneFox = ({ apy, tvl }: FarmOneFoxProps) => {
               src={oneFOX}
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
-              zIndex={2}
+              zIndex={0}
               borderRadius='full'
             />
           </Flex>

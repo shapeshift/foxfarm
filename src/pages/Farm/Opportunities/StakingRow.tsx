@@ -94,7 +94,7 @@ export const StakingRow = ({ contract }: StakingRowProps) => {
               src={contract.pool.token0.icon}
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
-              zIndex={2}
+              zIndex={0}
               mr={-3}
               borderRadius='full'
             />
