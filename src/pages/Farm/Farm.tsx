@@ -12,7 +12,6 @@ import { useMemo } from 'react'
 import { supportedContractsPath } from 'utils/helpers'
 import { poolContracts } from 'lib/constants'
 import { NotFound } from 'pages/NotFound/NotFound'
-import { FarmCTA } from 'Atoms/FarmCTA'
 
 export const Farm = () => {
   const supportedContracts = useMemo(() => {
@@ -36,7 +35,6 @@ export const Farm = () => {
         <Text color='gray.400' textAlign='center' fontWeight='heading' as='p'>
           HODL your FOX Tokens for amazing benefits
         </Text>
-        <FarmCTA />
       </Hero>
       <LayoutContent>
         <LayoutCard>
