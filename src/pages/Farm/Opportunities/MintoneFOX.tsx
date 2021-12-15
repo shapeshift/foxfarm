@@ -31,7 +31,7 @@ export const MintoneFOX = ({ tvl }: MintOneProps) => {
               src='https://assets.coincap.io/assets/icons/256/usdc.png'
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
-              zIndex={2}
+              zIndex={0}
               mr={-3}
               borderRadius='full'
             />

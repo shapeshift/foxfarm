@@ -49,7 +49,7 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
               src={contract.token0.icon}
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
-              zIndex={2}
+              zIndex={0}
               mr={-3}
               borderRadius='full'
             />
