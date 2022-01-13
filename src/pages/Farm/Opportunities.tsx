@@ -5,7 +5,7 @@ import { Card } from 'components/Card/Card'
 import { poolContracts, stakingContracts, ICHI_ONEFOX_API } from 'lib/constants'
 import { useEffect, useState } from 'react'
 import { FarmOneFox } from './Opportunities/FarmOneFox'
-import { MintoneFOX } from './Opportunities/MintoneFOX'
+import { MintOneFox } from './Opportunities/MintOneFox'
 import { PoolRow } from './Opportunities/PoolRow'
 import { StakingRow } from './Opportunities/StakingRow'
 
@@ -99,7 +99,7 @@ export const Opportunities = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <MintoneFOX tvl={farmData?.tvl ?? ''} />
+            <MintOneFox tvl={farmData?.tvl ?? ''} />
           </Tbody>
         </Table>
       </Card.Body>
