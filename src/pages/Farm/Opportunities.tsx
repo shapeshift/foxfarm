@@ -75,11 +75,20 @@ export const Opportunities = () => {
             {stakingContracts.map(contract => {
               return (
                 contract.enabled && (
-                  <StakingRow key={contract.contractAddress} contract={contract} />
+                  <ContractStakingRow key={contract.contractAddress} contract={contract} />
                 )
               )
             })}
-            <FarmOneFox tvl={farmData?.farmTvl} apy={farmData.apy} />
+            <GenericStakingRow
+              tvl={farmData?.farmTvl}
+              apy={farmData.apy}
+              assetImage={oneFOX}
+              assetName='oneFOX'
+              assetDescription='ICHI - Staking'
+              network='Ethereum'
+              rewardsImage={ichi}
+              url='https://app.ichi.org/deposit?poolId=1015&back=deposit'
+            />
           </Tbody>
         </Table>
       </Card.Body>
