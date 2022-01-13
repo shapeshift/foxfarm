@@ -15,6 +15,7 @@ type GenericStakingRowProps = {
   network?: string
   rewardsImage?: string
   url?: string
+  urlLabel?: string
 }
 
 export const GenericStakingRow = ({
@@ -25,7 +26,8 @@ export const GenericStakingRow = ({
   assetDescription,
   rewardsImage,
   network,
-  url
+  url,
+  urlLabel
 }: GenericStakingRowProps) => {
   const bg = useColorModeValue('gray.100', 'gray.750')
   return (
@@ -73,7 +75,7 @@ export const GenericStakingRow = ({
       <Td display={{ base: 'none', md: 'table-cell' }}>-</Td>
       <Td display={{ base: 'block', md: 'table-cell' }}>
         <Button isFullWidth colorScheme='green' as={Link} href={url} isExternal>
-          Get Started
+          {urlLabel}
         </Button>
       </Td>
     </Tr>
