@@ -7,8 +7,8 @@ import { bnOrZero } from 'utils/math'
 import { AprLabel } from './AprLabel'
 
 type GenericStakingRowProps = {
-  apy?: string
-  tvl?: string
+  apy?: string | null
+  tvl?: string | null
   assetImage?: string
   assetName?: string
   assetDescription?: string
@@ -53,13 +53,23 @@ export const GenericStakingRow = ({
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Skeleton isLoaded={!!apy}>
-          <AprLabel apr={apy ?? ''} />
+        <Skeleton isLoaded={apy !== undefined}>
+          {apy === null ? (
+            <Link href={url} isExternal>
+              <Tag colorScheme='gray'>View APR</Tag>
+            </Link>
+          ) : (
+            <AprLabel apr={apy ?? ''} />
+          )}
         </Skeleton>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Skeleton isLoaded={!!tvl}>
-          <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
+        <Skeleton isLoaded={tvl !== undefined}>
+          {apy === null ? (
+            <Text>-</Text>
+          ) : (
+            <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
+          )}
         </Skeleton>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>

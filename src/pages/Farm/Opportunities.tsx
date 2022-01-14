@@ -128,15 +128,15 @@ export const Opportunities = () => {
               urlLabel='Get started'
             />
             <GenericStakingRow
-              tvl='0'
-              apy='0'
+              tvl={null}
+              apy={null}
               assetImage={oneFox}
               assetName='FOX'
               assetDescription='Tokemak'
               network='Ethereum'
               rewardsImage={tokemak}
               url='https://www.tokemak.xyz/'
-              urlLabel='View APR'
+              urlLabel='Get started'
             />
           </Tbody>
         </Table>
