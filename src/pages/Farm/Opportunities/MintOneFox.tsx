@@ -19,7 +19,7 @@ type MintOneProps = {
   tvl?: string
 }
 
-export const MintoneFOX = ({ tvl }: MintOneProps) => {
+export const MintOneFox = ({ tvl }: MintOneProps) => {
   const bg = useColorModeValue('gray.100', 'gray.750')
 
   return (
@@ -50,7 +50,7 @@ export const MintoneFOX = ({ tvl }: MintOneProps) => {
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Skeleton isLoaded={tvl ? true : false}>
+        <Skeleton isLoaded={!!tvl}>
           <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
         </Skeleton>
       </Td>

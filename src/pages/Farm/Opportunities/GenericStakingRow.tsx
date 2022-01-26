@@ -5,15 +5,30 @@ import { Tag } from '@chakra-ui/tag'
 import { numberFormatter } from 'utils/helpers'
 import { bnOrZero } from 'utils/math'
 import { AprLabel } from './AprLabel'
-import oneFOX from 'assets/img/oneFOX.png'
-import Ichi from 'assets/img/ichi.svg'
 
-type FarmOneFoxProps = {
-  apy?: string
-  tvl?: string
+type GenericStakingRowProps = {
+  apy?: string | null
+  tvl?: string | null
+  assetImage?: string
+  assetName?: string
+  assetDescription?: string
+  network?: string
+  rewardsImage?: string
+  url?: string
+  urlLabel?: string
 }
 
-export const FarmOneFox = ({ apy, tvl }: FarmOneFoxProps) => {
+export const GenericStakingRow = ({
+  apy,
+  tvl,
+  assetImage,
+  assetName,
+  assetDescription,
+  rewardsImage,
+  network,
+  url,
+  urlLabel
+}: GenericStakingRowProps) => {
   const bg = useColorModeValue('gray.100', 'gray.750')
   return (
     <Tr _hover={{ bg }}>
@@ -21,7 +36,7 @@ export const FarmOneFox = ({ apy, tvl }: FarmOneFoxProps) => {
         <Flex minWidth={{ base: '100px', lg: '250px' }} alignItems='center' flexWrap='nowrap'>
           <Flex mr={2}>
             <Image
-              src={oneFOX}
+              src={assetImage}
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
               zIndex={0}
@@ -29,44 +44,48 @@ export const FarmOneFox = ({ apy, tvl }: FarmOneFoxProps) => {
             />
           </Flex>
           <Box>
-            <Text fontWeight='bold'>oneFOX</Text>
+            <Text fontWeight='bold'>{assetName}</Text>
             <Text color='gray.500' fontSize='sm' display={{ base: 'none', lg: 'table-cell' }}>
-              ICHI
+              {assetDescription}
             </Text>
             <AprLabel apr={'2'} size='sm' display={{ base: 'inline-flex', lg: 'none' }} />
           </Box>
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Skeleton isLoaded={apy ? true : false}>
-          <AprLabel apr={apy ?? ''} />
+        <Skeleton isLoaded={apy !== undefined}>
+          {apy === null ? (
+            <Link href={url} isExternal>
+              <Tag colorScheme='gray'>View APR</Tag>
+            </Link>
+          ) : (
+            <AprLabel apr={apy ?? ''} />
+          )}
         </Skeleton>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Skeleton isLoaded={tvl ? true : false}>
-          <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
+        <Skeleton isLoaded={tvl !== undefined}>
+          {apy === null ? (
+            <Text>-</Text>
+          ) : (
+            <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
+          )}
         </Skeleton>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Tag colorScheme='purple' textTransform='capitalize'>
-          Ethereum
+          {network}
         </Tag>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
-          <Image src={Ichi} boxSize='24px' />
+          <Image src={rewardsImage} boxSize='24px' />
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>-</Td>
       <Td display={{ base: 'block', md: 'table-cell' }}>
-        <Button
-          isFullWidth
-          colorScheme='green'
-          as={Link}
-          href='https://app.ichi.org/deposit?poolId=1015&back=deposit'
-          isExternal
-        >
-          Get Started
+        <Button isFullWidth colorScheme='green' as={Link} href={url} isExternal>
+          {urlLabel}
         </Button>
       </Td>
     </Tr>
