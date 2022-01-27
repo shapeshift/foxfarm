@@ -10,24 +10,28 @@ type GenericStakingRowProps = {
   apy?: string | null
   tvl?: string | null
   assetImage?: string
+  assetImageSecondary?: string
   assetName?: string
   assetDescription?: string
   network?: string
   rewardsImage?: string
   url?: string
   urlLabel?: string
+  aprFallbackLabel?: string
 }
 
 export const GenericStakingRow = ({
   apy,
   tvl,
   assetImage,
+  assetImageSecondary,
   assetName,
   assetDescription,
   rewardsImage,
   network,
   url,
-  urlLabel
+  urlLabel,
+  aprFallbackLabel
 }: GenericStakingRowProps) => {
   const bg = useColorModeValue('gray.100', 'gray.750')
   return (
@@ -40,8 +44,16 @@ export const GenericStakingRow = ({
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
               zIndex={0}
+              mr={assetImageSecondary ? -3 : undefined}
               borderRadius='full'
             />
+            {assetImageSecondary && (
+              <Image
+                src={assetImageSecondary}
+                boxSize={{ base: '30px', lg: '40px' }}
+                borderRadius='full'
+              />
+            )}
           </Flex>
           <Box>
             <Text fontWeight='bold'>{assetName}</Text>
@@ -54,18 +66,22 @@ export const GenericStakingRow = ({
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Skeleton isLoaded={apy !== undefined}>
-          {apy === null ? (
+          {apy === null && aprFallbackLabel ? (
             <Link href={url} isExternal>
-              <Tag colorScheme='gray'>View APR</Tag>
+              <Tag colorScheme='gray'>{aprFallbackLabel}</Tag>
             </Link>
+          ) : apy ? (
+            <>
+              <AprLabel apr={apy ?? '-'} />
+            </>
           ) : (
-            <AprLabel apr={apy ?? ''} />
+            <Text>-</Text>
           )}
         </Skeleton>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Skeleton isLoaded={tvl !== undefined}>
-          {apy === null ? (
+          {tvl === null ? (
             <Text>-</Text>
           ) : (
             <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
@@ -79,7 +95,7 @@ export const GenericStakingRow = ({
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
-          <Image src={rewardsImage} boxSize='24px' />
+          {rewardsImage ? <Image src={rewardsImage} boxSize='24px' /> : <Text>-</Text>}
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>-</Td>
