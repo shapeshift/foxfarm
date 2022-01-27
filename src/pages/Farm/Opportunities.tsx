@@ -170,7 +170,7 @@ export const Opportunities = () => {
               rewardsImage={tokemak}
               url='https://www.tokemak.xyz/'
               urlLabel='Get started'
-              aprFallbackLabel='Get started'
+              aprFallbackLabel='View APR'
             />
           </Tbody>
         </Table>
