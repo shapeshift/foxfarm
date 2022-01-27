@@ -10,13 +10,13 @@ import {
 } from 'lib/constants'
 import { useEffect, useState } from 'react'
 import { GenericStakingRow } from './Opportunities/GenericStakingRow'
-import { MintOneFox } from './Opportunities/MintOneFox'
 import { PoolRow } from './Opportunities/PoolRow'
 import { ContractStakingRow } from './Opportunities/ContractStakingRow'
 import oneFox from 'assets/img/oneFox.png'
 import ichi from 'assets/img/ichi.svg'
 import fox from '../../assets/img/fox.png'
 import tokemak from '../../assets/img/tokemak.png'
+import usdc from '../../assets/img/usdc.png'
 
 type FarmOneFoxType = {
   apy?: string
@@ -69,7 +69,7 @@ export const Opportunities = () => {
               <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
               <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
-              <Th></Th>
+              <Th />
             </Tr>
           </Thead>
           <Tbody>
@@ -94,7 +94,7 @@ export const Opportunities = () => {
               <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
               <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
-              <Th></Th>
+              <Th />
             </Tr>
           </Thead>
           <Tbody>
@@ -127,10 +127,43 @@ export const Opportunities = () => {
               url='https://app.ichi.org/vault' // TODO: use correct URL when available
               urlLabel='Get started'
             />
+          </Tbody>
+        </Table>
+      </Card.Body>
+      <Divider />
+      <Card.Header pb={0}>
+        <Card.Heading>Other Opportunities</Card.Heading>
+        <Text color='gray.500'>Explore a variety of ways to put your FOX to work.</Text>
+      </Card.Header>
+      <Card.Body px={2}>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>Asset</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Current APR</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Deposits</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
+              <Th />
+            </Tr>
+          </Thead>
+          <Tbody>
+            <GenericStakingRow
+              tvl={farmData?.tvl}
+              apy={null}
+              assetImage={usdc}
+              assetImageSecondary={fox}
+              assetName='oneFOX'
+              assetDescription='ICHI'
+              network='Ethereum'
+              url='https://app.ichi.org/mint?name=onefox&collateral=USDC'
+              urlLabel='Get started'
+            />
             <GenericStakingRow
               tvl={null}
               apy={null}
-              assetImage={oneFox}
+              assetImage={fox}
               assetName='FOX'
               assetDescription='Tokemak'
               network='Ethereum'
@@ -138,26 +171,6 @@ export const Opportunities = () => {
               url='https://www.tokemak.xyz/'
               urlLabel='Get started'
             />
-          </Tbody>
-        </Table>
-      </Card.Body>
-      <Divider />
-      <Card.Header pb={0}>
-        <Card.Heading>Other Opportunities</Card.Heading>
-        <Text color='gray.500'>Other opportunities to earn fox</Text>
-      </Card.Header>
-      <Card.Body px={2}>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Asset</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Deposits</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <MintOneFox tvl={farmData?.tvl ?? ''} />
           </Tbody>
         </Table>
       </Card.Body>

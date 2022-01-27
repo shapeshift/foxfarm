@@ -10,6 +10,7 @@ type GenericStakingRowProps = {
   apy?: string | null
   tvl?: string | null
   assetImage?: string
+  assetImageSecondary?: string
   assetName?: string
   assetDescription?: string
   network?: string
@@ -22,6 +23,7 @@ export const GenericStakingRow = ({
   apy,
   tvl,
   assetImage,
+  assetImageSecondary,
   assetName,
   assetDescription,
   rewardsImage,
@@ -40,8 +42,16 @@ export const GenericStakingRow = ({
               boxSize={{ base: '30px', lg: '40px' }}
               boxShadow='right'
               zIndex={0}
+              mr={assetImageSecondary ? -3 : undefined}
               borderRadius='full'
             />
+            {assetImageSecondary && (
+              <Image
+                src={assetImageSecondary}
+                boxSize={{ base: '30px', lg: '40px' }}
+                borderRadius='full'
+              />
+            )}
           </Flex>
           <Box>
             <Text fontWeight='bold'>{assetName}</Text>
@@ -65,7 +75,7 @@ export const GenericStakingRow = ({
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Skeleton isLoaded={tvl !== undefined}>
-          {apy === null ? (
+          {tvl === null ? (
             <Text>-</Text>
           ) : (
             <Text>${numberFormatter(bnOrZero(tvl ?? null).toNumber(), 2)}</Text>
@@ -79,7 +89,7 @@ export const GenericStakingRow = ({
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <HStack>
-          <Image src={rewardsImage} boxSize='24px' />
+          {rewardsImage ? <Image src={rewardsImage} boxSize='24px' /> : <Text>-</Text>}
         </HStack>
       </Td>
       <Td display={{ base: 'none', md: 'table-cell' }}>-</Td>
