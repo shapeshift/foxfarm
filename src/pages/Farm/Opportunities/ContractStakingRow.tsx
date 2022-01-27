@@ -27,7 +27,7 @@ type StakingRowProps = {
   contract: StakingContractProps
 }
 
-export const StakingRow = ({ contract }: StakingRowProps) => {
+export const ContractStakingRow = ({ contract }: StakingRowProps) => {
   const { push } = useHistory()
   const { state, connect } = useWallet()
   const { totalApr } = useFarming({
