@@ -64,7 +64,7 @@ export const Opportunities = () => {
           <Thead>
             <Tr>
               <Th>Liquidity Pool</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Fee APR</Th>
+              <Th display={{ base: 'none', lg: 'table-cell' }}>Current APR</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Liquidity</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
@@ -124,7 +124,7 @@ export const Opportunities = () => {
               assetDescription='ICHI - Angel Vault'
               network='Ethereum'
               rewardsImage={fox}
-              url='https://app.ichi.org/vault' // TODO: use correct URL when available
+              url='https://app.ichi.org/vault?poolId=20003&back=vault'
               urlLabel='Get started'
             />
           </Tbody>
@@ -170,6 +170,7 @@ export const Opportunities = () => {
               rewardsImage={tokemak}
               url='https://www.tokemak.xyz/'
               urlLabel='Get started'
+              aprFallbackLabel='Get started'
             />
           </Tbody>
         </Table>

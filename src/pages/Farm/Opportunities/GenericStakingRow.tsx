@@ -17,6 +17,7 @@ type GenericStakingRowProps = {
   rewardsImage?: string
   url?: string
   urlLabel?: string
+  aprFallbackLabel?: string
 }
 
 export const GenericStakingRow = ({
@@ -29,7 +30,8 @@ export const GenericStakingRow = ({
   rewardsImage,
   network,
   url,
-  urlLabel
+  urlLabel,
+  aprFallbackLabel
 }: GenericStakingRowProps) => {
   const bg = useColorModeValue('gray.100', 'gray.750')
   return (
@@ -64,12 +66,16 @@ export const GenericStakingRow = ({
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <Skeleton isLoaded={apy !== undefined}>
-          {apy === null ? (
+          {apy === null && aprFallbackLabel ? (
             <Link href={url} isExternal>
-              <Tag colorScheme='gray'>View APR</Tag>
+              <Tag colorScheme='gray'>{aprFallbackLabel}</Tag>
             </Link>
+          ) : apy ? (
+            <>
+              <AprLabel apr={apy ?? '-'} />
+            </>
           ) : (
-            <AprLabel apr={apy ?? ''} />
+            <Text>-</Text>
           )}
         </Skeleton>
       </Td>
