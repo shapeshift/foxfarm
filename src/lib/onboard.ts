@@ -24,7 +24,6 @@ export function getLibrary(provider: any): Web3Provider {
 }
 
 const wallets = [
-  { walletName: 'detectedwallet', preferred: true },
   {
     walletName: 'keepkey',
     preferred: true,
