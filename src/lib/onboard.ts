@@ -69,6 +69,7 @@ const wallets = [
   { walletName: 'torus', preferred: true },
   { walletName: 'status' },
   { walletName: 'trust' },
+  { walletName: 'tally' },
   { walletName: 'walletLink', rpcUrl: RPC_URL, appName: APP_NAME, preferred: true },
   { walletName: 'imToken', rpcUrl: RPC_URL },
   { walletName: 'meetone' },
