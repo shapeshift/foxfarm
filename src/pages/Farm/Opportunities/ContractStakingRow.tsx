@@ -118,15 +118,15 @@ export const ContractStakingRow = ({ contract }: StakingRowProps) => {
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <AprLabel apr={totalApr} isEnded={isEnded} periodFinish={contract.periodFinish} />
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <Text>${numberFormatter(bnOrZero(totalStakedInContract).toNumber(), 2)}</Text>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <Tag colorScheme='purple' textTransform='capitalize'>
           {contract.network}
         </Tag>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <HStack>
           {contract.rewards?.map(reward => (
             <Image key={reward.symbol} boxSize='24px' src={reward.icon} />
