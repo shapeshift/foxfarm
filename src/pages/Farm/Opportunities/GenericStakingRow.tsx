@@ -34,6 +34,23 @@ export const GenericStakingRow = ({
   aprFallbackLabel
 }: GenericStakingRowProps) => {
   const bg = useColorModeValue('gray.100', 'gray.750')
+  const renderApy = (size?: string) => {
+    return (
+      <>
+        {apy === null && aprFallbackLabel ? (
+          <Link href={url} isExternal>
+            <Tag colorScheme='gray'>{aprFallbackLabel}</Tag>
+          </Link>
+        ) : apy ? (
+          <>
+            <AprLabel size={size || 'md'} apr={apy ?? '-'} />
+          </>
+        ) : (
+          <Text>-</Text>
+        )}
+      </>
+    )
+  }
   return (
     <Tr _hover={{ bg }}>
       <Td>
@@ -60,26 +77,16 @@ export const GenericStakingRow = ({
             <Text color='gray.500' fontSize='sm' display={{ base: 'none', lg: 'table-cell' }}>
               {assetDescription}
             </Text>
-            <AprLabel apr={'2'} size='sm' display={{ base: 'inline-flex', lg: 'none' }} />
+            <Skeleton display={{ base: 'inline-flex', lg: 'none' }} isLoaded={apy !== undefined}>
+              {renderApy('sm')}
+            </Skeleton>
           </Box>
         </Flex>
       </Td>
       <Td display={{ base: 'none', lg: 'table-cell' }}>
-        <Skeleton isLoaded={apy !== undefined}>
-          {apy === null && aprFallbackLabel ? (
-            <Link href={url} isExternal>
-              <Tag colorScheme='gray'>{aprFallbackLabel}</Tag>
-            </Link>
-          ) : apy ? (
-            <>
-              <AprLabel apr={apy ?? '-'} />
-            </>
-          ) : (
-            <Text>-</Text>
-          )}
-        </Skeleton>
+        <Skeleton isLoaded={apy !== undefined}>{renderApy()}</Skeleton>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <Skeleton isLoaded={tvl !== undefined}>
           {tvl === null ? (
             <Text>-</Text>
@@ -88,12 +95,12 @@ export const GenericStakingRow = ({
           )}
         </Skeleton>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <Tag colorScheme='purple' textTransform='capitalize'>
           {network}
         </Tag>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <HStack>
           {rewardsImage ? <Image src={rewardsImage} boxSize='24px' /> : <Text>-</Text>}
         </HStack>
