@@ -20,7 +20,6 @@ export const FEATURE_FLAGS = {
   airdrop: false,
   ethFoxStakingV1: true,
   ethFoxStakingV2: true,
-  // this must be set to true for testing
   ethFoxStakingV3: false
 }
 
@@ -122,11 +121,7 @@ export const stakingContracts = [
   {
     name: 'ETH-FOX V3',
     owner: 'ShapeShift',
-    contractAddress: '0xc54B9F82C1c54E9D4d274d633c7523f2299c42A0',
-    // test contract
-    // contractAddress: '0x6327fa640ecf1ab1967eb12c7b3494fc269a20b9',
-    // expired contract
-    // contractAddress: '0x7479831e095481cE46d378Ec6C5291e59BF25A76',
+    contractAddress: '0xc54B9F82C1c54E9D4d274d633c7523f2299c42A0', // TODO: Placeholder, update to actual V3 address when available
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
     periodFinish: 1645714373,
     network: 'ethereum',
