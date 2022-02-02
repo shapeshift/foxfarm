@@ -67,15 +67,15 @@ export const PoolRow = ({ contract }: PoolRowProps) => {
       <Td display={{ base: 'none', lg: 'table-cell' }}>
         <AprLabel colorScheme='green' apr={lpApr} />
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <Text>${numberFormatter(bnOrZero(totalInLiquidity).toNumber(), 2)}</Text>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <Tag colorScheme='purple' textTransform='capitalize'>
           {contract.network}
         </Tag>
       </Td>
-      <Td display={{ base: 'none', lg: 'table-cell' }}>
+      <Td display={{ base: 'none', md: 'table-cell' }}>
         <HStack>
           {contract.rewards?.map(reward => (
             <Image key={reward.symbol} boxSize='24px' src={reward.icon} />

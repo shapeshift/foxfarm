@@ -65,9 +65,9 @@ export const Opportunities = () => {
             <Tr>
               <Th>Liquidity Pool</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Current APR</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Liquidity</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Liquidity</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Network</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Rewards</Th>
               <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
               <Th />
             </Tr>
@@ -90,9 +90,9 @@ export const Opportunities = () => {
             <Tr>
               <Th>Asset</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Current APR</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Deposits</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Deposits</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Network</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Rewards</Th>
               <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
               <Th />
             </Tr>
@@ -141,9 +141,9 @@ export const Opportunities = () => {
             <Tr>
               <Th>Asset</Th>
               <Th display={{ base: 'none', lg: 'table-cell' }}>Current APR</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Deposits</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Network</Th>
-              <Th display={{ base: 'none', lg: 'table-cell' }}>Rewards</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Deposits</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Network</Th>
+              <Th display={{ base: 'none', md: 'table-cell' }}>Rewards</Th>
               <Th display={{ base: 'none', md: 'table-cell' }}>Balance</Th>
               <Th />
             </Tr>
