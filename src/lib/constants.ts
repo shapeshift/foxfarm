@@ -123,7 +123,7 @@ export const stakingContracts = [
     owner: 'ShapeShift',
     contractAddress: '0xc770eefad204b5180df6a14ee197d99d808ee52d', // TODO: Placeholder, update to actual V3 address when available
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
-    periodFinish: 1645714373,
+    periodFinish: 1645714373, // TODO: this may need a change
     network: 'ethereum',
     balance: 0,
     rewards: [
