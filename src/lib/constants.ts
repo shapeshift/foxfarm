@@ -20,7 +20,7 @@ export const FEATURE_FLAGS = {
   airdrop: false,
   ethFoxStakingV1: true,
   ethFoxStakingV2: true,
-  ethFoxStakingV3: false
+  ethFoxStakingV3: true
 }
 
 type TokenProps = {
