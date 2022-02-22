@@ -20,7 +20,7 @@ export const FEATURE_FLAGS = {
   airdrop: false,
   ethFoxStakingV1: true,
   ethFoxStakingV2: true,
-  ethFoxStakingV3: false
+  ethFoxStakingV3: true
 }
 
 type TokenProps = {
@@ -123,7 +123,7 @@ export const stakingContracts = [
     owner: 'ShapeShift',
     contractAddress: '0x212ebf9FD3c10F371557b08E993eAaB385c3932b',
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
-    periodFinish: 1657209600, // TODO: this may need a change
+    periodFinish: 1657208661,
     network: 'ethereum',
     balance: 0,
     rewards: [
