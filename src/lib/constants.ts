@@ -19,7 +19,8 @@ export const ICHI_ONEFOX_VAULT_API = 'https://api.ichi.org/v1/farms/20003'
 export const FEATURE_FLAGS = {
   airdrop: false,
   ethFoxStakingV1: true,
-  ethFoxStakingV2: true
+  ethFoxStakingV2: true,
+  ethFoxStakingV3: true
 }
 
 type TokenProps = {
@@ -116,5 +117,21 @@ export const stakingContracts = [
       }
     ],
     enabled: FEATURE_FLAGS.ethFoxStakingV2
+  },
+  {
+    name: 'ETH-FOX V3',
+    owner: 'ShapeShift',
+    contractAddress: '0x212ebf9FD3c10F371557b08E993eAaB385c3932b',
+    pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
+    periodFinish: 1657208661,
+    network: 'ethereum',
+    balance: 0,
+    rewards: [
+      {
+        symbol: 'FOX',
+        icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
+      }
+    ],
+    enabled: FEATURE_FLAGS.ethFoxStakingV3
   }
 ] as StakingContractProps[]
