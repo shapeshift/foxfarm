@@ -38,7 +38,7 @@ export const AirDropEnded = () => {
               The Airdrop has ended
             </Text>
             <Text textAlign='center' color='gray.500' fontWeight='heading' as='p'>
-              You can still earn up to <Tag colorScheme='green'>200% APR</Tag> on FOX Tokens with
+              You can still earn up to <Tag colorScheme='green'>100% APR</Tag> on FOX Tokens with
               our farming rewards!
             </Text>
           </CardContent>
