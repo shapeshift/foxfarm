@@ -20,7 +20,8 @@ export const FEATURE_FLAGS = {
   airdrop: false,
   ethFoxStakingV1: true,
   ethFoxStakingV2: true,
-  ethFoxStakingV3: true
+  ethFoxStakingV3: true,
+  ethFoxStakingV4: true
 }
 
 type TokenProps = {
@@ -133,5 +134,21 @@ export const stakingContracts = [
       }
     ],
     enabled: FEATURE_FLAGS.ethFoxStakingV3
+  },
+  {
+    name: 'ETH-FOX V4',
+    owner: 'ShapeShift',
+    contractAddress: '0xTBD',
+    pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
+    periodFinish: 1668675600, // 11/17/22 09:00:00 UTC
+    network: 'ethereum',
+    balance: 0,
+    rewards: [
+      {
+        symbol: 'FOX',
+        icon: 'https://assets.coincap.io/assets/icons/256/fox.png'
+      }
+    ],
+    enabled: FEATURE_FLAGS.ethFoxStakingV4
   }
 ] as StakingContractProps[]
