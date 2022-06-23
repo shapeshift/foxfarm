@@ -138,7 +138,7 @@ export const stakingContracts = [
   {
     name: 'ETH-FOX V4',
     owner: 'ShapeShift',
-    contractAddress: '0xTBD',
+    contractAddress: '0x24fd7fb95dc742e23dc3829d3e656feeb5f67fa0',
     pool: poolsContractData['0x470e8de2ebaef52014a47cb5e6af86884947f08c'],
     periodFinish: 1668675600, // 11/17/22 09:00:00 UTC
     network: 'ethereum',
