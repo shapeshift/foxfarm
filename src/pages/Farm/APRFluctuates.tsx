@@ -6,6 +6,6 @@ export const APRFluctuates = () => (
     their LP tokens. This is an estimated APR calculated based on the current amount of
     FOX-ETH-UNIV2 LP tokens staked in the ShapeShift rewards contract. This APR amount is subject to
     extreme volatility and this amount could drop significantly, especially in the first few weeks
-    after FOX yield farming v3 starts
+    after FOX yield farming v4 starts
   </Text>
 )
